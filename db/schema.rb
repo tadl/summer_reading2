@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140421181431) do
+ActiveRecord::Schema.define(version: 20180214220308) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,6 +26,50 @@ ActiveRecord::Schema.define(version: 20140421181431) do
     t.datetime "updated_at"
     t.string   "avatar"
     t.string   "email"
+  end
+
+  create_table "items", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "week_id"
+    t.integer  "participant_id"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+  end
+
+  create_table "participants", force: :cascade do |t|
+    t.string   "first_name"
+    t.string   "last_name"
+    t.string   "middle_name"
+    t.string   "club"
+    t.string   "grade_level"
+    t.string   "email_address"
+    t.string   "phone_number"
+    t.string   "library_card"
+    t.boolean  "got_packet"
+    t.boolean  "got_final_prize"
+    t.string   "zip_coed"
+    t.boolean  "inactive"
+    t.string   "home_library"
+    t.string   "school"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  create_table "reports", force: :cascade do |t|
+    t.integer  "week_id"
+    t.integer  "participant_id"
+    t.string   "day_of_week"
+    t.integer  "minutes"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+  end
+
+  create_table "weeks", force: :cascade do |t|
+    t.string   "name"
+    t.date     "start_date"
+    t.date     "end_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
 end

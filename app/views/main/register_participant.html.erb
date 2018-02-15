@@ -1,0 +1,110 @@
+<h2>Register Participant</h2>
+
+<form>
+	<div class="row">
+		<div class="col-sm-4">
+			<label for="first_name">First Name:</label>
+			<input type="text" class="form-control" id="first_name">
+		</div>
+		<div class="col-sm-4">
+			<label for="last_name">Middle Name:</label>
+			<input type="text" class="form-control" id="middle_name">
+		</div>
+		<div class="col-sm-4">
+			<label for="last_name">Last Name:</label>
+			<input type="text" class="form-control" id="last_name">
+		</div>
+	</div>
+	</br>
+	<div class="row">
+		<div class="col-sm-4">
+			<label for="first_name">Phone Number:</label>
+			<input type="tel" class="form-control" id="phone_number">
+		</div>
+		<div class="col-sm-4">
+			<label for="last_name">Email Address:</label>
+			<input type="email" class="form-control" id="email">
+		</div>
+		<div class="col-sm-4">
+			<label for="last_name">Home Library:</label>
+			<select class="form-control">
+				<% @home_libraries.each do |l| %>
+  					<option><%= l %></option>
+  				<% end %>
+			</select>
+		</div>
+	</div>
+	<br>
+	<div class="row">
+		<div class="col-sm-6">
+			<label for="first_name">Library Card # <i>(Required for Online Reporting):</i></label>
+			<input type="tel" class="form-control" id="phone_number">
+		</div>
+	</div>
+	</br>
+	<div class="row">
+		<div class="col-sm-4">
+		<label for="select_a_club">Select Which Club You Would Like to Join: </label>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-3">
+			<label class="radio-inline">
+  				<input type="radio" name="club" value="pre_readers"> Pre-Readers <i>(ages 0 - 4)</i>
+			</label>
+		</div>
+		<div class="col-sm-3">
+			<label class="radio-inline">
+  				<input type="radio" name="club" value="readers"> Readers <i>(ages 5 - 12)</i>
+			</label>
+		</div>
+		<div class="col-sm-3">
+			<label class="radio-inline">
+  				<input type="radio" name="club" value="teens"> Teens <i>(ages 13 - 19)</i>
+			</label>
+		</div>
+		<div class="col-sm-3">
+			<label class="radio-inline">
+  				<input type="radio" name="club" value="adults"> Adults <i>(ages 17+)</i>
+			</label>
+		</div>
+	</div>
+	</br>
+	<div class="row">
+		<div class="col-sm-6">
+		<label for="select_a_school_type">Which type of school will you be attending in the fall?: </label>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-3">
+			<label class="radio-inline">
+  				<input type="radio" name="school_type" value="option2"> Pre-School
+			</label>
+		</div>
+		<div class="col-sm-3">
+			<label class="radio-inline">
+  				<input type="radio" name="school_type" value="option2"> Elementary School
+			</label>
+		</div>
+		<div class="col-sm-3">
+			<label class="radio-inline">
+  				<input type="radio" name="school_type" value="option2"> Middle School
+			</label>
+		</div>
+		<div class="col-sm-3">
+			<label class="radio-inline">
+  				<input type="radio" name="school_type" value="option2"> High School
+			</label>
+		</div>
+		<div class="col-sm-3">
+			<label class="radio-inline">
+  				<input type="radio" name="school_type" value="option2"> College/Trade School
+			</label>
+		</div>
+		<div class="col-sm-3">
+			<label class="radio-inline">
+  				<input type="radio" name="school_type" value="option2"> None
+			</label>
+		</div>
+	</div>
+</form>

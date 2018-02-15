@@ -1,0 +1,33 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  first_name: MyString
+  last_name: MyString
+  middle_name: MyString
+  club: MyString
+  grade_level: MyString
+  email_address: MyString
+  phone_number: MyString
+  library_card: MyString
+  got_packet: false
+  got_final_prize: false
+  zip_coed: MyString
+  inactive: false
+  home_library: MyString
+  school: MyString
+
+two:
+  first_name: MyString
+  last_name: MyString
+  middle_name: MyString
+  club: MyString
+  grade_level: MyString
+  email_address: MyString
+  phone_number: MyString
+  library_card: MyString
+  got_packet: false
+  got_final_prize: false
+  zip_coed: MyString
+  inactive: false
+  home_library: MyString
+  school: MyString
