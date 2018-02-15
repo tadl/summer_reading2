@@ -10,6 +10,8 @@ class Admin < ActiveRecord::Base
         admin.oauth_token = auth.credentials.token
         admin.oauth_expires_at = Time.at(auth.credentials.expires_at)
         admin.save!
+      else
+        return false
       end
     end
   end
