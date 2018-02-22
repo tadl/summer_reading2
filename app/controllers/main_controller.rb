@@ -28,11 +28,13 @@ class MainController < ApplicationController
   end
 
   def list_participants
+  	@participants = Participant.all
   end
+  
   private
 
 	def participant_params
-  	params.permit(:first_name, :last_name, :club, :school, :home_library, :phone_number, :library_card, :middle_name, :email_address, :school)
+  	params.require(:participant).permit(:first_name, :last_name, :club, :school, :home_library, :phone_number, :library_card, :middle_name, :email_address, :school)
 	end
 
 end

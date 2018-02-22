@@ -26,7 +26,7 @@
 			<input type="email" class="form-control" id="email">
 		</div>
 		<div class="col-sm-4">
-			<label for="home_library" class="required">Home Library:</label>
+			<label for="home_library" class="required" id="home_library_list">Home Library:</label>
 			<select class="form-control" id="home_library">
 				<% @home_libraries.each do |l| %>
   					<option value="<%= l[:value] %>"><%= l[:text] %></option>
@@ -50,22 +50,22 @@
 	<div class="row">
 		<div class="col-sm-3">
 			<label class="radio-inline">
-  				<input type="radio" name="club" value="pre_readers" onclick="check_club(this)"> Pre-Readers <i>(ages 0 - 4)</i>
+  				<input type="radio" name="club" value="pre_readers" onchange="reset_school_type()" onclick="check_club(this)"> Pre-Readers <i>(ages 0 - 4)</i>
 			</label>
 		</div>
 		<div class="col-sm-3">
 			<label class="radio-inline">
-  				<input type="radio" name="club" value="readers" onclick="check_club(this)"> Readers <i>(ages 5 - 12)</i>
+  				<input type="radio" name="club" value="readers" onchange="reset_school_type()" onclick="check_club(this)"> Readers <i>(ages 5 - 12)</i>
 			</label>
 		</div>
 		<div class="col-sm-3">
 			<label class="radio-inline">
-  				<input type="radio" name="club" value="teens" onclick="check_club(this)"> Teens <i>(ages 13 - 19)</i>
+  				<input type="radio" name="club" value="teens" onchange="reset_school_type()" onclick="check_club(this)"> Teens <i>(ages 13 - 19)</i>
 			</label>
 		</div>
 		<div class="col-sm-3">
 			<label class="radio-inline">
-  				<input type="radio" name="club" value="adults" onclick="check_club(this)"> Adults <i>(ages 17+)</i>
+  				<input type="radio" name="club" value="adults" onchange="reset_school_type()" onclick="check_club(this)"> Adults <i>(ages 17+)</i>
 			</label>
 		</div>
 	</div>
@@ -110,7 +110,7 @@
 	<div class="row" id="ask_youth_school" id="youth_school" style="display: none">
 		<div class="col-sm-5">
 			<label id="school_label" for="youth_school" class="school_list">What school will you be attending in the fall?</label>
-			<select class="form-control">
+			<select class="form-control" id="youth_school">
 				<% @youth_schools.each do |s| %>
   					<option value="<%= s[:value] %>"><%= s[:text] %></option>
   				<% end %>
@@ -163,6 +163,14 @@
 		}
 	}
 
+	function reset_school_type(){
+		$("input[name='school_type']").prop('checked', false);
+		$('#youth_school').val('')
+		$('#teen_school').val('')
+		$('#ask_youth_school').hide()
+		$('#ask_teen_school').hide()
+	}
+
 	function register(){
 		missing_required = false
 		first_name = $('#first_name').val()
@@ -179,6 +187,7 @@
 		$('.required').css('color', 'black')
 		$('#school_type').css('color', 'black')
 		$('.school_list').css('color', 'black')
+		$('#home_library_list').css('color', 'black')
 		$('#messages').html('')
 		if(first_name == '' || last_name == '' || phone == ''){
 			missing_required = true
@@ -193,6 +202,11 @@
 			missing_required = true
 			$('#select_a_club').css('color', 'red')
 		}
+
+		if(home_library == ''){
+			missing_required = true
+			$('#home_library_list').css('color', 'red')
+		}
 		
 		if(club == 'teens' || club == 'readers'){
 			if(typeof school_type == 'undefined'){
@@ -202,7 +216,7 @@
 			if(club == 'teens'){
 				school = $('#teen_school option:selected').val()
 			}
-			if(club == 'reader'){
+			if(club == 'readers'){
 				school = $('#youth_school option:selected').val()
 			}
 			if(school == ''){
@@ -214,14 +228,17 @@
 			$('#messages').html('<b style="color: red">Missing required fields. Please complete the questions highlighted in red.</b>')
 		}else{
 			$.post("/save_new_participant",{
-				first_name: first_name,
-				last_name: last_name,
-				middle_name: middle_name,
-				phone_number: phone,
-				email_address: email,
-				home_library: home_library,
-				club: club,
-				school: school
+				participant: {
+					first_name: first_name,
+					last_name: last_name,
+					middle_name: middle_name,
+					phone_number: phone,
+					email_address: email,
+					home_library: home_library,
+					library_card: library_card,
+					club: club,
+					school: school
+				}
 			}).done(function(data){
 				if(data.message == 'success'){
 					$('#messages').html('<b style="color: green">You have successfully registered for summer reading club!</b>')

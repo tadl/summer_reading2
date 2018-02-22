@@ -1,0 +1,47 @@
+<h1>Participants</h1>
+
+<ul>
+<% @participants.each do |p| %>
+	<div class="row" style="font-size: 16px">
+		<div class="col-xs-12">
+			<h3><b><%= p.first_name %> <%= p.middle_name %> <%= p.last_name %></b></h3>
+			<div class="row">
+				<div class="col-sm-3">
+					<b>Club:</b> <%= p.club.capitalize! %>
+				</div>
+				<div class="col-sm-3">
+					<b>Home Library:</b> <%= p.home_library %>
+				</div>
+				<div class="col-sm-3">
+					<b>Phone #:</b> <%= p.phone_number %>
+				</div>
+			</div>
+			<br>
+			<div class="row">
+				<% if p.email_address %>
+					<div class="col-sm-4">
+						<b>Email:</b> <%= p.email_address %>
+					</div>
+				<% end %>
+				<% if p.library_card %>
+					<div class="col-sm-4">
+						<b>Library Card:</b> <%= p.library_card %>
+					</div>
+				<% end %>
+				<% if p.school != '' %>
+					<div class="col-sm-4">
+						<b>School:</b> <%= p.school %>
+					</div>
+				<% end %>
+			</div>
+			<br>
+			<div class="row">
+				<div class="col-sm-12">
+					<button type="button" class="btn btn-success btn-large">Record Minutes</button>
+					<button type="button" class="btn btn-info btn-large">Edit</button>
+				</div>
+			</div>
+		</div>
+	</div>
+<% end %>
+</ul>
