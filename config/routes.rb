@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   match 'auth/failure', to: redirect('/'), via: [:get, :post]
   match 'signout', to: 'sessions#destroy', as: 'signout', via: [:get, :post]
   match 'register_participant', to: 'main#register_participant', as: 'register_participant', via: [:get]
-  
+  match 'save_new_participant', to: 'main#save_new_participant', as: 'save_new_participant', via: [:post]
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 

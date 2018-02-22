@@ -109,7 +109,7 @@
 	</br>
 	<div class="row" id="ask_youth_school" id="youth_school" style="display: none">
 		<div class="col-sm-5">
-			<label id="school_label" for="youth_school">What school will you be attending in the fall?</label>
+			<label id="school_label" for="youth_school" class="school_list">What school will you be attending in the fall?</label>
 			<select class="form-control">
 				<% @youth_schools.each do |s| %>
   					<option value="<%= s[:value] %>"><%= s[:text] %></option>
@@ -119,7 +119,7 @@
 	</div>
 	<div class="row" id="ask_teen_school" style="display: none">
 		<div class="col-sm-5">
-			<label id="school_label" for="teen_school">What school will you be attending in the fall?</label>
+			<label id="school_label" for="teen_school" class="school_list">What school will you be attending in the fall?</label>
 			<select class="form-control" id="teen_school">
 				<% @teen_schools.each do |s| %>
   					<option value="<%= s[:value] %>"><%= s[:text] %></option>
@@ -129,6 +129,10 @@
 	</div>
 </form>
 </br>
+<div class="row">
+	<div class="col-sm-12" id="messages" style="margin-bottom: 10px;">
+	</div>
+</div>
 <div class="row">
 	<div class="col-sm-5">
 		<button class="btn btn-primary" onclick="register()">Register for Summer Reading</button>
@@ -170,9 +174,12 @@
 		library_card = $("#library_card").val()
 		club = $("input[name='club']:checked").val()
 		school_type = $("input[name='school_type']:checked").val()
+		school = null
 		$('#select_a_club').css('color', 'black')
 		$('.required').css('color', 'black')
 		$('#school_type').css('color', 'black')
+		$('.school_list').css('color', 'black')
+		$('#messages').html('')
 		if(first_name == '' || last_name == '' || phone == ''){
 			missing_required = true
 			$('.required').each(function(){
@@ -187,7 +194,6 @@
 			$('#select_a_club').css('color', 'red')
 		}
 		
-
 		if(club == 'teens' || club == 'readers'){
 			if(typeof school_type == 'undefined'){
 				missing_required = true
@@ -197,14 +203,32 @@
 				school = $('#teen_school option:selected').val()
 			}
 			if(club == 'reader'){
-				school = $('#teen_school option:selected').val()
+				school = $('#youth_school option:selected').val()
 			}
 			if(school == ''){
 				missing_required = true
-				$('#school_type').css('color', 'red')
+				$('.school_list').css('color', 'red')
 			}
 		}
-
-
+		if(missing_required == true){
+			$('#messages').html('<b style="color: red">Missing required fields. Please complete the questions highlighted in red.</b>')
+		}else{
+			$.post("/save_new_participant",{
+				first_name: first_name,
+				last_name: last_name,
+				middle_name: middle_name,
+				phone_number: phone,
+				email_address: email,
+				home_library: home_library,
+				club: club,
+				school: school
+			}).done(function(data){
+				if(data.message == 'success'){
+					$('#messages').html('<b style="color: green">You have successfully registered for summer reading club!</b>')
+				}else{
+					$('#messages').html('<b style="color: red">Something went wrong. Please try again later or contact your library to complete summer reading club registration.</b>')
+				}
+			});
+		}
 	}
 </script>
