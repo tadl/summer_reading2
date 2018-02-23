@@ -1,10 +1,10 @@
 <h3>
-	Showing all participants 
+	Showing all <%= @count %> participants 
 	<% if @location %>
 		at <%= @location %>
 	<% end %>
 	<% if @club %>
-		in the <%= @club.capitalize! %> club
+		in the <%= @club.capitalize %> club
 	<% end %>  
 </h3>
 <%= render 'participant_filter' %>

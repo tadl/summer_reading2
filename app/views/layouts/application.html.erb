@@ -10,41 +10,44 @@
 <body>
   <nav class="navbar navbar-default" style="background: #64AD2B; color: #fff">
     <div class="container-fluid">
-      <ul class="nav navbar-nav">
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-            
-            <span class="glyphicon glyphicon-align-justify" style="font-size: 16px; color: #fff"></span>
-          </a>
-          <ul class="dropdown-menu">
-            <li><a href="/register_participant">Register New Participant</a></li>
-            <li><a href="/list_participants">Participant List</a></li>
-          </ul>
-        </li>
-      </ul>
+      <% if current_user %>
+        <ul class="nav navbar-nav">
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+              <span class="glyphicon glyphicon-align-justify" style="font-size: 16px; color: #fff"></span>
+            </a>
+            <ul class="dropdown-menu">
+              <li><a href="/register_participant">Register New Participant</a></li>
+              <li><a href="/list_participants">Participant List</a></li>
+            </ul>
+          </li>
+        </ul>
+      <% end %>
       <div class="navbar-header">
         <a class="navbar-brand" style="color: #fff; font-size: 16px;" href="#">
           <strong>TADL Summer Reading</strong>
         </a>
       </div>
-      <form class="navbar-form navbar-left" role="search" action="/search_by_name">
-        <div class="form-group">
-          <input id="search_by_name" type="text" class="form-control" name="name" placeholder="Search by Name">
-        </div>
-        <button type="submit" class="btn btn-default">Go</button>
-      </form>
-      <form class="navbar-form navbar-left" role="search" action="/search_by_card">
-        <div class="form-group">
-          <input id="search_by_card" type="text" class="form-control" name="card" placeholder="Search by Card #">
-        </div>
-        <button type="submit" class="btn btn-default">Go</button>
-      </form>
-      <p class="navbar-text pull-right" style="color: #fff; font-size: 16px;">
+      <% if current_user %>
+        <form class="navbar-form navbar-left" role="search" action="/search_by_name">
+          <div class="form-group">
+            <input id="search_by_name" type="text" class="form-control" name="name" placeholder="Search by Name">
+          </div>
+          <button type="submit" class="btn btn-default">Go</button>
+        </form>
+        <form class="navbar-form navbar-left" role="search" action="/search_by_card">
+          <div class="form-group">
+            <input id="search_by_card" type="text" class="form-control" name="card" placeholder="Search by Card #">
+          </div>
+          <button type="submit" class="btn btn-default">Go</button>
+        </form>
+      <% end %>
+      <p class="navbar-text pull-right" id="staff_login_widget" style="color: #fff; font-size: 16px;">
         <% if current_user %>
           <strong><%= current_user.name %></strong>
           <%= link_to "(sign out)", signout_path, id: "sign_out" %>
         <% else %>
-          <%= link_to "Sign in with Google", "/auth/google_oauth2", id: "sign_in" %>
+          <a href='/auth/google_oauth2'>TADL staff</a>
         <% end %>
       </p>
     </div>

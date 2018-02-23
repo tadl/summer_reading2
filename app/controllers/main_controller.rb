@@ -1,5 +1,6 @@
 class MainController < ApplicationController
 	before_filter :shared_variables
+  before_action :authenticate_admin!, :except => [:index, :register_participant]
   respond_to :html, :json, :js
 
   def index
