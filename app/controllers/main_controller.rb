@@ -28,7 +28,23 @@ class MainController < ApplicationController
   end
 
   def list_participants
-  	@participants = Participant.all
+  	if params[:location] && params[:location] != 'all'
+  		@location = params[:location]
+  	end
+  	if params[:club] && params[:club] != 'all'
+  		@club = params[:club]
+  	end
+  	if !@location && !@club
+  		@participants = Participant.all.page params[:page]
+  	elsif @location && @club
+  		@participants = Participant.all.where(club: @club, home_library: @location, inactive: false).page params[:page]
+  	elsif @location
+  		@participants = Participant.all.where(home_library: @location, inactive: false).page params[:page]
+  	elsif @club
+  		@participants = Participant.all.where(club: @club, inactive: false).page params[:page]
+  	end
+  			
+  	@count = @participants.count
   end
 
   def search_by_name
@@ -37,6 +53,8 @@ class MainController < ApplicationController
   end
 
   def search_by_card
+  	@query = params[:card]
+  	@participants = Participant.search_by_card(search_by_card_params).where.not(inactive: true).page params[:page]
   end
 
   
@@ -48,6 +66,10 @@ class MainController < ApplicationController
 
 	def search_by_name_params
 		params.require(:name)
+	end
+
+	def search_by_card_params
+		params.require(:card)
 	end
 
 end

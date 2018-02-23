@@ -1,5 +1,2 @@
-<h2>Searching By Card#</h2>
-
-<% @participants.each do |p| %>
-	<%= p.first_name %>
-<% end %>
+<h3>Searching for card#: <%= @query %></h3>
+<%= render 'participant_list' %>

@@ -26,6 +26,7 @@ class ApplicationController < ActionController::Base
   		{value: 'East Bay', text: 'East Bay'},
   		{value: 'Peninsula', text: 'Peninsula'}
   	]
+    @home_libraries_filter = @home_libraries.drop(1).unshift({value: 'all', text: 'All'})
   	teen_schools = [
   		{ text: 'Central High School' , value:'Central High School'}, 
   		{ text: 'TBA Career Tech Center' , value:'TBA Career Tech Center'}, 
