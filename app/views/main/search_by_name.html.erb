@@ -1,0 +1,5 @@
+<h3>Searching by name for: <%= @query %></h3>
+
+<% @participants.each do |p| %>
+	<%= p.first_name %>
+<% end %>

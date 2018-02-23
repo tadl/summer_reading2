@@ -22,6 +22,8 @@ gem 'turbolinks'
 gem 'jquery-turbolinks'
 gem 'unicorn', group: :production
 gem 'dotenv-rails', :groups => [:development, :test]
+gem 'pg_search'
+gem 'will_paginate', '~> 3.1.0'
 
 # Include if you need background jobs and/or caching
 # gem 'sidekiq', '4.1.0'

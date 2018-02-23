@@ -30,11 +30,24 @@ class MainController < ApplicationController
   def list_participants
   	@participants = Participant.all
   end
+
+  def search_by_name
+  	@query = params[:name]
+  	@participants = Participant.search_by_name(search_by_name_params).where.not(inactive: true).page params[:page]
+  end
+
+  def search_by_card
+  end
+
   
   private
 
 	def participant_params
   	params.require(:participant).permit(:first_name, :last_name, :club, :school, :home_library, :phone_number, :library_card, :middle_name, :email_address, :school)
+	end
+
+	def search_by_name_params
+		params.require(:name)
 	end
 
 end
