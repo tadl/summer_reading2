@@ -5,4 +5,12 @@ class Participant < ActiveRecord::Base
 	pg_search_scope :search_by_card, :against =>[:library_card]
 	validates_presence_of :first_name, :last_name, :club, :home_library, :phone_number
 	self.per_page = 5
+
+	def full_name
+		full_name = self.first_name
+		if self.middle_name
+			full_name += ' ' + self.middle_name
+		end
+		full_name += ' ' + self.last_name
+	end
 end

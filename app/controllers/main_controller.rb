@@ -58,6 +58,14 @@ class MainController < ApplicationController
   	@participants = Participant.search_by_card(search_by_card_params).where.not(inactive: true).page params[:page]
   end
 
+  def load_report_interface
+  	participant_id = params[:participant_id].to_i
+  	@participant = Participant.find(participant_id)
+  	@weeks = Week.all
+  	respond_to do |format|
+  		format.js
+  	end
+  end
   
   private
 

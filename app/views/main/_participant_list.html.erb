@@ -39,7 +39,7 @@
 			<br>
 			<div class="row" style="margin-bottom: 5px;">
 				<div class="col-sm-12">
-					<button type="button" class="btn btn-success btn-large">Record Minutes</button>
+					<button type="button" class="btn btn-success btn-large" onclick="load_reporting_interface(<%= p.id %>)">Record Minutes</button>
 					<button type="button" class="btn btn-info btn-large">Edit</button>
 				</div>
 			</div>
@@ -47,3 +47,11 @@
 	</div>
 <% end %>
 <%= will_paginate @participants %>
+
+<script>
+	function load_reporting_interface(participant_id){
+		$.post("/load_report_interface.js",{
+			participant_id: participant_id	
+		});
+	}
+</script>

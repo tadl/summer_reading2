@@ -1,0 +1,5 @@
+<%= @participant.full_name %>
+<% @weeks.each do |w| %>
+	<h4><%= w.name %> <i>(<%= w.start_date.strftime('%b %e') %> - <%= w.end_date.strftime('%b %e') %>)</i></h4>
+	
+<% end %>
