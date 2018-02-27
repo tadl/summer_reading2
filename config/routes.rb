@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   match 'search_by_name', to: 'main#search_by_name', as: 'search_by_name', via: [:get, :post]
   match 'search_by_card', to: 'main#search_by_card', as: 'search_by_card', via: [:get, :post]
   match 'load_report_interface', to: 'main#load_report_interface', as: 'load_report_interface', via: [:get, :post]
+  match 'record_minutes', to: 'main#record_minutes', as: 'record_minutes', via: [:post]
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 

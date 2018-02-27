@@ -66,6 +66,30 @@ class MainController < ApplicationController
   		format.js
   	end
   end
+
+  def record_minutes
+    @reporting_days.each do |d|
+      report = Report.where(participant_id: params[:participant_id], week_id: params[:week_id], day_of_week: d).first
+      if report != nil 
+        if params[d]
+          report.minutes = params[d] 
+          report.save
+        end
+      else
+        if params[d]
+          report = Report.new
+          report.day_of_week = d
+          report.participant_id = params[:participant_id]
+          report.week_id = params[:week_id]
+          report.minutes = params[d]
+          report.save
+        end
+      end
+    end
+    respond_to do |format|
+      format.js
+    end
+  end
   
   private
 
