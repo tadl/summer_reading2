@@ -18,8 +18,6 @@ gem 'omniauth'
 gem 'omniauth-google-oauth2'
 gem 'bootstrap-sass', '~> 3.3.5'
 gem 'jquery-rails'
-gem 'turbolinks'
-gem 'jquery-turbolinks'
 gem 'unicorn', group: :production
 gem 'dotenv-rails', :groups => [:development, :test]
 gem 'pg_search'

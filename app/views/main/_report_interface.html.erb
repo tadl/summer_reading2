@@ -1,5 +1,78 @@
-<%= @participant.full_name %>
-<% @weeks.each do |w| %>
-	<h4><%= w.name %> <i>(<%= w.start_date.strftime('%b %e') %> - <%= w.end_date.strftime('%b %e') %>)</i></h4>
-	
-<% end %>
+
+<div class="container" style='overflow-x: hidden;'>
+	<h3><%= @participant.full_name %></h3>
+	<% @weeks.each do |w| %>
+		<div class="row" style="font-size: 16px; border-bottom: dashed 1px #64AD2B; margin-bottom: 10px; padding-bottom: 10px;">
+			<div class="col-xs-12">
+				<h4><%= w.name %> <i>(<%= w.start_date.strftime('%b %e') %> - <%= w.end_date.strftime('%b %e') %>)</i></h4>
+			</div>
+			<form>
+					<div class="col-md-1">
+						<label class="day_label">Monday</label>
+						<label class="day_label"><%= w.start_date.strftime('%b %e') %></label>
+						<input class="form-control week_input" maxlength="4" id="monday_<%= w.id %>">
+					</div>
+					<div class="col-md-1">
+						<label class="day_label">Tuesday</label>
+						<label class="day_label"><%= (w.start_date + 1.day).strftime('%b %e') %></label>
+						<input class="form-control week_input" maxlength="4" id="tuesday_<%= w.id %>">
+					</div>
+					<div class="col-md-1">
+						<label class="day_label">Wednesday</label>
+						<label class="day_label"><%= (w.start_date + 2.day).strftime('%b %e') %></label>
+						<input class="form-control week_input" maxlength="4" id="wednesday_<%= w.id %>">
+					</div>
+					<div class="col-md-1">
+						<label class="day_label">Thursday</label>
+						<label class="day_label"><%= (w.start_date + 3.day).strftime('%b %e') %></label>
+						<input class="form-control week_input" maxlength="4" id="thursday_<%= w.id %>">
+					</div>
+					<div class="col-md-1">
+						<label class="day_label">Friday</label>
+						<label class="day_label"><%= (w.start_date + 4.day).strftime('%b %e') %></label>
+						<input class="form-control week_input" maxlength="4" id="friday_<%= w.id %>">
+					</div>
+					<div class="col-md-1">
+						<label class="day_label">Saturday</label>
+						<label class="day_label"><%= (w.start_date + 5.day).strftime('%b %e') %></label>
+						<input class="form-control week_input" maxlength="4" id="saturday_<%= w.id %>">
+					</div>
+					<div class="col-md-1">
+						<label class="day_label">Sunday</label>
+						<label class="day_label"><%= (w.start_date + 6.day).strftime('%b %e') %></label>
+						<input class="form-control week_input" maxlength="4" id="sunday_<%= w.id %>">
+					</div>
+					<% if (w.end_date - w.start_date) > 6 %>
+						<div class="col-md-1">
+							<label class="day_label">Monday</label>
+							<label class="day_label"><%= (w.start_date + 7.day).strftime('%b %e') %></label>
+							<input class="form-control week_input" maxlength="4" id="grand_prize_monday_<%= w.id %>">
+						</div>
+					<% end %>
+					<div class="col-sm-7" style="margin-top: 10px">
+							<label>What did you read this week? <i>(optional)</i></label>
+						 	<textarea class="form-control" rows="5" id="reading_<%= w.id %>"></textarea>
+					</div>
+			</form>
+			<div class="col-sm-6" style="margin-top: 10px">
+				<button type="button" class="btn btn-success btn-large" onclick="update_week(<%= w.id %>)">Update <%= w.name %></button>
+			</div>
+		</div>
+
+	<% end %>
+</div>
+
+<script>
+	function update_week(week_id){
+		alert(week_id)
+		var monday = $('#monday_' + week_id).val()
+		var tuesday = $('#tuesday_' + week_id).val()
+		var wednesday = $('#wednesday_' + week_id).val()
+		var thursday = $('#thursday_' + week_id).val()
+		var friday = $('#friday_' + week_id).val()
+		var saturday = $('#saturday_' + week_id).val()
+		var sunday = $('#sunday_' + week_id).val()
+		var grand_prize_monday = $('#grand_prize_monday_' + week_id).val()
+		alert(grand_prize_monday)
+	}
+</script>
