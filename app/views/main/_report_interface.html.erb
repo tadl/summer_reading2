@@ -1,61 +1,71 @@
 
 <div class="container" style='overflow-x: hidden;'>
-	<h3><%= @participant.full_name %> - Total Minutes Reported: <%= @participant.total_minutes %></h3>
+	<h3><%= @participant.full_name %> - Total Minutes Reported: <span id="total_minutes"><%= @participant.total_minutes %></span></h3>
 	<% @weeks.each do |w| %>
 		<div class="row" style="font-size: 16px; border-bottom: dashed 1px #64AD2B; margin-bottom: 10px; padding-bottom: 10px;">
 			<div class="col-xs-12">
 				<h4><%= w.name %> <i>(<%= w.start_date.strftime('%b %e') %> - <%= w.end_date.strftime('%b %e') %>)</i></h4>
 			</div>
-			<form>
+			<form>	
+					<div class="col-md-2">
+						<div class="form-group hidden-xs hidden-sm">&nbsp;</div>
+						<label class="day_label" style="margin-top: 10px">Minutes spent reading:</label>
+					</div>
 					<div class="col-md-1">
 						<label class="day_label">Monday</label>
 						<label class="day_label"><%= w.start_date.strftime('%b %e') %></label>
-						<input class="form-control week_input" maxlength="4" id="monday_<%= w.id %>" value="<%= @participant.reports.where(:week_id => w.id, :day_of_week => 'monday').first.try(:minutes) %>">
+						<input class="form-control week_input week_<%= w.id %>_input" maxlength="4" id="monday_<%= w.id %>" value="<%= @participant.reports.where(:week_id => w.id, :day_of_week => 'monday').first.try(:minutes) %>">
 					</div>
 					<div class="col-md-1">
 						<label class="day_label">Tuesday</label>
 						<label class="day_label"><%= (w.start_date + 1.day).strftime('%b %e')  %></label>
-						<input class="form-control week_input" maxlength="4" id="tuesday_<%= w.id %>" value="<%= @participant.reports.where(:week_id => w.id, :day_of_week => 'tuesday').first.try(:minutes) %>">
+						<input class="form-control week_input week_<%= w.id %>_input" maxlength="4" id="tuesday_<%= w.id %>" value="<%= @participant.reports.where(:week_id => w.id, :day_of_week => 'tuesday').first.try(:minutes) %>">
 					</div>
 					<div class="col-md-1">
 						<label class="day_label">Wednesday</label>
 						<label class="day_label"><%= (w.start_date + 2.day).strftime('%b %e') %></label>
-						<input class="form-control week_input" maxlength="4" id="wednesday_<%= w.id %>" value="<%= @participant.reports.where(:week_id => w.id, :day_of_week => 'wednesday').first.try(:minutes) %>">
+						<input class="form-control week_input week_<%= w.id %>_input" maxlength="4" id="wednesday_<%= w.id %>" value="<%= @participant.reports.where(:week_id => w.id, :day_of_week => 'wednesday').first.try(:minutes) %>">
 					</div>
 					<div class="col-md-1">
 						<label class="day_label">Thursday</label>
 						<label class="day_label"><%= (w.start_date + 3.day).strftime('%b %e') %></label>
-						<input class="form-control week_input" maxlength="4" id="thursday_<%= w.id %>" value="<%= @participant.reports.where(:week_id => w.id, :day_of_week => 'thursday').first.try(:minutes) %>">
+						<input class="form-control week_input week_<%= w.id %>_input" maxlength="4" id="thursday_<%= w.id %>" value="<%= @participant.reports.where(:week_id => w.id, :day_of_week => 'thursday').first.try(:minutes) %>">
 					</div>
 					<div class="col-md-1">
 						<label class="day_label">Friday</label>
 						<label class="day_label"><%= (w.start_date + 4.day).strftime('%b %e') %></label>
-						<input class="form-control week_input" maxlength="4" id="friday_<%= w.id %>" value="<%= @participant.reports.where(:week_id => w.id, :day_of_week => 'friday').first.try(:minutes) %>">
+						<input class="form-control week_input week_<%= w.id %>_input" maxlength="4" id="friday_<%= w.id %>" value="<%= @participant.reports.where(:week_id => w.id, :day_of_week => 'friday').first.try(:minutes) %>">
 					</div>
 					<div class="col-md-1">
 						<label class="day_label">Saturday</label>
 						<label class="day_label"><%= (w.start_date + 5.day).strftime('%b %e') %></label>
-						<input class="form-control week_input" maxlength="4" id="saturday_<%= w.id %>" value="<%= @participant.reports.where(:week_id => w.id, :day_of_week => 'saturday').first.try(:minutes) %>">
+						<input class="form-control week_input week_<%= w.id %>_input" maxlength="4" id="saturday_<%= w.id %>" value="<%= @participant.reports.where(:week_id => w.id, :day_of_week => 'saturday').first.try(:minutes) %>">
 					</div>
 					<div class="col-md-1">
 						<label class="day_label">Sunday</label>
 						<label class="day_label"><%= (w.start_date + 6.day).strftime('%b %e') %></label>
-						<input class="form-control week_input" maxlength="4" id="sunday_<%= w.id %>" value="<%= @participant.reports.where(:week_id => w.id, :day_of_week => 'sunday').first.try(:minutes) %>">
+						<input class="form-control week_input week_<%= w.id %>_input" maxlength="4" id="sunday_<%= w.id %>" value="<%= @participant.reports.where(:week_id => w.id, :day_of_week => 'sunday').first.try(:minutes) %>">
 					</div>
 					<% if (w.end_date - w.start_date) > 6 %>
 						<div class="col-md-1">
 							<label class="day_label">Monday</label>
 							<label class="day_label"><%= (w.start_date + 7.day).strftime('%b %e') %></label>
-							<input class="form-control week_input" maxlength="4" id="grand_prize_monday_<%= w.id %>" value="<%= @participant.reports.where(:week_id => w.id, :day_of_week => 'grand_prize_monday').first.try(:minutes) %>">
+							<input  class="form-control week_input week_<%= w.id %>_input" maxlength="4" id="grand_prize_monday_<%= w.id %>" value="<%= @participant.reports.where(:week_id => w.id, :day_of_week => 'grand_prize_monday').first.try(:minutes) %>">
 						</div>
 					<% end %>
-					<div class="col-sm-7" style="margin-top: 10px">
+					<div class="col-sm-11" style="margin-top: 10px">
 							<label>What did you read this week? <i>(optional)</i></label>
-						 	<textarea class="form-control" rows="5" id="reading_<%= w.id %>"></textarea>
+						 	<textarea class="form-control" rows="5" id="reading_<%= w.id %>"><%= @participant.items.where(:week_id => w.id).first.try(:name) %></textarea>
 					</div>
 			</form>
-			<div class="col-sm-6" style="margin-top: 10px">
+			<div class="col-sm-2" style="margin-top: 10px">
 				<button type="button" class="btn btn-success btn-large" onclick="update_week(<%= w.id %>)">Update <%= w.name %></button>
+			</div>
+			<div class="col-sm-8"style="margin-top: 10px">
+				<div id="week_<%= w.id %>_success_message">
+				</div>
+				<div id="week_<%= w.id %>_error_message">
+				</div>
 			</div>
 		</div>
 
@@ -64,26 +74,45 @@
 
 <script>
 	function update_week(week_id){
-		var participant_id = <%= @participant.id %>
-		var monday = $('#monday_' + week_id).val()
-		var tuesday = $('#tuesday_' + week_id).val()
-		var wednesday = $('#wednesday_' + week_id).val()
-		var thursday = $('#thursday_' + week_id).val()
-		var friday = $('#friday_' + week_id).val()
-		var saturday = $('#saturday_' + week_id).val()
-		var sunday = $('#sunday_' + week_id).val()
-		var grand_prize_monday = $('#grand_prize_monday_' + week_id).val()
-		$.post('/record_minutes',{
-			participant_id: participant_id,
-			week_id: week_id,
-			monday: monday,
-			tuesday: tuesday,
-			wednesday: wednesday,
-			thursday: thursday,
-			friday: friday,
-			saturday: saturday,
-			sunday: sunday,
-			grand_prize_monday: grand_prize_monday,
+		var errors = false
+		var target_inputs = '.week_' + week_id + '_input'
+		var target_success_message = '#week_' + week_id + '_success_message'
+		var target_error_message = '#week_' + week_id + '_error_message'
+		$(target_success_message).html('')
+		$(target_error_message).html('')
+		$(target_inputs).each(function(){
+			$(this).css('border', '1px solid #ccc')
+			test = $(this).val()
+			if(!(/^\d+$/.test(test) || test == "")){
+				errors = true
+				$(this).css('border', '2px solid red')
+				$(target_error_message).html('<span style="color:red">Error: Reported minutes must be full numbers</span>')
+			}
 		});
+		if(errors == false){
+			var participant_id = <%= @participant.id %>
+			var monday = $('#monday_' + week_id).val()
+			var tuesday = $('#tuesday_' + week_id).val()
+			var wednesday = $('#wednesday_' + week_id).val()
+			var thursday = $('#thursday_' + week_id).val()
+			var friday = $('#friday_' + week_id).val()
+			var saturday = $('#saturday_' + week_id).val()
+			var sunday = $('#sunday_' + week_id).val()
+			var grand_prize_monday = $('#grand_prize_monday_' + week_id).val()
+			var item =$('#reading_' + week_id).val()
+			$.post('/record_minutes',{
+				participant_id: participant_id,
+				week_id: week_id,
+				monday: monday,
+				tuesday: tuesday,
+				wednesday: wednesday,
+				thursday: thursday,
+				friday: friday,
+				saturday: saturday,
+				sunday: sunday,
+				grand_prize_monday: grand_prize_monday,
+				item: item,
+			});
+		}
 	}
 </script>

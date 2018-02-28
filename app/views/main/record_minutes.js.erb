@@ -1,1 +1,5 @@
-alert('pizza')
+$('#week_<%= @week.id %>_success_message').html('<span style="color:green">Success: Your minutes for <%= @week.name %> have been updated!</span')
+$('#total_minutes').html('<%= @participant.total_minutes %>')
+window.setTimeout(function() {
+	$('#week_<%= @week.id %>_success_message').html('');
+}, 5000);

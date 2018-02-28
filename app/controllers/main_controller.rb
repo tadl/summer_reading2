@@ -60,7 +60,7 @@ class MainController < ApplicationController
 
   def load_report_interface
   	participant_id = params[:participant_id].to_i
-  	@participant = Participant.find(participant_id)
+  	@participant = Participant.includes(:reports, :items).find(participant_id)
   	@weeks = Week.all
   	respond_to do |format|
   		format.js
@@ -86,6 +86,21 @@ class MainController < ApplicationController
         end
       end
     end
+    if params[:item]
+      item = Item.where(participant_id: params[:participant_id], week_id: params[:week_id]).first
+      if item != nil 
+        item.name = params[:item]
+        item.save
+      else
+        item = Item.new
+        item.name = params[:item]
+        item.participant_id = params[:participant_id]
+        item.week_id = params[:week_id]
+        item.save
+      end
+    end
+    @participant = Participant.find(params[:participant_id])
+    @week = Week.find(params[:week_id])
     respond_to do |format|
       format.js
     end

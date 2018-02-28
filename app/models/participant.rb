@@ -5,6 +5,7 @@ class Participant < ActiveRecord::Base
 	pg_search_scope :search_by_card, :against =>[:library_card]
 	validates_presence_of :first_name, :last_name, :club, :home_library, :phone_number
 	has_many :reports, dependent: :destroy
+	has_many :items, dependent: :destroy
 	self.per_page = 5
 
 	def full_name
