@@ -23,6 +23,7 @@ class MainController < ApplicationController
   end
 
   def edit_participant
+    @participant = Participant.find(params[:id])
   end
 
   def report_participant

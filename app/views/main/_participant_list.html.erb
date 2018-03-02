@@ -40,7 +40,9 @@
 			<div class="row" style="margin-bottom: 5px;">
 				<div class="col-sm-12">
 					<button type="button" class="btn btn-success btn-large" onclick="load_reporting_interface(<%= p.id %>)">Record Minutes</button>
-					<button type="button" class="btn btn-info btn-large">Edit</button>
+					<a  href="/edit_participant?id=<%= p.id %>">
+						<button type="button" class="btn btn-info btn-large">Edit</button>
+					</a>
 				</div>
 			</div>
 		</div>

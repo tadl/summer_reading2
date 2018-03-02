@@ -104,6 +104,8 @@ class ApplicationController < ActionController::Base
     	{ text: 'Traverse City Christian School' , value: 'Traverse City Christian School'}
     ].sort_by!{ |e| e[:text].downcase }
     @youth_schools = youth_schools.unshift({value: '', text: 'Select School'})
+    all_schools = (youth_schools + teen_schools).uniq.sort_by!{ |e| e[:text].downcase }
+    @all_schools = all_schools.unshift({value: '', text: 'Select School'})
     @reporting_days = [
       'monday',
       'tuesday',
