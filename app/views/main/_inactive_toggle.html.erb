@@ -1,0 +1,8 @@
+<% if @participant.inactive != true %> 
+	<button class="btn btn-danger" onclick="set_inactive(<%= @participant.id %>, 'true')">Mark Inactive</button>
+<% else %>
+	<button class="btn btn-success" onclick="set_inactive(<%= @participant.id %>, 'false')">Re-activate</button>
+	<div>
+		<b style="color: red">Participant is currently marked inactive </b>
+	</div>
+<% end %>

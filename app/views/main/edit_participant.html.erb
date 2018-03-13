@@ -1,4 +1,4 @@
-<h3>Editing <%= @participant.full_name %></h3>
+<h3>Editing Participant</h3>
 
 <form>
 	<div class="row">
@@ -44,7 +44,7 @@
 		</div>
 		<div class="col-sm-5">
 			<label id="school_label" for="all_schools" class="school_list">School:</label>
-			<select class="form-control" id="teen_school">
+			<select class="form-control" id="all_schools">
 				<% @all_schools.each do |s| %>
   					<option value="<%= s[:value] %>" <% if s[:value] == @participant.school %> selected <%end%>>
   						<%= s[:text] %>
@@ -93,7 +93,52 @@
 </div>
 <div class="row">
 	<div class="col-sm-5">
-		<button class="btn btn-success" onclick="update()">Update</button>
-		<button class="btn btn-danger" onclick="update()">Mark Inactive</button>
+		<button class="btn btn-success" onclick="update(<%= @participant.id %>)">Update</button>
+		<span id="inactive_toggle">
+			<%= render 'inactive_toggle' %> 
+		</span>
 	</div>
 </div>
+
+<script>
+	function update(id){
+		first_name = $('#first_name').val()
+		middle_name = $('#middle_name').val()
+		last_name = $('#last_name').val()
+		phone = $('#phone').val()
+		email = $('#email').val()
+		home_library = $('#home_library option:selected').val()
+		library_card = $("#library_card").val()
+		club = $("input[name='club']:checked").val()
+		school = $('#all_schools option:selected').val()
+		$.post("/update_participant",{
+				id: id,
+				first_name: first_name,
+				last_name: last_name,
+				middle_name: middle_name,
+				phone_number: phone,
+				email_address: email,
+				home_library: home_library,
+				library_card: library_card,
+				club: club,
+				school: school
+			}).done(function(data){
+				if(data.message == 'success'){
+					$('#messages').html('<b style="color: green">Successfully updated!</b>')
+				}else{
+					$('#messages').html('<b style="color: red">Something went wrong. Please try again later.</b>')
+				}
+			}
+		);
+		window.setTimeout(function() {
+			$('#messages').html('');
+		}, 5000);
+	}
+
+	function set_inactive(id, inactive){
+		$.post("/set_inactive.js",{
+			id: id,
+			inactive: inactive	
+		})
+	}
+</script>

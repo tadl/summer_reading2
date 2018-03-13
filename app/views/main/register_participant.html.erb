@@ -75,34 +75,34 @@
 			<label id="school_type" for="school_type" class="required">Which type of school will you be attending in the fall?: </label>
 		</div>
 		</br>
-		<div class="col-sm-3">
+		<div class="col-sm-3" id="pre_school_radio">
 			<label class="radio-inline">
-  				<input type="radio" name="school_type" value="pre-school" onclick="check_school(this)"> Pre-School
+  				<input type="radio" name="school_type" value="pre-school" onchange="reset_school_list()" onclick="check_school(this)"> Pre-School
+			</label>
+		</div>
+		<div class="col-sm-3" id="elementary_school_radio">
+			<label class="radio-inline">
+  				<input type="radio" name="school_type" value="elementary" onchange="reset_school_list()" onclick="check_school(this)"> Elementary School
+			</label>
+		</div>
+		<div class="col-sm-3" id="middle_school_radio">
+			<label class="radio-inline">
+  				<input type="radio" name="school_type" value="middle" onchange="reset_school_list()" onclick="check_school(this)"> Middle School
+			</label>
+		</div>
+		<div class="col-sm-3" id="high_school_radio">
+			<label class="radio-inline">
+  				<input type="radio" name="school_type" value="high" onchange="reset_school_list()" onclick="check_school(this)"> High School
+			</label>
+		</div>
+		<div class="col-sm-3" id="college_radio">
+			<label class="radio-inline">
+  				<input type="radio" name="school_type" value="college" onchange="reset_school_list()" onclick="check_school(this)"> College/Trade School
 			</label>
 		</div>
 		<div class="col-sm-3">
 			<label class="radio-inline">
-  				<input type="radio" name="school_type" value="elementary" onclick="check_school(this)"> Elementary School
-			</label>
-		</div>
-		<div class="col-sm-3">
-			<label class="radio-inline">
-  				<input type="radio" name="school_type" value="middle" onclick="check_school(this)"> Middle School
-			</label>
-		</div>
-		<div class="col-sm-3">
-			<label class="radio-inline">
-  				<input type="radio" name="school_type" value="high" onclick="check_school(this)"> High School
-			</label>
-		</div>
-		<div class="col-sm-3">
-			<label class="radio-inline">
-  				<input type="radio" name="school_type" value="college" onclick="check_school(this)"> College/Trade School
-			</label>
-		</div>
-		<div class="col-sm-3">
-			<label class="radio-inline">
-  				<input type="radio" name="school_type" value="none" onclick="check_school(this)"> None
+  				<input type="radio" name="school_type" value="none" onchange="reset_school_list()" onclick="check_school(this)"> None/Other
 			</label>
 		</div>
 	</div>
@@ -141,6 +141,18 @@
 <script>
 	function check_club(radio){
 		if(radio.value == 'teens' || radio.value=="readers"){
+			if(radio.value == 'teens'){
+				$('#high_school_radio').show()
+				$('#college_radio').show()
+				$('#pre_school_radio').hide()
+				$('#elementary_school_radio').hide()
+			}
+			if(radio.value == 'readers'){
+				$('#pre_school_radio').show()
+				$('#elementary_school_radio').show()
+				$('#high_school_radio').hide()
+				$('#college_radio').hide()
+			}
 			$('#ask_grade_level').show()
 		}else{
 			$('#ask_grade_level').hide()
@@ -169,6 +181,11 @@
 		$('#teen_school').val('')
 		$('#ask_youth_school').hide()
 		$('#ask_teen_school').hide()
+	}
+
+	function reset_school_list(){
+		$('#youth_school').val('')
+		$('#teen_school').val('')
 	}
 
 	function register(){
@@ -218,6 +235,9 @@
 			}
 			if(club == 'readers'){
 				school = $('#youth_school option:selected').val()
+			}
+			if(club == 'readers' && school_type == 'middle'){
+				school = $('#teen_school option:selected').val()
 			}
 			if(school == ''){
 				missing_required = true

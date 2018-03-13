@@ -26,7 +26,35 @@ class MainController < ApplicationController
     @participant = Participant.find(params[:id])
   end
 
-  def report_participant
+  def update_participant
+    @participant = Participant.find(params[:id])
+    @participant.first_name = params[:first_name]
+    @participant.last_name = params[:last_name]
+    @participant.middle_name = params[:middle_name]
+    @participant.phone_number = params[:phone_number]
+    @participant.email_address = params[:email_address]
+    @participant.home_library = params[:home_library]
+    @participant.library_card =params[:library_card]
+    @participant.club = params[:club]
+    @participant.school = params[:school]
+    if @participant.valid?
+      @participant.save
+      @message = 'success'
+    else
+      @message = 'fail'
+    end
+    respond_to do |format|
+      format.json {render :json => {:message => @message}}
+    end
+  end
+
+  def set_inactive
+    @participant = Participant.find(params[:id])
+    @participant.inactive = params[:inactive].to_bool
+    @participant.save
+    respond_to do |format|
+      format.js
+    end
   end
 
   def list_participants
