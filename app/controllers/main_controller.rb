@@ -1,5 +1,6 @@
 class MainController < ApplicationController
 	before_filter :shared_variables
+  before_filter :set_cache_buster
   before_action :authenticate_admin!, :except => [:index, :register_participant]
   respond_to :html, :json, :js
 
@@ -64,8 +65,11 @@ class MainController < ApplicationController
   	if params[:club] && params[:club] != 'all'
   		@club = params[:club]
   	end
-  	if !@location && !@club
-  		@participants = Participant.all.page params[:page]
+    @inactive = params[:inactive]
+    if @inactive == 'true'
+      @participants = Participant.all.where(inactive: true).page params[:page]
+  	elsif !@location && !@club
+  		@participants = Participant.all.where(inactive: false).page params[:page]
   	elsif @location && @club
   		@participants = Participant.all.where(club: @club, home_library: @location, inactive: false).page params[:page]
   	elsif @location

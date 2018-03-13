@@ -1,5 +1,9 @@
 <h3>
-	Showing all <%= @count %> participants 
+	Showing all <%= @count %> 
+	<% if @inactive == 'true' %>
+		inactive
+	<% end %>
+	participants 
 	<% if @location %>
 		at <%= @location %>
 	<% end %>
@@ -7,5 +11,7 @@
 		in the <%= @club.capitalize %> club
 	<% end %>  
 </h3>
-<%= render 'participant_filter' %>
+<% if @inactive != 'true' %>
+	<%= render 'participant_filter' %>
+<% end %>
 <%= render 'participant_list' %>
