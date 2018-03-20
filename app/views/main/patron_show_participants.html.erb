@@ -1,0 +1,4 @@
+<h3> Select Summmer Reading Participant:</h3>
+<% @participants.each do |p| %>
+	<h4><a href=""><%= p.full_name %></a> - <i> <%= p.club.capitalize %> </i> </h4>
+<% end %>

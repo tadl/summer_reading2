@@ -1,7 +1,7 @@
 class MainController < ApplicationController
 	before_filter :shared_variables
   before_filter :set_cache_buster
-  before_action :authenticate_admin!, :except => [:index, :register_participant]
+  before_action :authenticate_admin!, :except => [:index, :register_participant, :patron_check_for_participants, :patron_show_participants]
   respond_to :html, :json, :js
 
   def index
@@ -136,6 +136,52 @@ class MainController < ApplicationController
     @week = Week.find(params[:week_id])
     respond_to do |format|
       format.js
+    end
+  end
+
+  def patron_check_for_participants
+    if params[:cards] && params[:secret] == ENV['ILS_SECRET']
+      cards = params[:cards].gsub('"','').gsub('[','').gsub(']','').split(',')
+      i = 0
+      cards.each do |c|
+        if i == 0
+          if Participant.search_by_card(c).where.not(inactive: true).size != 0
+            i = 1
+          end
+        end
+      end
+      if i == 1
+        message = "true"
+      else
+        message = "no participant found with this card"
+      end
+    else
+      message = "invalid request"
+    end
+    respond_to do |format|
+      format.json {render :json => {:message => message}}
+    end
+  end
+
+  def patron_show_participants
+    if params[:token]
+      url = 'http://cal.lib.tadl.org:4000/login.json?token=' + params[:token]
+      response = JSON.parse(open(url).read)
+      if response["cards"]
+        @participants = Array.new
+        response["cards"].each do |c|
+          participants_with_card = Participant.search_by_card(c).where.not(inactive: true)
+          participants_with_card.each do |p|
+            @participants.push(p)
+          end
+        end
+      end
+    else
+      @participants = []
+    end
+    respond_to do |format|
+      format.html {render :layout => "frame"}
+      format.json {render :json => {:participants => @participants}}
     end
   end
   
