@@ -1,5 +1,5 @@
 var content = "<div class='container' style='overflow-x: hidden; width: 90%'>"
-content += "<%= escape_javascript(render 'report_interface', :locals => {:participant => @participant, :weeks => @weeks}) %>"
+content += "<%= escape_javascript(render 'report_interface', :locals => {:participant => @participant, :weeks => @weeks, :from_patron => @from_patron}) %>"
 content +="</div>"
 $.fancybox.open({ 
     'overlayOpacity': 0.1,

@@ -1,4 +1,8 @@
-<h3> Select Summmer Reading Participant:</h3>
-<% @participants.each do |p| %>
-	<h4><a href=""><%= p.full_name %></a> - <i> <%= p.club.capitalize %> </i> </h4>
+<% if @participants %>
+	<h3>Select Summmer Reading Participant:</h3>
+	<% @participants.each do |p| %>
+		<h4><a href="/patron_load_report_interface.html?participant_id=<%= p.id %>"><%= p.full_name %></a> - <i> <%= p.club.capitalize %> </i> </h4>
+	<% end %>
+<% else %>
+	<h3>No Summer Reading club participants are registered under this account.</h3>
 <% end %>

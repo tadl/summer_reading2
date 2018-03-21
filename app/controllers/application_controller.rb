@@ -123,5 +123,8 @@ class ApplicationController < ActionController::Base
       'grand_prize_monday',
     ]
 	end
+  def allow_iframe
+    response.headers.delete "X-Frame-Options"
+  end
   helper_method :current_user
 end

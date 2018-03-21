@@ -1,5 +1,9 @@
-$('#week_<%= @week.id %>_success_message').html('<span style="color:green">Success: Your minutes for <%= @week.name %> have been updated!</span')
-$('#total_minutes').html('<%= @participant.total_minutes %>')
-window.setTimeout(function() {
-	$('#week_<%= @week.id %>_success_message').html('');
-}, 5000);
+<% if @okay_to_save == true %>
+	$('#week_<%= @week.id %>_success_message').html('<span style="color:green">Success: Your minutes for <%= @week.name %> have been updated!</span')
+	$('#total_minutes').html('<%= @participant.total_minutes %>')
+	window.setTimeout(function() {
+		$('#week_<%= @week.id %>_success_message').html('');
+	}, 5000);
+<% else %>
+	$('#week_<%= @week.id %>_success_message').html("<span style='color:red'>Error: You don't have permission to update this participant</span>")
+<% end %>
