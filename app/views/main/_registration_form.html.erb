@@ -1,0 +1,269 @@
+<form>
+	<div class="row">
+		<div class="col-sm-4">
+			<label for="first_name" class="required">First Name:</label>
+			<input type="text" class="form-control" id="first_name">
+		</div>
+		<div class="col-sm-4">
+			<label for="last_name">Middle Name <i>(optional)</i>:</label>
+			<input type="text" class="form-control" id="middle_name">
+		</div>
+		<div class="col-sm-4">
+			<label for="last_name" class="required">Last Name:</label>
+			<input type="text" class="form-control" id="last_name">
+		</div>
+	</div>
+	</br>
+	<div class="row">
+		<div class="col-sm-4">
+			<label for="phone" class="required">Phone Number:</label>
+			<input type="tel" class="form-control" id="phone">
+		</div>
+		<div class="col-sm-4">
+			<label for="email">Email Address <i>(optional)</i>:</label>
+			<input type="email" class="form-control" id="email">
+		</div>
+		<div class="col-sm-4">
+			<label for="home_library" class="required" id="home_library_list">Home Library:</label>
+			<select class="form-control" id="home_library">
+				<% @home_libraries.each do |l| %>
+  					<option value="<%= l[:value] %>" <% if l[:code] == @home_library %> selected <% end %>><%= l[:text] %></option>
+  				<% end %>
+			</select>
+		</div>
+	</div>
+	<br>
+	<div class="row">
+		<div class="col-sm-5">
+			<label for="first_name">Library Card # <i>(Required for Online Reporting):</i></label>
+			<input type="tel" class="form-control" id="library_card" value="<%= @card %>">
+		</div>
+	</div>
+	</br>
+	<div class="row">
+		<div class="col-sm-4">
+		<label for="select_a_club" id="select_a_club" class="required">Select Which Club You Would Like to Join: </label>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-3">
+			<label class="radio-inline">
+  				<input type="radio" name="club" value="pre-readers" onchange="reset_school_type()" onclick="check_club(this)"> Pre-Readers <i>(ages 0 - 4)</i>
+			</label>
+		</div>
+		<div class="col-sm-3">
+			<label class="radio-inline">
+  				<input type="radio" name="club" value="readers" onchange="reset_school_type()" onclick="check_club(this)"> Readers <i>(ages 5 - 12)</i>
+			</label>
+		</div>
+		<div class="col-sm-3">
+			<label class="radio-inline">
+  				<input type="radio" name="club" value="teens" onchange="reset_school_type()" onclick="check_club(this)"> Teens <i>(ages 13 - 19)</i>
+			</label>
+		</div>
+		<div class="col-sm-3">
+			<label class="radio-inline">
+  				<input type="radio" name="club" value="adults" onchange="reset_school_type()" onclick="check_club(this)"> Adults <i>(ages 17+)</i>
+			</label>
+		</div>
+	</div>
+	</br>
+	<div class="row" id="ask_grade_level" style="display:none">
+		<div class="col-sm-12">
+			<label id="school_type" for="school_type" class="required">Which type of school will you be attending in the fall?: </label>
+		</div>
+		</br>
+		<div class="col-sm-3" id="pre_school_radio">
+			<label class="radio-inline">
+  				<input type="radio" name="school_type" value="pre-school" onchange="reset_school_list()" onclick="check_school(this)"> Pre-School
+			</label>
+		</div>
+		<div class="col-sm-3" id="elementary_school_radio">
+			<label class="radio-inline">
+  				<input type="radio" name="school_type" value="elementary" onchange="reset_school_list()" onclick="check_school(this)"> Elementary School
+			</label>
+		</div>
+		<div class="col-sm-3" id="middle_school_radio">
+			<label class="radio-inline">
+  				<input type="radio" name="school_type" value="middle" onchange="reset_school_list()" onclick="check_school(this)"> Middle School
+			</label>
+		</div>
+		<div class="col-sm-3" id="high_school_radio">
+			<label class="radio-inline">
+  				<input type="radio" name="school_type" value="high" onchange="reset_school_list()" onclick="check_school(this)"> High School
+			</label>
+		</div>
+		<div class="col-sm-3" id="college_radio">
+			<label class="radio-inline">
+  				<input type="radio" name="school_type" value="college" onchange="reset_school_list()" onclick="check_school(this)"> College/Trade School
+			</label>
+		</div>
+		<div class="col-sm-3">
+			<label class="radio-inline">
+  				<input type="radio" name="school_type" value="none" onchange="reset_school_list()" onclick="check_school(this)"> None/Other
+			</label>
+		</div>
+	</div>
+	</br>
+	<div class="row" id="ask_youth_school" id="youth_school" style="display: none">
+		<div class="col-sm-5">
+			<label id="school_label" for="youth_school" class="school_list">What school will you be attending in the fall?</label>
+			<select class="form-control" id="youth_school">
+				<% @youth_schools.each do |s| %>
+  					<option value="<%= s[:value] %>"><%= s[:text] %></option>
+  				<% end %>
+			</select>
+		</div>
+	</div>
+	<div class="row" id="ask_teen_school" style="display: none">
+		<div class="col-sm-5">
+			<label id="school_label" for="teen_school" class="school_list">What school will you be attending in the fall?</label>
+			<select class="form-control" id="teen_school">
+				<% @teen_schools.each do |s| %>
+  					<option value="<%= s[:value] %>"><%= s[:text] %></option>
+  				<% end %>
+			</select>
+		</div>
+	</div>
+</form>
+</br>
+<div class="row">
+	<div class="col-sm-12" id="messages" style="margin-bottom: 10px;">
+	</div>
+</div>
+<div class="row">
+	<div class="col-sm-5">
+		<button class="btn btn-primary" onclick="register()">Register for Summer Reading</button>
+	</div>
+</div>
+<script>
+	function check_club(radio){
+		if(radio.value == 'teens' || radio.value=="readers"){
+			if(radio.value == 'teens'){
+				$('#high_school_radio').show()
+				$('#college_radio').show()
+				$('#pre_school_radio').hide()
+				$('#elementary_school_radio').hide()
+			}
+			if(radio.value == 'readers'){
+				$('#pre_school_radio').show()
+				$('#elementary_school_radio').show()
+				$('#high_school_radio').hide()
+				$('#college_radio').hide()
+			}
+			$('#ask_grade_level').show()
+		}else{
+			$('#ask_grade_level').hide()
+			$('#ask_youth_school').hide()
+			$('#ask_teen_school').hide()
+			$('input[name=school_type]').attr('checked',false);
+		}
+	}
+
+	function check_school(radio){
+		if(radio.value == 'elementary'){
+			$('#ask_youth_school').show()
+			$('#ask_teen_school').hide()
+		}else if(radio.value == 'middle' || radio.value == 'high'){
+			$('#ask_teen_school').show()
+			$('#ask_youth_school').hide()
+		}else{
+			$('#ask_youth_school').hide()
+			$('#ask_teen_school').hide()
+		}
+	}
+
+	function reset_school_type(){
+		$("input[name='school_type']").prop('checked', false);
+		$('#youth_school').val('')
+		$('#teen_school').val('')
+		$('#ask_youth_school').hide()
+		$('#ask_teen_school').hide()
+	}
+
+	function reset_school_list(){
+		$('#youth_school').val('')
+		$('#teen_school').val('')
+	}
+
+	function register(){
+		missing_required = false
+		first_name = $('#first_name').val()
+		middle_name = $('#middle_name').val()
+		last_name = $('#last_name').val()
+		phone = $('#phone').val()
+		email = $('#email').val()
+		home_library = $('#home_library option:selected').val()
+		library_card = $("#library_card").val()
+		club = $("input[name='club']:checked").val()
+		school_type = $("input[name='school_type']:checked").val()
+		school = null
+		$('#select_a_club').css('color', 'black')
+		$('.required').css('color', 'black')
+		$('#school_type').css('color', 'black')
+		$('.school_list').css('color', 'black')
+		$('#home_library_list').css('color', 'black')
+		$('#messages').html('')
+		if(first_name == '' || last_name == '' || phone == ''){
+			missing_required = true
+			$('.required').each(function(){
+				if($(this).next().val() == ''){
+					$(this).css('color', 'red')
+				}
+			});	
+		}
+
+		if(typeof club == 'undefined'){
+			missing_required = true
+			$('#select_a_club').css('color', 'red')
+		}
+
+		if(home_library == ''){
+			missing_required = true
+			$('#home_library_list').css('color', 'red')
+		}
+		
+		if(club == 'teens' || club == 'readers'){
+			if(typeof school_type == 'undefined'){
+				missing_required = true
+				$('#school_type').css('color', 'red')
+			}
+			if(club == 'teens'){
+				school = $('#teen_school option:selected').val()
+			}
+			if(club == 'readers'){
+				school = $('#youth_school option:selected').val()
+			}
+			if(club == 'readers' && school_type == 'middle'){
+				school = $('#teen_school option:selected').val()
+			}
+			if(school == ''){
+				missing_required = true
+				$('.school_list').css('color', 'red')
+			}
+		}
+		if(missing_required == true){
+			$('#messages').html('<b style="color: red">Missing required fields. Please complete the questions highlighted in red.</b>')
+		}else{
+			$.post("/save_new_participant",{
+				participant: {
+					first_name: first_name,
+					last_name: last_name,
+					middle_name: middle_name,
+					phone_number: phone,
+					email_address: email,
+					home_library: home_library,
+					library_card: library_card,
+					club: club,
+					school: school
+				}
+			}).done(function(data){
+				if(data.message == 'success'){
+					$('#messages').html('<b style="color: green">You have successfully registered for summer reading club!</b>')
+				}else{
+					$('#messages').html('<b style="color: red">Something went wrong. Please try again later or contact your library to complete summer reading club registration.</b>')
+				}
+			});
+		}
+	}
+</script>

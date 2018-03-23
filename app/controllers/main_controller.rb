@@ -1,8 +1,8 @@
 class MainController < ApplicationController
 	before_filter :shared_variables
   before_filter :set_cache_buster
-  before_action :authenticate_admin!, :except => [:index, :register_participant, :patron_check_for_participants, :patron_show_participants, :patron_load_report_interface, :record_minutes]
-  after_action :allow_iframe, :only => [:patron_show_participants, :patron_load_report_interface, :record_minutes]
+  before_action :authenticate_admin!, :except => [:index, :register_participant, :patron_check_for_participants, :patron_show_participants, :patron_load_report_interface, :record_minutes, :patron_register_participant]
+  after_action :allow_iframe, :only => [:patron_show_participants, :patron_load_report_interface, :record_minutes, :patron_register_participant]
   respond_to :html, :json, :js
 
   def index
@@ -149,6 +149,17 @@ class MainController < ApplicationController
     end
     respond_to do |format|
       format.js
+    end
+  end
+
+  def patron_register_participant
+    if params[:user_info] && params[:user_info] != 'undefined'
+      user_info = JSON.parse(params[:user_info])
+      @card = user_info['card']
+      @home_library = user_info['pickup_library']
+    end
+    respond_to do |format|
+      format.html {render :layout => "frame"}
     end
   end
 

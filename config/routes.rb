@@ -22,7 +22,7 @@ Rails.application.routes.draw do
   match 'patron_check_for_participants', to: 'main#patron_check_for_participants', as: 'check_for_participants', via: [:get, :post]
   match 'patron_show_participants', to: 'main#patron_show_participants', as: 'patron_show_participants', via: [:get, :post]
   match 'patron_load_report_interface', to: 'main#patron_load_report_interface', as: 'patron_load_report_interface', via:[:get, :post]
-  
+  match 'patron_register_participant', to: 'main#patron_register_participant', as: 'patron_register_participant', via:[:get, :post]
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 
