@@ -39,6 +39,7 @@ class MainController < ApplicationController
     @participant.library_card =params[:library_card]
     @participant.club = params[:club]
     @participant.school = params[:school]
+    @participant.send_to_school = params[:send_to_school]
     if @participant.valid?
       @participant.save
       @message = 'success'
@@ -215,7 +216,7 @@ class MainController < ApplicationController
   private
 
 	def participant_params
-  	params.require(:participant).permit(:first_name, :last_name, :club, :school, :home_library, :phone_number, :library_card, :middle_name, :email_address, :school)
+  	params.require(:participant).permit(:first_name, :last_name, :club, :school, :home_library, :phone_number, :library_card, :middle_name, :email_address, :school, :send_to_school)
 	end
 
 	def search_by_name_params

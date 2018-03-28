@@ -105,8 +105,8 @@
 		</div>
 	</div>
 	</br>
-	<div class="row" id="ask_youth_school" id="youth_school" style="display: none">
-		<div class="col-sm-5">
+	<div class="row">
+		<div class="col-sm-5" id="ask_youth_school" style="display: none">
 			<label id="school_label" for="youth_school" class="school_list">What school will you be attending in the fall?</label>
 			<select class="form-control" id="youth_school">
 				<% @youth_schools.each do |s| %>
@@ -114,15 +114,23 @@
   				<% end %>
 			</select>
 		</div>
-	</div>
-	<div class="row" id="ask_teen_school" style="display: none">
-		<div class="col-sm-5">
+		<div class="col-sm-5" id="ask_teen_school" style="display: none">
 			<label id="school_label" for="teen_school" class="school_list">What school will you be attending in the fall?</label>
 			<select class="form-control" id="teen_school">
 				<% @teen_schools.each do |s| %>
   					<option value="<%= s[:value] %>"><%= s[:text] %></option>
   				<% end %>
 			</select>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-5" id="ask_send_school" style="display: none">
+			<div class="form-check">
+  				<input class="form-check-input" type="checkbox" value="true" id="send_to_school">
+  				<label class="form-check-label" for="send_to_school">
+   					 Send My Summer Reading Activity to My School
+  				</label>
+			</div>
 		</div>
 	</div>
 </form>
@@ -164,12 +172,15 @@
 		if(radio.value == 'elementary'){
 			$('#ask_youth_school').show()
 			$('#ask_teen_school').hide()
+			$('#ask_send_school').show()
 		}else if(radio.value == 'middle' || radio.value == 'high'){
 			$('#ask_teen_school').show()
 			$('#ask_youth_school').hide()
+			$('#ask_send_school').show()
 		}else{
 			$('#ask_youth_school').hide()
 			$('#ask_teen_school').hide()
+			$('#ask_send_school').hide()
 		}
 	}
 
@@ -197,6 +208,7 @@
 		library_card = $("#library_card").val()
 		club = $("input[name='club']:checked").val()
 		school_type = $("input[name='school_type']:checked").val()
+		send_to_school = $('#send_to_school:checked').val()
 		school = null
 		$('#select_a_club').css('color', 'black')
 		$('.required').css('color', 'black')
@@ -255,7 +267,8 @@
 					home_library: home_library,
 					library_card: library_card,
 					club: club,
-					school: school
+					school: school,
+					send_to_school: send_to_school,
 				}
 			}).done(function(data){
 				if(data.message == 'success'){
