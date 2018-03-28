@@ -57,6 +57,8 @@ GEM
       railties (>= 3.2, < 5.2)
     erubis (2.7.0)
     execjs (2.7.0)
+    faker (1.8.7)
+      i18n (>= 0.7)
     fancybox2-rails (0.2.8)
       railties (>= 3.1.0, < 5.0)
     faraday (0.12.2)
@@ -200,6 +202,7 @@ DEPENDENCIES
   bootstrap-sass (~> 3.3.5)
   coffee-rails (~> 4.0.0)
   dotenv-rails
+  faker
   fancybox2-rails (~> 0.2.8)
   jbuilder (~> 2.0)
   jquery-rails
