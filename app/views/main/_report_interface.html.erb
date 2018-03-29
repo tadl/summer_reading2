@@ -14,43 +14,43 @@
 					<div class="col-md-1">
 						<label class="day_label">Monday</label>
 						<label class="day_label"><%= w.start_date.strftime('%b %e') %></label>
-						<input class="form-control week_input week_<%= w.id %>_input" maxlength="4" id="monday_<%= w.id %>" value="<%= show_minutes_for(@participant, w.id, 'monday') %>">
+						<input class="form-control week_input week_<%= w.id %>_input" maxlength="4" id="monday_<%= w.id %>" value="<%= show_minutes_for(@participant, w.id).monday %>">
 					</div>
 					<div class="col-md-1">
 						<label class="day_label">Tuesday</label>
 						<label class="day_label"><%= (w.start_date + 1.day).strftime('%b %e')  %></label>
-						<input class="form-control week_input week_<%= w.id %>_input" maxlength="4" id="tuesday_<%= w.id %>" value="<%= show_minutes_for(@participant, w.id, 'tuesday') %>">
+						<input class="form-control week_input week_<%= w.id %>_input" maxlength="4" id="tuesday_<%= w.id %>" value="<%= show_minutes_for(@participant, w.id).tuesday %>">
 					</div>
 					<div class="col-md-1">
 						<label class="day_label">Wednesday</label>
 						<label class="day_label"><%= (w.start_date + 2.day).strftime('%b %e') %></label>
-						<input class="form-control week_input week_<%= w.id %>_input" maxlength="4" id="wednesday_<%= w.id %>" value="<%= show_minutes_for(@participant, w.id, 'wednesday') %>">
+						<input class="form-control week_input week_<%= w.id %>_input" maxlength="4" id="wednesday_<%= w.id %>" value="<%= show_minutes_for(@participant, w.id).wednesday %>">
 					</div>
 					<div class="col-md-1">
 						<label class="day_label">Thursday</label>
 						<label class="day_label"><%= (w.start_date + 3.day).strftime('%b %e') %></label>
-						<input class="form-control week_input week_<%= w.id %>_input" maxlength="4" id="thursday_<%= w.id %>" value="<%= show_minutes_for(@participant, w.id, 'thursday') %>">
+						<input class="form-control week_input week_<%= w.id %>_input" maxlength="4" id="thursday_<%= w.id %>" value="<%= show_minutes_for(@participant, w.id).thursday %>">
 					</div>
 					<div class="col-md-1">
 						<label class="day_label">Friday</label>
 						<label class="day_label"><%= (w.start_date + 4.day).strftime('%b %e') %></label>
-						<input class="form-control week_input week_<%= w.id %>_input" maxlength="4" id="friday_<%= w.id %>" value="<%= show_minutes_for(@participant, w.id, 'friday') %>">
+						<input class="form-control week_input week_<%= w.id %>_input" maxlength="4" id="friday_<%= w.id %>" value="<%= show_minutes_for(@participant, w.id).friday %>">
 					</div>
 					<div class="col-md-1">
 						<label class="day_label">Saturday</label>
 						<label class="day_label"><%= (w.start_date + 5.day).strftime('%b %e') %></label>
-						<input class="form-control week_input week_<%= w.id %>_input" maxlength="4" id="saturday_<%= w.id %>" value="<%= show_minutes_for(@participant, w.id, 'saturday') %>">
+						<input class="form-control week_input week_<%= w.id %>_input" maxlength="4" id="saturday_<%= w.id %>" value="<%= show_minutes_for(@participant, w.id).saturday %>">
 					</div>
 					<div class="col-md-1">
 						<label class="day_label">Sunday</label>
 						<label class="day_label"><%= (w.start_date + 6.day).strftime('%b %e') %></label>
-						<input class="form-control week_input week_<%= w.id %>_input" maxlength="4" id="sunday_<%= w.id %>" value="<%= show_minutes_for(@participant, w.id, 'sunday') %>">
+						<input class="form-control week_input week_<%= w.id %>_input" maxlength="4" id="sunday_<%= w.id %>" value="<%= show_minutes_for(@participant, w.id).sunday %>">
 					</div>
 					<% if (w.end_date - w.start_date) > 6 %>
 						<div class="col-md-1">
 							<label class="day_label">Monday</label>
 							<label class="day_label"><%= (w.start_date + 7.day).strftime('%b %e') %></label>
-							<input  class="form-control week_input week_<%= w.id %>_input" maxlength="4" id="grand_prize_monday_<%= w.id %>" value="<%= show_minutes_for(@participant, w.id, 'grand_prize_monday') %>">
+							<input  class="form-control week_input week_<%= w.id %>_input" maxlength="4" id="grand_prize_monday_<%= w.id %>" value="<%= show_minutes_for(@participant, w.id).grand_prize_monday %>">
 						</div>
 					<% end %>
 					<div class="col-sm-11" style="margin-top: 10px">

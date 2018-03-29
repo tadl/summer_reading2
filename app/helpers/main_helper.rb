@@ -7,12 +7,13 @@ module MainHelper
 		end
 	end
 
-	def show_minutes_for(participant, week_number, day_name)
+	def show_minutes_for(participant, week_number)
 		participant.reports.each do |r|
-			if r.week_id == week_number && r.day_of_week == day_name
-				return r.minutes
+			if r.week_id == week_number 
+				return r
 			end
 		end
+		return Report.new
 	end
 
 	def show_items_for(participant, week_number)
@@ -21,5 +22,6 @@ module MainHelper
 				return i.name
 			end
 		end
+		return ''
 	end
 end

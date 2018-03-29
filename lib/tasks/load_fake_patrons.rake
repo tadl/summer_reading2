@@ -85,15 +85,6 @@ task :load_fake_patrons => :environment do
         { text: 'Buckley Comm. Schools' , value: 'Buckley Comm. Schools'},
         { text: 'Traverse City Christian School' , value: 'Traverse City Christian School'}
     ].sort_by!{ |e| e[:text].downcase }
-    reporting_days = [
-      'monday',
-      'tuesday',
-      'wednesday',
-      'thursday',
-      'friday',
-      'saturday',
-      'sunday',
-    ]
     clubs = [
         'pre-readers',
         'readers',
@@ -102,7 +93,7 @@ task :load_fake_patrons => :environment do
     ]
     i = 5000
     @weeks = Week.all
-    while i >= 0
+    while i > 0
         @participant = Participant.new
         @participant.first_name = Faker::Name.first_name
         @participant.last_name = Faker::Name.last_name
@@ -121,15 +112,17 @@ task :load_fake_patrons => :environment do
         @participant.save!
         puts 'Just saved ' + @participant.first_name + ' ' + @participant.last_name
         @weeks.each do |w|
-            days = reporting_days.sample(1 + rand(reporting_days.count))
-            reporting_days.each do |d|
-                report = Report.new
-                report.day_of_week = d
-                report.participant_id = @participant.id
-                report.week_id = w.id
-                report.minutes = rand(10...120)
-                report.save!
-            end
+            report = Report.new
+            report.participant_id = @participant.id
+            report.week_id = w.id
+            report.monday = rand(10...120)
+            report.tuesday = rand(10...120)
+            report.thursday = rand(10...120)
+            report.wednesday = rand(10...120)
+            report.friday = rand(10...120)
+            report.saturday = rand(10...120)
+            report.sunday = rand(10...120)
+            report.save!
             item = Item.new
             item.name = Faker::Book.title
             item.participant_id = @participant.id

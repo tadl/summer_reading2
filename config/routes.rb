@@ -19,6 +19,7 @@ Rails.application.routes.draw do
   match 'search_by_card', to: 'main#search_by_card', as: 'search_by_card', via: [:get, :post]
   match 'load_report_interface', to: 'main#load_report_interface', as: 'load_report_interface', via: [:get, :post]
   match 'record_minutes', to: 'main#record_minutes', as: 'record_minutes', via: [:post]
+  match 'stats', to: 'main#stats', as: 'stats', via:[:get, :post]
   match 'patron_check_for_participants', to: 'main#patron_check_for_participants', as: 'check_for_participants', via: [:get, :post]
   match 'patron_show_participants', to: 'main#patron_show_participants', as: 'patron_show_participants', via: [:get, :post]
   match 'patron_load_report_interface', to: 'main#patron_load_report_interface', as: 'patron_load_report_interface', via:[:get, :post]

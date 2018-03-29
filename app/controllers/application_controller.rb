@@ -23,7 +23,16 @@ class ApplicationController < ActionController::Base
     response.headers["Expires"] = "Fri, 01 Jan 1990 00:00:00 GMT"
   end
   def shared_variables
-  	@home_libraries = [
+  	@raw_home_libraries =[
+      'Woodmere', 
+      'Kingsley', 
+      'Interlochen', 
+      'Fife Lake', 
+      'East Bay',
+      'Peninsula',
+    ]
+
+    @home_libraries = [
   		{value: '', text: 'Select Home Library', code: ''},
   		{value: 'Woodmere', text: 'Woodmere', code: '23'},
   		{value: 'Kingsley', text: 'Kingsley', code: '25'},
@@ -113,15 +122,11 @@ class ApplicationController < ActionController::Base
     @youth_schools = youth_schools.unshift({value: '', text: 'Select School'})
     all_schools = (youth_schools + teen_schools).uniq.sort_by!{ |e| e[:text].downcase }
     @all_schools = all_schools.unshift({value: '', text: 'Select School'})
-    @reporting_days = [
-      'monday',
-      'tuesday',
-      'wednesday',
-      'thursday',
-      'friday',
-      'saturday',
-      'sunday',
-      'grand_prize_monday',
+    @clubs = [
+      'pre-readers',
+      'readers',
+      'teens',
+      'adults',
     ]
 	end
   def allow_iframe

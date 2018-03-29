@@ -19,9 +19,14 @@ class Participant < ActiveRecord::Base
 	def total_minutes
 		minutes = 0
 		self.reports.each do |r|
-			if r.minutes != nil
-				minutes += r.minutes
-			end
+			minutes += r.monday.to_i 
+			minutes += r.tuesday.to_i 
+			minutes += r.wednesday.to_i 
+			minutes += r.thursday.to_i 
+			minutes += r.friday.to_i 
+			minutes += r.saturday.to_i 
+			minutes += r.sunday.to_i 
+			minutes += r.grand_prize_monday.to_i 
 		end
 		return minutes
 	end

@@ -78,8 +78,7 @@ class MainController < ApplicationController
   		@participants = Participant.all.where(home_library: @location, inactive: false).page params[:page]
   	elsif @club
   		@participants = Participant.all.where(club: @club, inactive: false).page params[:page]
-  	end
-  			
+  	end	
   	@count = @participants.count
   end
 
@@ -115,24 +114,21 @@ class MainController < ApplicationController
       end
     end
     if @okay_to_save == true
-      @reporting_days.each do |d|
-        report = Report.where(participant_id: params[:participant_id], week_id: params[:week_id], day_of_week: d).first
-        if report != nil 
-          if params[d]
-            report.minutes = params[d] 
-            report.save
-          end
-        else
-          if params[d]
-            report = Report.new
-            report.day_of_week = d
-            report.participant_id = params[:participant_id]
-            report.week_id = params[:week_id]
-            report.minutes = params[d]
-            report.save
-          end
-        end
+      report = Report.where(participant_id: params[:participant_id], week_id: params[:week_id]).first
+      if report == nil 
+        report = Report.new
       end
+      report.participant_id = params[:participant_id]
+      report.week_id = params[:week_id]
+      report.monday = params[:monday]
+      report.tuesday = params[:tuesday]
+      report.wednesday = params[:wednesday]
+      report.thursday = params[:thursday]
+      report.friday = params[:friday]
+      report.saturday = params[:saturday]
+      report.sunday = params[:sunday]
+      report.grand_prize_monday = params[:grand_prize_monday]   
+      report.save
       if params[:item]
         item = Item.where(participant_id: params[:participant_id], week_id: params[:week_id]).first
         if item != nil 
@@ -210,6 +206,43 @@ class MainController < ApplicationController
     @from_patron = true
     respond_to do |format|
       format.html {render :layout => "frame"}
+    end
+  end
+
+  def stats
+    @stats = Hash.new
+    @participants = Participant.all.where(inactive: false).includes(:reports)
+    @stats['total_participats'] = @participants.count
+    @stats['total_minutes'] = 0
+    @raw_home_libraries.each do |l|
+      @stats[l+'_participants'] = 0
+    end
+    @clubs.each do |c|
+      @stats[c+'_participants'] = 0
+      @raw_home_libraries.each do |l|
+        @stats[c+'_'+ l +'_participants'] = 0
+      end
+    end
+    @participants.each do |p|
+      @stats['total_minutes'] += p.total_minutes
+      @clubs.each do |c|
+        if p.club == c
+          @stats[c+'_participants'] += 1
+        end 
+      end
+      @raw_home_libraries.each do |l|
+        if p.home_library == l
+          @stats[l+'_participants'] += 1
+        end
+        @clubs.each do |c|
+          if p.home_library == l && p.club == c
+            @stats[c+'_'+ l +'_participants'] += 1
+          end
+        end
+      end
+    end
+    respond_to do |format|
+      format.json {render :json => @stats}
     end
   end
   
