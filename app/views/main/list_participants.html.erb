@@ -1,5 +1,5 @@
 <h3>
-	Showing all <%= @count %> 
+	Showing all <%= number_with_delimiter(@count, :delimiter => ',') %>
 	<% if @inactive == 'true' %>
 		inactive
 	<% end %>
@@ -9,7 +9,8 @@
 	<% end %>
 	<% if @club %>
 		in the <%= @club.capitalize %> club
-	<% end %>  
+	<% end %>
+	- <%= number_with_delimiter(@total_minutes, :delimiter => ',') %> minutes reported
 </h3>
 <% if @inactive != 'true' %>
 	<%= render 'participant_filter' %>

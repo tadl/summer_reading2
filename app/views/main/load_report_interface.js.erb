@@ -3,7 +3,8 @@ content += "<%= escape_javascript(render 'report_interface', :locals => {:partic
 content +="</div>"
 $.fancybox.open({ 
     'overlayOpacity': 0.1,
-    'content' : content
+    'content' : content,
+    'beforeClose': function() { location.reload(); },
 });
 $.fancybox.update()
 $.fancybox.reposition()

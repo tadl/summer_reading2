@@ -69,17 +69,19 @@ class MainController < ApplicationController
   	end
     @inactive = params[:inactive]
     if @inactive == 'true'
-      @participants = Participant.all.where(inactive: true).page params[:page]
+      @participants = Participant.all.where(inactive: true).includes(:reports)
   	elsif !@location && !@club
-  		@participants = Participant.all.where(inactive: false).page params[:page]
+  		@participants = Participant.all.where(inactive: false).includes(:reports)
   	elsif @location && @club
-  		@participants = Participant.all.where(club: @club, home_library: @location, inactive: false).page params[:page]
+  		@participants = Participant.all.where(club: @club, home_library: @location, inactive: false).includes(:reports)
   	elsif @location
-  		@participants = Participant.all.where(home_library: @location, inactive: false).page params[:page]
+  		@participants = Participant.all.where(home_library: @location, inactive: false).includes(:reports)
   	elsif @club
-  		@participants = Participant.all.where(club: @club, inactive: false).page params[:page]
+  		@participants = Participant.all.where(club: @club, inactive: false).includes(:reports)
   	end	
   	@count = @participants.count
+    @total_minutes = @participants.all.joins(:reports).pluck(:monday, :tuesday, :wednesday, :thursday, :friday, :saturday, :sunday, :grand_prize_monday).map(&:compact).map(&:sum).sum
+    @participants = @participants.page params[:page]
   end
 
   def search_by_name
@@ -105,6 +107,7 @@ class MainController < ApplicationController
   def record_minutes
     @okay_to_save = false
     @week = Week.find(params[:week_id])
+    @from_patron = params[:from_patron]
     if current_user
       @okay_to_save = true
     elsif params[:from_patron]
@@ -213,34 +216,7 @@ class MainController < ApplicationController
     @stats = Hash.new
     @participants = Participant.all.where(inactive: false).includes(:reports)
     @stats['total_participats'] = @participants.count
-    @stats['total_minutes'] = 0
-    @raw_home_libraries.each do |l|
-      @stats[l+'_participants'] = 0
-    end
-    @clubs.each do |c|
-      @stats[c+'_participants'] = 0
-      @raw_home_libraries.each do |l|
-        @stats[c+'_'+ l +'_participants'] = 0
-      end
-    end
-    @participants.each do |p|
-      @stats['total_minutes'] += p.total_minutes
-      @clubs.each do |c|
-        if p.club == c
-          @stats[c+'_participants'] += 1
-        end 
-      end
-      @raw_home_libraries.each do |l|
-        if p.home_library == l
-          @stats[l+'_participants'] += 1
-        end
-        @clubs.each do |c|
-          if p.home_library == l && p.club == c
-            @stats[c+'_'+ l +'_participants'] += 1
-          end
-        end
-      end
-    end
+    @stats['total_minutes'] = @participants.joins(:reports).pluck(:monday, :tuesday, :wednesday, :thursday, :friday, :saturday, :sunday, :grand_prize_monday).map(&:compact).map(&:sum).sum
     respond_to do |format|
       format.json {render :json => @stats}
     end
