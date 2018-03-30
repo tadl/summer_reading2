@@ -25,6 +25,7 @@ gem 'will_paginate', '~> 3.1.0'
 gem 'fancybox2-rails', '~> 0.2.8'
 gem 'wannabe_bool'
 gem 'faker'
+gem 'axlsx_rails'
 
 # Include if you need background jobs and/or caching
 # gem 'sidekiq', '4.1.0'

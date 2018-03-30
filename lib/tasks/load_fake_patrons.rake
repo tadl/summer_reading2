@@ -91,7 +91,7 @@ task :load_fake_patrons => :environment do
         'teens',
         'adults',
     ]
-    i = 5000
+    i = 10000
     @weeks = Week.all
     while i > 0
         @participant = Participant.new
@@ -112,22 +112,25 @@ task :load_fake_patrons => :environment do
         @participant.save!
         puts 'Just saved ' + @participant.first_name + ' ' + @participant.last_name
         @weeks.each do |w|
-            report = Report.new
-            report.participant_id = @participant.id
-            report.week_id = w.id
-            report.monday = rand(10...120)
-            report.tuesday = rand(10...120)
-            report.thursday = rand(10...120)
-            report.wednesday = rand(10...120)
-            report.friday = rand(10...120)
-            report.saturday = rand(10...120)
-            report.sunday = rand(10...120)
-            report.save!
-            item = Item.new
-            item.name = Faker::Book.title
-            item.participant_id = @participant.id
-            item.week_id = w.id
-            item.save!
+            random = rand(1...4)
+            if random == 2
+                report = Report.new
+                report.participant_id = @participant.id
+                report.week_id = w.id
+                report.monday = rand(10...120)
+                report.tuesday = rand(10...120)
+                report.thursday = rand(10...120)
+                report.wednesday = rand(10...120)
+                report.friday = rand(10...120)
+                report.saturday = rand(10...120)
+                report.sunday = rand(10...120)
+                report.save!
+                item = Item.new
+                item.name = Faker::Book.title
+                item.participant_id = @participant.id
+                item.week_id = w.id
+                item.save!
+            end
         end
         i -= 1
     end

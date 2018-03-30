@@ -1,55 +1,20 @@
-<div class="row">
-	<div class="col-xs-12">
-		<%= will_paginate @participants %>
-	</div>
-</div>
-<% @participants.each do |p| %>
-	<div class="row" style="font-size: 16px; border-bottom: dashed 1px #64AD2B">
+<% if @page != false %>
+	<div class="row">
 		<div class="col-xs-12">
-			<h3><b><%= p.first_name %> <%= p.middle_name %> <%= p.last_name %></b></h3>
-			<div class="row">
-				<div class="col-sm-2">
-					<b>Club:</b> <%= p.club.capitalize! %>
-				</div>
-				<div class="col-sm-3">
-					<b>Home Library:</b> <%= p.home_library %>
-				</div>
-				<div class="col-sm-3">
-					<b>Phone #:</b> <%= p.phone_number %>
-				</div>
-			</div>
-			<br>
-			<div class="row">
-				<% if p.email_address %>
-					<div class="col-sm-4">
-						<b>Email:</b> <%= p.email_address %>
-					</div>
-				<% end %>
-				<% if p.library_card %>
-					<div class="col-sm-4">
-						<b>Library Card:</b> <%= p.library_card %>
-					</div>
-				<% end %>
-				<% if p.school != '' %>
-					<div class="col-sm-4">
-						<b>School:</b> <%= p.school %>
-					</div>
-				<% end %>
-			</div>
-			<br>
-			<div class="row" style="margin-bottom: 5px;">
-				<div class="col-sm-12">
-					<button type="button" class="btn btn-success btn-large" onclick="load_reporting_interface(<%= p.id %>)">Record Minutes</button>
-					<a  href="/edit_participant?id=<%= p.id %>">
-						<button type="button" class="btn btn-info btn-large">Edit</button>
-					</a>
-				</div>
-			</div>
+			<%= will_paginate @participants %>
 		</div>
 	</div>
 <% end %>
-<%= will_paginate @participants %>
-
+<% @participants.each do |p| %>
+	<% if winner == false %>
+		<%= render 'participant_details', participant: p, winner: false, week: week %>
+	<% else %>
+		<%= render 'participant_details', participant: p, winner: true, week: week %>
+	<% end %>
+<% end %>
+<% if @page != false %>
+	<%= will_paginate @participants %>
+<% end %>
 <script>
 	function load_reporting_interface(participant_id){
 		$.post("/load_report_interface.js",{

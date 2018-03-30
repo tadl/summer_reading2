@@ -1,0 +1,59 @@
+<div class ="row">
+	<h2><b>Weekly Winners Reporting</b></h2>
+</div>
+<%= render 'participant_filter' %>
+<div class ="row">
+	<% @weeks.each do |w| %>
+		<div class="col-sm-4" id="elementary_school_radio">
+			<label class="radio-inline">
+		  		<input type="radio" class="week_selector" name="week_id" value="<%= w.id %>" onchange="update_filter()" <% if w.id == @week.to_i %>checked<% end %>><b><%= w.name %></b> - <i>(<%= w.start_date.strftime('%b %e') %> - <%= w.end_date.strftime('%b %e') %>)</i>
+			</label>
+		</div>
+	<% end %> 
+</div>
+<div class="row">
+	<h3><b>Random Winner for Week <%= @week %>
+		<% if @location  %>
+			at <%= @location %>
+		<% end %>
+		<% if @club %>
+			in the <%= @club.capitalize %> club
+		<% end %>
+		:
+	</b></h3>
+	<i> Refresh page to select another random winner. </i>
+</div>
+<%= render 'participant_details', participant: @random_winner, winner: true, week: @week %>
+<div class="row">
+	<h3><b>
+		<%= @participants.count %> Participants Reported Minutes During Week <%= @week %>
+		<% if @location  %>
+			at <%= @location %>
+		<% end %>
+		<% if @club %>
+			in the <%= @club.capitalize %> club
+		<% end %>
+	</b></h3>
+</div>
+<div class="row">
+	<div class="col-sm-12">
+		<button type="button" class="btn btn-success btn-large" onclick="download_spreadsheet()">Download Spreadsheet of Eligible Participants</button>
+		<br>
+		<i id="wait_warning" style="display: none">This may take a while...</i>
+	</div>
+</div>
+<script>
+	function update_filter(){
+		var week = $("input[name='week_id']:checked").val()
+		var club = $('#club option:selected').val()
+		var location =  $('#home_library option:selected').val()
+		window.location.href= '/weekly_reports?club=' + club + '&location=' + location + '&week=' + week
+	}
+	function download_spreadsheet(){
+		var week = $("input[name='week_id']:checked").val()
+		var club = $('#club option:selected').val()
+		var location =  $('#home_library option:selected').val()
+		$('#wait_warning').show()
+		window.location.href = '/weekly_reports.xlsx?club=' + club + '&location=' + location + '&week=' + week
+	}
+</script>

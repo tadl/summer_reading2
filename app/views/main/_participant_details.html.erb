@@ -1,0 +1,49 @@
+<div class="row" style="font-size: 16px; border-bottom: dashed 1px #64AD2B">
+	<div class="col-xs-12">
+		<h3><b><%= participant.first_name %> <%= participant.middle_name %> <%= participant.last_name %></b>
+	    <% if week %>
+	    	<%= participant.weekly_minutes(week) %> minutes reported for Week <%= week %>
+	    <% end %>
+		</h3>
+		<div class="row">
+			<div class="col-sm-2">
+				<b>Club:</b> <%= participant.club.capitalize! %>
+			</div>
+			<div class="col-sm-3">
+				<b>Home Library:</b> <%= participant.home_library %>
+			</div>
+			<div class="col-sm-3">
+				<b>Phone #:</b> <%= participant.phone_number %>
+			</div>
+		</div>
+		<br>
+		<div class="row">
+			<% if participant.email_address %>
+				<div class="col-sm-4">
+					<b>Email:</b> <%= participant.email_address %>
+				</div>
+			<% end %>
+			<% if participant.library_card %>
+				<div class="col-sm-4">
+					<b>Library Card:</b> <%= participant.library_card %>
+				</div>
+			<% end %>
+			<% if participant.school != '' %>
+				<div class="col-sm-4">
+					<b>School:</b> <%= participant.school %>
+				</div>
+			<% end %>
+		</div>
+		<br>
+		<% if winner == false %>
+		<div class="row" style="margin-bottom: 5px;">
+			<div class="col-sm-12">
+				<button type="button" class="btn btn-success btn-large" onclick="load_reporting_interface(<%= participant.id %>)">Record Minutes</button>
+				<a  href="/edit_participant?id=<%= participant.id %>">
+					<button type="button" class="btn btn-info btn-large">Edit</button>
+				</a>
+			</div>
+		</div>
+		<% end %>
+	</div>
+</div>

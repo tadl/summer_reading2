@@ -15,4 +15,11 @@
 <% if @inactive != 'true' %>
 	<%= render 'participant_filter' %>
 <% end %>
-<%= render 'participant_list' %>
+<%= render 'participant_list', week: false, winner: false %>
+<script>
+	function update_filter(){
+		var club = $('#club option:selected').val()
+		var location =  $('#home_library option:selected').val()
+		window.location.href= '/list_participants?club=' + club + '&location=' + location
+	}
+</script>

@@ -69,15 +69,15 @@ class MainController < ApplicationController
   	end
     @inactive = params[:inactive]
     if @inactive == 'true'
-      @participants = Participant.all.where(inactive: true).includes(:reports)
+      @participants = Participant.all.where(inactive: true)
   	elsif !@location && !@club
-  		@participants = Participant.all.where(inactive: false).includes(:reports)
+  		@participants = Participant.all.where(inactive: false)
   	elsif @location && @club
-  		@participants = Participant.all.where(club: @club, home_library: @location, inactive: false).includes(:reports)
+  		@participants = Participant.all.where(club: @club, home_library: @location, inactive: false)
   	elsif @location
-  		@participants = Participant.all.where(home_library: @location, inactive: false).includes(:reports)
+  		@participants = Participant.all.where(home_library: @location, inactive: false)
   	elsif @club
-  		@participants = Participant.all.where(club: @club, inactive: false).includes(:reports)
+  		@participants = Participant.all.where(club: @club, inactive: false)
   	end	
   	@count = @participants.count
     @total_minutes = @participants.all.joins(:reports).pluck(:monday, :tuesday, :wednesday, :thursday, :friday, :saturday, :sunday, :grand_prize_monday).map(&:compact).map(&:sum).sum
@@ -219,6 +219,38 @@ class MainController < ApplicationController
     @stats['total_minutes'] = @participants.joins(:reports).pluck(:monday, :tuesday, :wednesday, :thursday, :friday, :saturday, :sunday, :grand_prize_monday).map(&:compact).map(&:sum).sum
     respond_to do |format|
       format.json {render :json => @stats}
+    end
+  end
+
+  def weekly_reports
+    @weeks = Week.all
+    if params[:week]
+      @week = params[:week]
+    else
+      @week = '1'
+    end
+    @page = false
+    if params[:location] && params[:location] != 'all'
+      @location = params[:location]
+    end
+    if params[:club] && params[:club] != 'all'
+      @club = params[:club]
+    end
+    if !@location && !@club
+      @participants = Participant.all.where(inactive: false)
+    elsif @location && @club
+      @participants = Participant.all.where(club: @club, home_library: @location, inactive: false)
+    elsif @location
+      @participants = Participant.all.where(home_library: @location, inactive: false)
+    elsif @club
+      @participants = Participant.all.where(club: @club, inactive: false)
+    end 
+    @participants = @participants.joins(:reports).where('week_id = ?', @week).where.not("grand_prize_monday = ? AND monday = ? AND tuesday = ? AND wednesday = ? AND thursday = ? AND friday = ? AND saturday = ? AND sunday = ?", 0,0,0,0,0,0,0,0 )
+    @random_winner = @participants.sample
+    respond_to do |format|
+      format.html
+      format.json {render :json => {:random_winner => @random_winner, :all_eligible => @participants}}
+      format.xlsx
     end
   end
   
