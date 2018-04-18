@@ -31,6 +31,22 @@ class Participant < ActiveRecord::Base
 		return minutes
 	end
 
+	def pre_reader_total_activities
+		minutes = 0
+		self.reports.each do |r|
+			minutes += r.monday.to_i 
+			minutes += r.tuesday.to_i 
+			minutes += r.wednesday.to_i 
+			minutes += r.thursday.to_i 
+			minutes += r.friday.to_i 
+			minutes += r.saturday.to_i 
+			minutes += r.sunday.to_i 
+			minutes += r.grand_prize_monday.to_i 
+		end
+		minutes = (minutes / 10)
+		return minutes
+	end
+
 	def weekly_minutes(week_id)
 		minutes = 0
 		self.reports.each do |r|
