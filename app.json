@@ -1,0 +1,16 @@
+{
+    "name": "summer_reading2",
+    "description": "Traverse Area District Library Summer Reading App",
+    "website": "https://www.tadl.org/",
+    "require": {
+        "plugins": [
+            {
+                "name": "redis",
+                "commands": ["redis:create redis-$APP", "redis:link redis-$APP $APP"]
+            }, {
+                "name": "postgres",
+                "commands": ["postgres:create postgres-$APP", "postgres:link postgres-$APP $APP"]
+            }
+        ]
+    }
+}
