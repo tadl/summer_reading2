@@ -1,2 +1,7 @@
 <a href="/patron_show_participants"><< Back to Participant List</a>
-<%= render 'report_interface', :locals => {:participant => @participant, :weeks => @weeks, :from_patron => @from_patron} %> 
+<% if @participant.club != 'pre-readers' %>
+	<%= render 'report_interface', :locals => {:participant => @participant, :weeks => @weeks, :from_patron => @from_patron} %> 
+<% else %>
+	<%= render 'pre_reader_report_interface', :locals => {:participant => @participant, :weeks => @weeks, :from_patron => @from_patron} %> 
+<% end %>
+

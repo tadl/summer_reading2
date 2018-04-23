@@ -26,7 +26,14 @@
 <%= render 'participant_details', participant: @random_winner, winner: true, week: @week %>
 <div class="row">
 	<h3><b>
-		<%= @participants.count %> Participants Reported Minutes During Week <%= @week %>
+		<%= @participants.count %> 
+		Participants Reported 
+		<% if @club != "pre-readers" %>
+			Minutes 
+		<% else %>
+			Activities
+		<% end %>
+		During Week <%= @week %>
 		<% if @location  %>
 			at <%= @location %>
 		<% end %>

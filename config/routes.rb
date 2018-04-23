@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   match 'edit_participant', to: 'main#edit_participant', as: 'edit_participant', via: [:get]
   match 'update_participant', to: 'main#update_participant', as: 'update_participant', via: [:post]
   match 'set_inactive', to: 'main#set_inactive', as: 'set_inactive', via: [:post]
+  match 'mark_got_shirt', to: 'main#mark_got_shirt', as: 'mark_got_shirt', via: [:post]
   match 'save_new_participant', to: 'main#save_new_participant', as: 'save_new_participant', via: [:post]
   match 'list_participants', to: 'main#list_participants', as: 'list_participants', via: [:get]
   match 'search_by_name', to: 'main#search_by_name', as: 'search_by_name', via: [:get, :post]

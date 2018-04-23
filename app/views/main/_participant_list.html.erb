@@ -21,4 +21,13 @@
 			participant_id: participant_id	
 		});
 	}
+
+	function got_shirt(participant_id){
+		var target_div = '#got_shirt_' + participant_id + ':checked'
+		var got_shirt = $(target_div).val()
+		$.post("/mark_got_shirt.json",{
+			id: participant_id,
+			got_shirt: got_shirt	
+		});
+	}
 </script>

@@ -60,6 +60,20 @@ class MainController < ApplicationController
     end
   end
 
+  def mark_got_shirt
+    if params[:id]
+      @participant = Participant.find(params[:id])
+      @participant.got_shirt = params[:got_shirt].to_bool
+      @participant.save
+      @message = "success"
+    else
+      @message = "error: no participant_id provided"
+    end
+    respond_to do |format|
+      format.json {render :json => {:message => @message}}
+    end
+  end
+
   def list_participants
   	if params[:location] && params[:location] != 'all'
   		@location = params[:location]

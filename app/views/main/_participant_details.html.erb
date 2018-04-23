@@ -2,7 +2,11 @@
 	<div class="col-xs-12">
 		<h3><b><%= participant.first_name %> <%= participant.middle_name %> <%= participant.last_name %></b>
 	    <% if week %>
-	    	<%= participant.weekly_minutes(week) %> minutes reported for Week <%= week %>
+	    	<% if participant.club != 'pre-readers' %>
+	    		<%= participant.weekly_minutes(week) %> minutes reported for Week <%= week %>
+	    	<% else %>
+	    		<%= (participant.weekly_minutes(week)).to_i / 10 %> activities reported for Week <%= week %>
+	    	<% end %>
 	    <% end %>
 		</h3>
 		<div class="row">
@@ -42,6 +46,12 @@
 				<a  href="/edit_participant?id=<%= participant.id %>">
 					<button type="button" class="btn btn-info btn-large">Edit</button>
 				</a>
+				<div class="form-check">
+  					<input class="form-check-input" onchange="got_shirt('<%= escape_javascript(participant.id.to_s)%>')" type="checkbox" value="true" id="got_shirt_<%= escape_javascript(participant.id.to_s)%>" <% if participant.got_shirt == true %>checked<% end %>>
+  					<label class="form-check-label" for="got_shirt">
+   						Received T-Shirt
+  					</label>
+				</div>
 			</div>
 		</div>
 		<% end %>
