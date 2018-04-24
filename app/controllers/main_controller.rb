@@ -237,6 +237,17 @@ class MainController < ApplicationController
     end
   end
 
+  def shirt_stats
+    @stats = Hash.new
+    @participants = Participant.all.where(inactive: false)
+    @shirt_sizes_raw.each do |s|
+      @stats[s[:text]] = @participants.where(shirt_size: s[:value]).count
+    end
+    respond_to do |format|
+      format.json {render :json => @stats}
+    end
+  end
+
   def weekly_reports
     @weeks = Week.all
     if params[:week]
