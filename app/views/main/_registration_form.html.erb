@@ -38,6 +38,14 @@
 			<label for="first_name">Library Card # <i>(Required for Online Reporting):</i></label>
 			<input type="tel" class="form-control" id="library_card" value="<%= @card %>">
 		</div>
+		<div class="col-sm-4">
+			<label for="shirt_size" class="required" id="shirt_size_label">Shirt Size:</label>
+			<select class="form-control" id="shirt_size">
+				<% @shirt_sizes.each do |s| %>
+  					<option value="<%= s[:value] %>"><%= s[:text] %></option>
+  				<% end %>
+			</select>
+		</div>
 	</div>
 	</br>
 	<div class="row">
@@ -140,6 +148,16 @@
 	</div>
 </div>
 <div class="row">
+	<% if current_user %>
+		<div class="col-sm-3">
+			<div class="form-check">
+  				<input class="form-check-input" type="checkbox" value="true" id="got_shirt">
+  				<label class="form-check-label" for="got_shirt">
+   					Received T-Shirt
+  				</label>
+			</div>
+		</div>
+	<% end %>
 	<div class="col-sm-5">
 		<button class="btn btn-primary" onclick="register()">Register for Summer Reading</button>
 	</div>
@@ -205,16 +223,19 @@
 		phone = $('#phone').val()
 		email = $('#email').val()
 		home_library = $('#home_library option:selected').val()
+		shirt_size = $('#shirt_size option:selected').val()
 		library_card = $("#library_card").val()
 		club = $("input[name='club']:checked").val()
 		school_type = $("input[name='school_type']:checked").val()
 		send_to_school = $('#send_to_school:checked').val()
+		got_shirt = $('#got_shirt:checked').val()
 		school = null
 		$('#select_a_club').css('color', 'black')
 		$('.required').css('color', 'black')
 		$('#school_type').css('color', 'black')
 		$('.school_list').css('color', 'black')
 		$('#home_library_list').css('color', 'black')
+		$('#shirt_size_label').css('color', 'black')
 		$('#messages').html('')
 		if(first_name == '' || last_name == '' || phone == ''){
 			missing_required = true
@@ -233,6 +254,11 @@
 		if(home_library == ''){
 			missing_required = true
 			$('#home_library_list').css('color', 'red')
+		}
+	
+		if(shirt_size == ''){
+			missing_required = true
+			$('#shirt_size_label').css('color', 'red')
 		}
 		
 		if(club == 'teens' || club == 'readers'){
@@ -269,6 +295,8 @@
 					club: club,
 					school: school,
 					send_to_school: send_to_school,
+					got_shirt: got_shirt,
+					shirt_size: shirt_size,
 				}
 			}).done(function(data){
 				if(data.message == 'success'){

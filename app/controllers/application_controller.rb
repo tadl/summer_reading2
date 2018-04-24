@@ -128,6 +128,18 @@ class ApplicationController < ActionController::Base
       'teens',
       'adults',
     ]
+    @shirt_sizes = [
+      {value: '', text: 'Select Shirt Size', code: ''},
+      {value: 'Youth Small', text: 'Youth Small', code: 'Youth Small'},
+      {value: 'Youth Medium', text: 'Youth Medium', code: 'Youth Medium'},
+      {value: 'Youth Large', text: 'Youth Large', code: 'Youth Large'},
+      {value: 'Youth Extra Large', text: 'Youth Extra Large', code: 'Youth Extra Large'},
+      {value: 'Adult Small', text: 'Adult Small', code: 'Adult Small'},
+      {value: 'Adult Medium', text: 'Adult Medium', code: 'Adult Medium'},
+      {value: 'Adult Large', text: 'Adult Large', code: 'Adult Large'},
+      {value: 'Adult Extra Large', text: 'Adult Extra Large', code: 'Adult Extra Large'},
+    ]
+    @shirt_sizes_raw = @shirt_sizes.drop(1)
 	end
   def allow_iframe
     response.headers.delete "X-Frame-Options"

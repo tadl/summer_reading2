@@ -39,8 +39,16 @@
 	<br>
 	<div class="row">
 		<div class="col-sm-4">
-			<label for="first_name">Library Card # <i>(Required for Online Reporting):</i></label>
+			<label for="first_name">Library Card #</label>
 			<input type="tel" class="form-control" id="library_card" value="<%= @participant.library_card %>">
+		</div>
+		<div class="col-sm-4">
+			<label for="shirt_size" class="required" id="shirt_size_label">Shirt Size:</label>
+			<select class="form-control" id="shirt_size">
+				<% @shirt_sizes_raw.each do |s| %>
+  					<option value="<%= s[:value] %>" <% if s[:value] == @participant.shirt_size %> selected <%end%>><%= s[:text] %></option>
+  				<% end %>
+			</select>
 		</div>
 		<div class="col-sm-4">
 			<label id="school_label" for="all_schools" class="school_list">School:</label>
@@ -52,7 +60,10 @@
   				<% end %>
 			</select>
 		</div>
-		<div class="col-sm-4" id="ask_send_school">
+	</div>
+	<br>
+	<div class="row">
+		<div class="col-sm-5" id="ask_send_school">
 			<div class="form-check">
   				<input class="form-check-input" type="checkbox" value="true" id="send_to_school" <% if @participant.send_to_school == true %>checked<% end %>>
   				<label class="form-check-label" for="send_to_school">
@@ -120,6 +131,7 @@
 		club = $("input[name='club']:checked").val()
 		school = $('#all_schools option:selected').val()
 		send_to_school = $('#send_to_school:checked').val()
+		shirt_size = $('#shirt_size option:selected').val()
 		$.post("/update_participant",{
 				id: id,
 				first_name: first_name,
@@ -132,6 +144,7 @@
 				club: club,
 				school: school,
 				send_to_school: send_to_school,
+				shirt_size: shirt_size,
 			}).done(function(data){
 				if(data.message == 'success'){
 					$('#messages').html('<b style="color: green">Successfully updated!</b>')

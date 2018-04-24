@@ -19,6 +19,11 @@
 			<div class="col-sm-3">
 				<b>Phone #:</b> <%= participant.phone_number %>
 			</div>
+			<% if winner == false %>
+				<div class="col-sm-3">
+					<b>Shirt Size:</b> <%= participant.shirt_size %>
+				</div>
+			<% end %>
 		</div>
 		<br>
 		<div class="row">
