@@ -91,6 +91,16 @@ task :load_fake_patrons => :environment do
         'teens',
         'adults',
     ]
+    shirt_sizes = [
+      {value: 'Youth Small', text: 'Youth Small', code: 'Youth Small'},
+      {value: 'Youth Medium', text: 'Youth Medium', code: 'Youth Medium'},
+      {value: 'Youth Large', text: 'Youth Large', code: 'Youth Large'},
+      {value: 'Youth Extra Large', text: 'Youth Extra Large', code: 'Youth Extra Large'},
+      {value: 'Adult Small', text: 'Adult Small', code: 'Adult Small'},
+      {value: 'Adult Medium', text: 'Adult Medium', code: 'Adult Medium'},
+      {value: 'Adult Large', text: 'Adult Large', code: 'Adult Large'},
+      {value: 'Adult Extra Large', text: 'Adult Extra Large', code: 'Adult Extra Large'},
+    ]
     i = 1000
     @weeks = Week.all
     while i > 0
@@ -100,7 +110,8 @@ task :load_fake_patrons => :environment do
         @participant.middle_name = Faker::Name.first_name
         @participant.phone_number = Faker::PhoneNumber.phone_number
         @participant.email_address = Faker::Internet.email(@participant.first_name + ' ' + @participant.last_name)
-        @participant.home_library = home_libraries.sample[:text]
+        @participant.home_library = home_libraries.sample[:value]
+        @participant.shirt_size = shirt_sizes.sample[:value]
         @participant.library_card = rand.to_s[2..11]
         @participant.club = clubs.sample
         if @participant.club == 'readers'
@@ -108,6 +119,10 @@ task :load_fake_patrons => :environment do
         end
         if @participant.club == 'teens'
             @participant.school = teen_schools.sample[:value]
+            send_random = rand(1..4)
+            if send_random = 2
+                @participant.send_to_school = true
+            end
         end
         @participant.save!
         puts 'Just saved ' + @participant.first_name + ' ' + @participant.last_name
