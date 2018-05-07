@@ -23,7 +23,11 @@
 	</b></h3>
 	<i> Refresh page to select another random winner. </i>
 </div>
-<%= render 'participant_details', participant: @random_winner, winner: true, week: @week %>
+<% if @random_winner %>
+	<%= render 'participant_details', participant: @random_winner, winner: true, week: @week %>
+<% else %>
+	No participant was eligibel this week
+<% end %>
 <div class="row">
 	<h3><b>
 		<%= @participants.count %> 
