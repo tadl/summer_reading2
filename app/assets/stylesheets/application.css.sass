@@ -18,10 +18,28 @@
 @import "bootstrap-sprockets"
 @import "bootstrap"
 
+
+html
+ height: 100%
+
+body
+  height: 100%
+  background-image: image-url("background.jpg")
+  background-size: cover
+  background-repeat: no-repeat
+  background-position: center center
+  background-attachment: fixed
+
+#main-container
+  background-color: #fff
+  opacity: 0.9
+
+.row
+  padding: 5px
+
 .navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:hover, .navbar-default .navbar-nav > .open > a:focus
   color: #fff
   background-color: #64AD2B
-  border-color: #fff
 
 .pagination 
   font-size: 16px
