@@ -96,7 +96,7 @@ class MainController < ApplicationController
   	end	
   	@count = @participants.count
     @total_minutes = @participants.all.joins(:reports).pluck(:monday, :tuesday, :wednesday, :thursday, :friday, :saturday, :sunday, :grand_prize_monday).map(&:compact).map(&:sum).sum
-    @participants = @participants.page params[:page]
+    @participants = @participants.order('updated_at DESC').page params[:page]
   end
 
   def search_by_name
@@ -110,6 +110,7 @@ class MainController < ApplicationController
   end
 
   def load_report_interface
+    @today = Date.today + 1.month + 5.days
   	participant_id = params[:participant_id].to_i
   	@participant = Participant.includes(:reports, :items).find(participant_id)
   	@weeks = Week.all
@@ -220,6 +221,7 @@ class MainController < ApplicationController
   def patron_load_report_interface
     participant_id = params[:participant_id].to_i
     @participant = match_participant_with_cards(participant_id)
+    @today = Date.today + 1.month
     @weeks = Week.all
     @from_patron = true
     respond_to do |format|

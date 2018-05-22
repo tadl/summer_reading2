@@ -1,165 +1,176 @@
-<form>
-	<div class="row">
-		<div class="col-sm-4">
-			<label for="first_name" class="required">First Name:</label>
-			<input type="text" class="form-control" id="first_name">
-		</div>
-		<div class="col-sm-4">
-			<label for="last_name">Middle Name <i>(optional)</i>:</label>
-			<input type="text" class="form-control" id="middle_name">
-		</div>
-		<div class="col-sm-4">
-			<label for="last_name" class="required">Last Name:</label>
-			<input type="text" class="form-control" id="last_name">
-		</div>
-	</div>
-	</br>
-	<div class="row">
-		<div class="col-sm-4">
-			<label for="phone" class="required">Phone Number:</label>
-			<input type="tel" class="form-control" id="phone">
-		</div>
-		<div class="col-sm-4">
-			<label for="email">Email Address <i>(optional)</i>:</label>
-			<input type="email" class="form-control" id="email">
-		</div>
-		<div class="col-sm-4">
-			<label for="home_library" class="required" id="home_library_list">Home Library:</label>
-			<select class="form-control" id="home_library">
-				<% @home_libraries.each do |l| %>
-  					<option value="<%= l[:value] %>" <% if l[:code] == @home_library %> selected <% end %>><%= l[:text] %></option>
-  				<% end %>
-			</select>
-		</div>
-	</div>
-	<br>
-	<div class="row">
-		<div class="col-sm-5">
-			<label for="first_name">Library Card # <i>(Required for Online Reporting):</i></label>
-			<input type="tel" class="form-control" id="library_card" value="<%= @card %>">
-		</div>
-		<div class="col-sm-4">
-			<label for="shirt_size" class="required" id="shirt_size_label">Shirt Size:</label>
-			<select class="form-control" id="shirt_size">
-				<% @shirt_sizes.each do |s| %>
-  					<option value="<%= s[:value] %>"><%= s[:text] %></option>
-  				<% end %>
-			</select>
-		</div>
-	</div>
-	</br>
-	<div class="row">
-		<div class="col-sm-4">
-		<label for="select_a_club" id="select_a_club" class="required">Select Which Club You Would Like to Join: </label>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-sm-3">
-			<label class="radio-inline">
-  				<input type="radio" name="club" value="pre-readers" onchange="reset_school_type()" onclick="check_club(this)"> Pre-Readers <i>(ages 0 - 4)</i>
-			</label>
-		</div>
-		<div class="col-sm-3">
-			<label class="radio-inline">
-  				<input type="radio" name="club" value="readers" onchange="reset_school_type()" onclick="check_club(this)"> Readers <i>(ages 5 - 12)</i>
-			</label>
-		</div>
-		<div class="col-sm-3">
-			<label class="radio-inline">
-  				<input type="radio" name="club" value="teens" onchange="reset_school_type()" onclick="check_club(this)"> Teens <i>(ages 13 - 19)</i>
-			</label>
-		</div>
-		<div class="col-sm-3">
-			<label class="radio-inline">
-  				<input type="radio" name="club" value="adults" onchange="reset_school_type()" onclick="check_club(this)"> Adults <i>(ages 17+)</i>
-			</label>
-		</div>
-	</div>
-	</br>
-	<div class="row" id="ask_grade_level" style="display:none">
-		<div class="col-sm-12">
-			<label id="school_type" for="school_type" class="required">Which type of school will you be attending in the fall?: </label>
+<div id="registration">
+	<h3>Register For Summer Reading Club</h3>
+	<form>
+		<div class="row">
+			<div class="col-sm-4">
+				<label for="first_name" class="required">First Name:</label>
+				<input type="text" class="form-control" id="first_name">
+			</div>
+			<div class="col-sm-4">
+				<label for="last_name">Middle Name <i>(optional)</i>:</label>
+				<input type="text" class="form-control" id="middle_name">
+			</div>
+			<div class="col-sm-4">
+				<label for="last_name" class="required">Last Name:</label>
+				<input type="text" class="form-control" id="last_name">
+			</div>
 		</div>
 		</br>
-		<div class="col-sm-3" id="pre_school_radio">
-			<label class="radio-inline">
-  				<input type="radio" name="school_type" value="pre-school" onchange="reset_school_list()" onclick="check_school(this)"> Pre-School
-			</label>
-		</div>
-		<div class="col-sm-3" id="elementary_school_radio">
-			<label class="radio-inline">
-  				<input type="radio" name="school_type" value="elementary" onchange="reset_school_list()" onclick="check_school(this)"> Elementary School
-			</label>
-		</div>
-		<div class="col-sm-3" id="middle_school_radio">
-			<label class="radio-inline">
-  				<input type="radio" name="school_type" value="middle" onchange="reset_school_list()" onclick="check_school(this)"> Middle School
-			</label>
-		</div>
-		<div class="col-sm-3" id="high_school_radio">
-			<label class="radio-inline">
-  				<input type="radio" name="school_type" value="high" onchange="reset_school_list()" onclick="check_school(this)"> High School
-			</label>
-		</div>
-		<div class="col-sm-3" id="college_radio">
-			<label class="radio-inline">
-  				<input type="radio" name="school_type" value="college" onchange="reset_school_list()" onclick="check_school(this)"> College/Trade School
-			</label>
-		</div>
-		<div class="col-sm-3">
-			<label class="radio-inline">
-  				<input type="radio" name="school_type" value="none" onchange="reset_school_list()" onclick="check_school(this)"> None/Other
-			</label>
-		</div>
-	</div>
-	</br>
-	<div class="row">
-		<div class="col-sm-5" id="ask_youth_school" style="display: none">
-			<label id="school_label" for="youth_school" class="school_list">What school will you be attending in the fall?</label>
-			<select class="form-control" id="youth_school">
-				<% @youth_schools.each do |s| %>
-  					<option value="<%= s[:value] %>"><%= s[:text] %></option>
-  				<% end %>
-			</select>
-		</div>
-		<div class="col-sm-5" id="ask_teen_school" style="display: none">
-			<label id="school_label" for="teen_school" class="school_list">What school will you be attending in the fall?</label>
-			<select class="form-control" id="teen_school">
-				<% @teen_schools.each do |s| %>
-  					<option value="<%= s[:value] %>"><%= s[:text] %></option>
-  				<% end %>
-			</select>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-sm-5" id="ask_send_school" style="display: none">
-			<div class="form-check">
-  				<input class="form-check-input" type="checkbox" value="true" id="send_to_school">
-  				<label class="form-check-label" for="send_to_school">
-   					 Send My Summer Reading Activity to My School
-  				</label>
+		<div class="row">
+			<div class="col-sm-4">
+				<label for="phone" class="required">Phone Number:</label>
+				<input type="tel" class="form-control" id="phone">
+			</div>
+			<div class="col-sm-4">
+				<label for="email">Email Address <i>(optional)</i>:</label>
+				<input type="email" class="form-control" id="email">
+			</div>
+			<div class="col-sm-4">
+				<label for="home_library" class="required" id="home_library_list">Home Library:</label>
+				<select class="form-control" id="home_library">
+					<% @home_libraries.each do |l| %>
+	  					<option value="<%= l[:value] %>" <% if l[:code] == @home_library %> selected <% end %>><%= l[:text] %></option>
+	  				<% end %>
+				</select>
 			</div>
 		</div>
-	</div>
-</form>
-</br>
-<div class="row">
-	<div class="col-sm-12" id="messages" style="margin-bottom: 10px;">
+		<br>
+		<div class="row">
+			<div class="col-sm-6">
+				<label for="first_name">Library Card # <i>(Required for Online Reporting):</i></label>
+				<input type="tel" class="form-control" id="library_card" value="<%= @card %>">
+			</div>
+			<div class="col-sm-4">
+				<label for="shirt_size" class="required" id="shirt_size_label">Shirt Size:</label>
+				<select class="form-control" id="shirt_size">
+					<% @shirt_sizes.each do |s| %>
+	  					<option value="<%= s[:value] %>"><%= s[:text] %></option>
+	  				<% end %>
+				</select>
+			</div>
+		</div>
+		</br>
+		<div class="row">
+			<div class="col-sm-12">
+			<label for="select_a_club" id="select_a_club" class="required">Select Which Club You Would Like to Join: </label>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-3">
+				<label class="radio-inline">
+	  				<input type="radio" name="club" value="pre-readers" onchange="reset_school_type()" onclick="check_club(this)"> Pre-Readers <i>(ages 0-4)</i>
+				</label>
+			</div>
+			<div class="col-sm-3">
+				<label class="radio-inline">
+	  				<input type="radio" name="club" value="readers" onchange="reset_school_type()" onclick="check_club(this)"> Readers <i>(ages 5-12)</i>
+				</label>
+			</div>
+			<div class="col-sm-3">
+				<label class="radio-inline">
+	  				<input type="radio" name="club" value="teens" onchange="reset_school_type()" onclick="check_club(this)"> Teens <i>(ages 13-19)</i>
+				</label>
+			</div>
+			<div class="col-sm-3">
+				<label class="radio-inline">
+	  				<input type="radio" name="club" value="adults" onchange="reset_school_type()" onclick="check_club(this)"> Adults <i>(ages 17+)</i>
+				</label>
+			</div>
+		</div>
+		</br>
+		<div class="row" id="ask_grade_level" style="display:none">
+			<div class="col-sm-12">
+				<label id="school_type" for="school_type" class="required">Which type of school will you be attending in the fall?: </label>
+			</div>
+			</br>
+			<div class="col-sm-3" id="pre_school_radio">
+				<label class="radio-inline">
+	  				<input type="radio" name="school_type" value="pre-school" onchange="reset_school_list()" onclick="check_school(this)"> Pre-School
+				</label>
+			</div>
+			<div class="col-sm-3" id="elementary_school_radio">
+				<label class="radio-inline">
+	  				<input type="radio" name="school_type" value="elementary" onchange="reset_school_list()" onclick="check_school(this)"> Elementary School
+				</label>
+			</div>
+			<div class="col-sm-3" id="middle_school_radio">
+				<label class="radio-inline">
+	  				<input type="radio" name="school_type" value="middle" onchange="reset_school_list()" onclick="check_school(this)"> Middle School
+				</label>
+			</div>
+			<div class="col-sm-3" id="high_school_radio">
+				<label class="radio-inline">
+	  				<input type="radio" name="school_type" value="high" onchange="reset_school_list()" onclick="check_school(this)"> High School
+				</label>
+			</div>
+			<div class="col-sm-3" id="college_radio">
+				<label class="radio-inline">
+	  				<input type="radio" name="school_type" value="college" onchange="reset_school_list()" onclick="check_school(this)"> College/Trade School
+				</label>
+			</div>
+			<div class="col-sm-3">
+				<label class="radio-inline">
+	  				<input type="radio" name="school_type" value="none" onchange="reset_school_list()" onclick="check_school(this)"> None/Other
+				</label>
+			</div>
+		</div>
+		</br>
+		<div class="row">
+			<div class="col-sm-6" id="ask_youth_school" style="display: none">
+				<label id="school_label" for="youth_school" class="school_list">What school will you be attending in the fall?</label>
+				<select class="form-control" id="youth_school">
+					<% @youth_schools.each do |s| %>
+	  					<option value="<%= s[:value] %>"><%= s[:text] %></option>
+	  				<% end %>
+				</select>
+			</div>
+			<div class="col-sm-6" id="ask_teen_school" style="display: none">
+				<label id="school_label" for="teen_school" class="school_list">What school will you be attending in the fall?</label>
+				<select class="form-control" id="teen_school">
+					<% @teen_schools.each do |s| %>
+	  					<option value="<%= s[:value] %>"><%= s[:text] %></option>
+	  				<% end %>
+				</select>
+			</div>
+		</div>
+		<div class="row" id="ask_send_school" style="display: none">
+			<div class="col-sm-6">
+				<div class="form-check">
+	  				<input class="form-check-input" type="checkbox" value="true" id="send_to_school">
+	  				<label class="form-check-label" for="send_to_school">
+	   					 Send My Summer Reading Activity to My School
+	  				</label>
+				</div>
+			</div>
+		</div>
+	</form>
+	<div class="row">
+		<% if current_user %>
+			<div class="col-sm-3">
+				<div class="form-check">
+	  				<input class="form-check-input" type="checkbox" value="true" id="got_shirt">
+	  				<label class="form-check-label" for="got_shirt">
+	   					Received T-Shirt
+	  				</label>
+				</div>
+			</div>
+		<% end %>
+		<div class="col-sm-12">
+			<div class="col-sm-12" id="messages">
+			</div>
+			<button class="btn btn-success" onclick="register()">Register for Summer Reading</button>
+		</div>
 	</div>
 </div>
-<div class="row">
-	<% if current_user %>
-		<div class="col-sm-3">
-			<div class="form-check">
-  				<input class="form-check-input" type="checkbox" value="true" id="got_shirt">
-  				<label class="form-check-label" for="got_shirt">
-   					Received T-Shirt
-  				</label>
-			</div>
-		</div>
-	<% end %>
-	<div class="col-sm-5">
-		<button class="btn btn-primary" onclick="register()">Register for Summer Reading</button>
+<div id="confirmation" style="display:none">
+	<div class="row">
+		<h3>You Have Successfully Registered <span id="register_name"></span> for Summer Reading Club!</h3>
+		<p>Please be sure to stop by your home library to pick up your reading kit.</p>
+	</div>
+	<div class="row">
+		<button class="btn btn-primary btn-success" onclick="register_another()">
+			Register Another Participant from Same Household
+		</button>
 	</div>
 </div>
 <script>
@@ -261,7 +272,7 @@
 			$('#shirt_size_label').css('color', 'red')
 		}
 		
-		if(club == 'teens' || club == 'readers'){
+		if(club == 'teens' || (club == 'readers' && school_type != 'pre-school')){
 			if(typeof school_type == 'undefined'){
 				missing_required = true
 				$('#school_type').css('color', 'red')
@@ -300,11 +311,27 @@
 				}
 			}).done(function(data){
 				if(data.message == 'success'){
-					$('#messages').html('<b style="color: green">You have successfully registered for summer reading club!</b>')
+					$('#registration').hide()
+					$('#confirmation').show()
+					$('#register_name').html(first_name)
 				}else{
 					$('#messages').html('<b style="color: red">Something went wrong. Please try again later or contact your library to complete summer reading club registration.</b>')
 				}
 			});
 		}
+	}
+	function register_another(){
+		$('#shirt_size').val('')
+		$("input[name='club']:checked").prop('checked', false)
+		$('#send_to_school:checked').prop('checked', false)
+		$('#got_shirt:checked').prop('checked', false)
+		reset_school_type()
+		reset_school_list()
+		$('#ask_grade_level').hide()
+		$('#ask_send_school').hide()
+		$('#first_name').val('')
+		$('#middle_name').val('')
+		$('#confirmation').hide()
+		$('#registration').show()
 	}
 </script>

@@ -2,60 +2,61 @@
 <div class="container" style='overflow-x: hidden;'>
 	<h3><%= @participant.full_name %> - Total Activities Reported: <span id="total_minutes"><%= @participant.pre_reader_total_activities %></span></h3>
 	<% @weeks.each do |w| %>
-		<div class="row" style="font-size: 16px; border-bottom: dashed 1px #64AD2B; margin-bottom: 10px; padding-bottom: 10px;">
-			<div class="col-xs-12">
-				<h4><%= w.name %> <i>(<%= w.start_date.strftime('%b %e') %> - <%= w.end_date.strftime('%b %e') %>)</i></h4>
-			</div>
-			<form>	
-					<div class="col-md-4">
-						<label class="day_label" style="margin-top: 10px">Number of Activites This Week:</label>
-					</div>
-					<div class="col-md-12">
-						<label class="day_label">Talk
-							<i>(Introduce new words to your child’s vocabulary and promote brain development)</i>
-						</label>
-						<input class="form-control week_input week_<%= w.id %>_input" maxlength="4" id="monday_<%= w.id %>" value="<%= ((show_minutes_for(@participant, w.id).monday.to_i)/10) %>">
-					</div>
-					<div class="col-md-12">
-						<label class="day_label">Read
-							<i>(Improve vocabulary and reading comprehension while bonding with your child)</i>
-						</label>
-						<input class="form-control week_input week_<%= w.id %>_input" maxlength="4" id="tuesday_<%= w.id %>" value="<%= ((show_minutes_for(@participant, w.id).tuesday.to_i)/10) %>">
-					</div>
-					<div class="col-md-12">
-						<label class="day_label">Sing
-							<i>(Sing it loud to help your children hear all of the sounds in words)</i>
-						</label>
-						<input class="form-control week_input week_<%= w.id %>_input" maxlength="4" id="wednesday_<%= w.id %>" value="<%= ((show_minutes_for(@participant, w.id).wednesday.to_i)/10) %>">
-					</div>
-					<div class="col-md-12">
-						<label class="day_label">Play
-							<i>(Put into action the concepts that you have read or talked about)</i>
-						</label>
-						<input class="form-control week_input week_<%= w.id %>_input" maxlength="4" id="thursday_<%= w.id %>" value="<%= ((show_minutes_for(@participant, w.id).thursday.to_i)/10) %>">
-					</div>
-					<div class="col-md-12">
-						<label class="day_label">Write
-							<i>(Simple activities to strengthen hands and understand shapes)</i>
-						</label>
-						<input class="form-control week_input week_<%= w.id %>_input" maxlength="4" id="friday_<%= w.id %>" value="<%= ((show_minutes_for(@participant, w.id).friday.to_i)/10) %>">
-					</div>
-					<div class="col-sm-11" style="margin-top: 10px">
-							<label>Describe your activities this week? <i>(optional)</i></label>
-						 	<textarea class="form-control" rows="5" id="reading_<%= w.id %>"><%= show_items_for(@participant, w.id) %></textarea>
-					</div>
-			</form>
-			<div class="col-sm-2" style="margin-top: 10px">
-				<button type="button" class="btn btn-success btn-large" onclick="update_week(<%= w.id %>)">Update <%= w.name %></button>
-			</div>
-			<div class="col-sm-8"style="margin-top: 10px">
-				<div id="week_<%= w.id %>_success_message">
+		<% if w.start_date <= @today %>
+			<div class="row" style="font-size: 16px; border-bottom: dashed 1px #64AD2B; margin-bottom: 10px; padding-bottom: 10px;">
+				<div class="col-xs-12">
+					<h4><%= w.name %> <i>(<%= w.start_date.strftime('%b %e') %> - <%= w.end_date.strftime('%b %e') %>)</i></h4>
 				</div>
-				<div id="week_<%= w.id %>_error_message">
+				<form>	
+						<div class="col-md-4">
+							<label class="day_label" style="margin-top: 10px">Number of Activites This Week:</label>
+						</div>
+						<div class="col-md-12">
+							<label class="day_label">Talk
+								<i>(Introduce new words to your child’s vocabulary and promote brain development)</i>
+							</label>
+							<input class="form-control week_input week_<%= w.id %>_input" maxlength="4" id="monday_<%= w.id %>" value="<%= ((show_minutes_for(@participant, w.id).monday.to_i)/10) %>">
+						</div>
+						<div class="col-md-12">
+							<label class="day_label">Read
+								<i>(Improve vocabulary and reading comprehension while bonding with your child)</i>
+							</label>
+							<input class="form-control week_input week_<%= w.id %>_input" maxlength="4" id="tuesday_<%= w.id %>" value="<%= ((show_minutes_for(@participant, w.id).tuesday.to_i)/10) %>">
+						</div>
+						<div class="col-md-12">
+							<label class="day_label">Sing
+								<i>(Sing it loud to help your children hear all of the sounds in words)</i>
+							</label>
+							<input class="form-control week_input week_<%= w.id %>_input" maxlength="4" id="wednesday_<%= w.id %>" value="<%= ((show_minutes_for(@participant, w.id).wednesday.to_i)/10) %>">
+						</div>
+						<div class="col-md-12">
+							<label class="day_label">Play
+								<i>(Put into action the concepts that you have read or talked about)</i>
+							</label>
+							<input class="form-control week_input week_<%= w.id %>_input" maxlength="4" id="thursday_<%= w.id %>" value="<%= ((show_minutes_for(@participant, w.id).thursday.to_i)/10) %>">
+						</div>
+						<div class="col-md-12">
+							<label class="day_label">Write
+								<i>(Simple activities to strengthen hands and understand shapes)</i>
+							</label>
+							<input class="form-control week_input week_<%= w.id %>_input" maxlength="4" id="friday_<%= w.id %>" value="<%= ((show_minutes_for(@participant, w.id).friday.to_i)/10) %>">
+						</div>
+						<div class="col-sm-11" style="margin-top: 10px">
+								<label>Describe your activities this week? <i>(optional)</i></label>
+							 	<textarea class="form-control" rows="5" id="reading_<%= w.id %>"><%= show_items_for(@participant, w.id) %></textarea>
+						</div>
+				</form>
+				<div class="col-sm-2" style="margin-top: 10px">
+					<button type="button" class="btn btn-success btn-large" onclick="update_week(<%= w.id %>)">Update <%= w.name %></button>
+				</div>
+				<div class="col-sm-8"style="margin-top: 10px">
+					<div id="week_<%= w.id %>_success_message">
+					</div>
+					<div id="week_<%= w.id %>_error_message">
+					</div>
 				</div>
 			</div>
-		</div>
-
+		<% end %>
 	<% end %>
 </div>
 
