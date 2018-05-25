@@ -281,6 +281,34 @@ class MainController < ApplicationController
       format.xlsx
     end
   end
+
+  def final_reports
+    @page = false
+    if params[:location] && params[:location] != 'all'
+      @location = params[:location]
+    end
+    if params[:club] && params[:club] != 'all'
+      @club = params[:club]
+    end
+    if !@location && !@club
+      @participants = Participant.all.where(inactive: false).includes(:reports)
+    elsif @location && @club
+      @participants = Participant.all.where(club: @club, home_library: @location, inactive: false).includes(:reports)
+    elsif @location
+      @participants = Participant.all.where(home_library: @location, inactive: false).includes(:reports)
+    elsif @club
+      @participants = Participant.all.where(club: @club, inactive: false).includes(:reports)
+    end
+    @all_partcipants_count = @participants.count 
+    @eligible_participants = @participants.select {|p| p.total_minutes >= 600}
+    @eligible_participants_count = @eligible_participants.count
+    @percent_eligible = ((@eligible_participants_count.to_f / (@all_partcipants_count.to_f)) * 100).round(2).to_s + '%'
+    @random_winner = @eligible_participants.sample
+    respond_to do |format|
+      format.html
+      format.json {render :json => {:random_winner => @random_winner, :percent_eligible =>  @percent_eligible, :all_eligible => @eligible_participants}}
+    end
+  end
   
   private
 

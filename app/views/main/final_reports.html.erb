@@ -1,0 +1,54 @@
+<div class ="row">
+	<h2><b>Final Reporting</b></h2>
+</div>
+<%= render 'participant_filter' %>
+<div class="row">
+	<h3><b>Random Winner
+		<% if @location  %>
+			at <%= @location %>
+		<% end %>
+		<% if @club %>
+			in the <%= @club.capitalize %> club
+		<% end %>
+		:
+	</b></h3>
+	<i> Refresh page to select another random winner. </i>
+</div>
+<% if @random_winner %>
+	<%= render 'participant_details', participant: @random_winner, winner: true, week: nil %>
+<% else %>
+	No participants eligible
+<% end %>
+<div class="row">
+	<h3><b>
+		<%= @eligible_participants.count %> 
+		Participants Reported over 600 minutes 
+		<% if @location  %>
+			at <%= @location %>
+		<% end %>
+		<% if @club %>
+			in the <%= @club.capitalize %> club
+		<% end %>
+	</b></h3>
+</div>
+<div class="row">
+	<div class="col-sm-12">
+		<button type="button" class="btn btn-success btn-large" onclick="download_spreadsheet()">Download Spreadsheet of Eligible Participants</button>
+		<br>
+		<i id="wait_warning" style="display: none">This may take a while...</i>
+	</div>
+</div>
+<script>
+	function update_filter(){
+		var club = $('#club option:selected').val()
+		var location =  $('#home_library option:selected').val()
+		window.location.href= '/final_reports?club=' + club + '&location=' + location
+	}
+	function download_spreadsheet(){
+		var week = $("input[name='week_id']:checked").val()
+		var club = $('#club option:selected').val()
+		var location =  $('#home_library option:selected').val()
+		$('#wait_warning').show()
+		window.location.href = '/weekly_reports.xlsx?club=' + club + '&location=' + location + '&week=' + week
+	}
+</script>

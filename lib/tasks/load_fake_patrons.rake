@@ -101,7 +101,7 @@ task :load_fake_patrons => :environment do
       {value: 'Adult Large', text: 'Adult Large', code: 'Adult Large'},
       {value: 'Adult Extra Large', text: 'Adult Extra Large', code: 'Adult Extra Large'},
     ]
-    i = 1000
+    i = 5000
     @weeks = Week.all
     while i > 0
         @participant = Participant.new
@@ -148,15 +148,15 @@ task :load_fake_patrons => :environment do
                     item.save!
                 end
             else
-                if random == 2
+                if random == (2 || 4)
                     report = Report.new
                     report.participant_id = @participant.id
                     report.week_id = w.id
-                    report.monday = rand(0...4) * 10
-                    report.tuesday = rand(0...4) * 10
-                    report.thursday = rand(0...4) * 10
-                    report.wednesday = rand(0...4) * 10
-                    report.friday = rand(0...4) * 10
+                    report.monday = rand(1...4) * 10
+                    report.tuesday = rand(1...4) * 10
+                    report.thursday = rand(1...4) * 10
+                    report.wednesday = rand(1...4) * 10
+                    report.friday = rand(1...4) * 10
                     report.save!
                     item = Item.new
                     item.name = Faker::Book.title
