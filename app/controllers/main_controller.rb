@@ -219,9 +219,9 @@ class MainController < ApplicationController
   end
 
   def patron_load_report_interface
+    @today = Date.today + 1.month + 5.days
     participant_id = params[:participant_id].to_i
     @participant = match_participant_with_cards(participant_id)
-    @today = Date.today + 1.month
     @weeks = Week.all
     @from_patron = true
     respond_to do |format|
