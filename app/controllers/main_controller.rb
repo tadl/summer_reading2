@@ -12,6 +12,7 @@ class MainController < ApplicationController
   end
 
   def save_new_participant
+    params[:participant][:library_card] = _normalize_card(params[:participant][:library_card])
   	@participant = Participant.new(participant_params)
   	if @participant.valid?
   		@participant.save
@@ -36,7 +37,7 @@ class MainController < ApplicationController
     @participant.phone_number = params[:phone_number]
     @participant.email_address = params[:email_address]
     @participant.home_library = params[:home_library]
-    @participant.library_card =params[:library_card]
+    @participant.library_card = _normalize_card(params[:library_card])
     @participant.club = params[:club]
     @participant.school = params[:school]
     @participant.send_to_school = params[:send_to_school]
@@ -105,7 +106,7 @@ class MainController < ApplicationController
   end
 
   def search_by_card
-  	@query = params[:card]
+    params[:card] = _normalize_card(params[:card])
   	@participants = Participant.search_by_card(search_by_card_params).where.not(inactive: true).page params[:page]
   end
 
@@ -355,4 +356,30 @@ class MainController < ApplicationController
       return false
     end
   end
+
+  def _normalize_card(card_value)
+    # It is entirely possible that this method belongs somewhere else,
+    # with regard to where things "should" go in a Ruby on Rails app
+
+    # accept a value as input which represents a library card number
+    # since the value may be supplied by a barcode scanner, we should attempt to
+    # normalize the value by lowercasing it, stripping trailing characters, etc
+
+    # Strip any whitespace
+    card_value.gsub!(/\s+/, '')
+
+    # Lowercase entire value
+    card_value.downcase!
+
+    # Strip trailing digits if this looks like a scanned drivers license or ID
+    if (card_value.length == 27 or card_value.length == 25)
+      card_value = card_value[0,13].downcase
+    else
+      if (card_value.length == 23) # Older format State ID cards
+        card_value = card_value[0,12].downcase
+      end
+    end
+     return card_value
+  end
+
 end
