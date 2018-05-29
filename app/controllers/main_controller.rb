@@ -327,7 +327,7 @@ class MainController < ApplicationController
 
   def get_cards_from_token()
     token = cookies[:token]
-    url = 'http://cal.lib.tadl.org:4000/login.json?token=' + token
+    url = 'https://catalog.tadl.org/login.json?token=' + token
     response = JSON.parse(open(url).read)
     if response["cards"]
       @participants = Array.new

@@ -120,7 +120,7 @@ task :load_fake_patrons => :environment do
         if @participant.club == 'teens'
             @participant.school = teen_schools.sample[:value]
             send_random = rand(1..4)
-            if send_random = 2
+            if send_random == 2
                 @participant.send_to_school = true
             end
         end
