@@ -111,7 +111,7 @@ class MainController < ApplicationController
   end
 
   def load_report_interface
-    @today = Date.today + 1.month + 5.days
+    @today = Date.today
   	participant_id = params[:participant_id].to_i
   	@participant = Participant.includes(:reports, :items).find(participant_id)
   	@weeks = Week.all
@@ -220,7 +220,7 @@ class MainController < ApplicationController
   end
 
   def patron_load_report_interface
-    @today = Date.today + 1.month + 5.days
+    @today = Date.today
     participant_id = params[:participant_id].to_i
     @participant = match_participant_with_cards(participant_id)
     @weeks = Week.all
