@@ -272,7 +272,7 @@
 			$('#shirt_size_label').css('color', 'red')
 		}
 		
-		if(((club == 'teens' && school_type != 'college' )&&(club == 'teens' && school_type != 'none'))|| (club == 'readers' && school_type != 'pre-school')){
+		if(((club == 'teens' && school_type != 'college' )&&(club == 'teens' && school_type != 'none'))|| ((club == 'readers' && school_type != 'none')&&(club == 'readers' && school_type != 'pre-school'))){
 			if(typeof school_type == 'undefined'){
 				missing_required = true
 				$('#school_type').css('color', 'red')
