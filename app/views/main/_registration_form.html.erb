@@ -165,7 +165,7 @@
 <div id="confirmation" style="display:none">
 	<div class="row">
 		<h3>You Have Successfully Registered <span id="register_name"></span> for Summer Reading Club!</h3>
-		<p>Please be sure to stop by your home library to pick up your t-shirt.</p>
+		<p>Please be sure to stop by your home library to pick up your t-shirt and to learn more about Summer Reading club programming.</p>
 	</div>
 	<div class="row">
 		<button class="btn btn-primary btn-success" onclick="register_another()">
@@ -272,7 +272,7 @@
 			$('#shirt_size_label').css('color', 'red')
 		}
 		
-		if(club == 'teens' || (club == 'readers' && school_type != 'pre-school')){
+		if(((club == 'teens' && school_type != 'college' )&&(club == 'teens' && school_type != 'none'))|| (club == 'readers' && school_type != 'pre-school')){
 			if(typeof school_type == 'undefined'){
 				missing_required = true
 				$('#school_type').css('color', 'red')
