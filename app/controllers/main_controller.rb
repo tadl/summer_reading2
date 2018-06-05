@@ -1,7 +1,7 @@
 class MainController < ApplicationController
 	before_filter :shared_variables
   before_filter :set_cache_buster
-  before_action :authenticate_user!, :except => [:index, :register_participant, :patron_check_for_participants, :patron_show_participants, :patron_load_report_interface, :record_minutes, :patron_register_participant, :save_new_participant]
+  before_action :authenticate_user!, :except => [:index, :register_participant, :patron_check_for_participants, :patron_show_participants, :patron_load_report_interface, :record_minutes, :patron_register_participant, :save_new_participant, :shirt_stats]
   after_action :allow_iframe, :only => [:patron_show_participants, :patron_load_report_interface, :record_minutes, :patron_register_participant]
   respond_to :html, :json, :js
 
