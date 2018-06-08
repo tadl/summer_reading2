@@ -70,8 +70,7 @@ class ApplicationController < ActionController::Base
   		{ text: 'Grand Traverse Academy' , value:'Grand Traverse Academy'}, 
   		{ text: 'Other' , value:'Other'}, 
   		{ text: 'Home School', value:'Home School'}, 
-  		{ text: 'Buckley Comm. Schools', value:'Buckley Comm. Schools'}, 
-  		{ text: 'Traverse City Christian School' , value:'Traverse City Christian School'}
+  		{ text: 'Buckley Comm. Schools', value:'Buckley Comm. Schools'}
   	].sort_by!{ |e| e[:text].downcase }
     @teen_schools = teen_schools.unshift({value: '', text: 'Select School'})
     youth_schools = [
