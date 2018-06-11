@@ -1,0 +1,57 @@
+<div class ="row">
+	<h2><b>Leader Board</b></h2>
+</div>
+<%= render 'participant_filter' %>
+<div class ="row">
+	<% @weeks.each do |w| %>
+		<div class="col-sm-4" id="elementary_school_radio">
+			<label class="radio-inline">
+		  		<input type="radio" class="week_selector" name="week_id" value="<%= w.id %>" onchange="update_filter()" <% if w.id == @week.to_i %>checked<% end %>><b><%= w.name %></b> - <i>(<%= w.start_date.strftime('%b %e') %> - <%= w.end_date.strftime('%b %e') %>)</i>
+			</label>
+		</div>
+	<% end %> 
+</div>
+<div class ="row">
+	<ol>
+		<% @participants.each do |p| %>
+			<li>
+				<h3><b><%= p.full_name %></b></h3>
+				<b>Total Minutes:</b> <%= p.total_minutes %>
+				<br>
+				<% if @week %>
+					<b>Minutes for Week <%= @week %>:</b> <%= p.weekly_minutes(@week) %>
+				<% end %>
+				<div class="row">
+					<div class="col-sm-2">
+						<b>Club:</b> <%= p.club.capitalize! %>
+					</div>
+					<div class="col-sm-3">
+						<b>Home Library:</b> <%= p.home_library %>
+					</div>
+					<div class="col-sm-3">
+						<b>Phone #:</b> <%= p.phone_number %>
+					</div>
+				</div>
+				<br>
+				<div class="row">
+					<% if p.email_address %>
+						<div class="col-sm-4">
+							<b>Email:</b> <%= p.email_address %>
+						</div>
+					<% end %>
+					<% if p.library_card %>
+						<div class="col-sm-4">
+							<b>Library Card:</b> <%= p.library_card %>
+						</div>
+					<% end %>
+					<% if p.school != '' %>
+						<div class="col-sm-4">
+							<b>School:</b> <%= p.school %>
+						</div>
+					<% end %>
+				</div>
+			</li>
+			<br>
+		<% end %>
+	</ol>
+</div>

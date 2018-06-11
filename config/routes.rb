@@ -24,6 +24,7 @@ Rails.application.routes.draw do
   match 'shirt_stats', to: 'main#shirt_stats', as: 'shirt_stats', via:[:get, :post]
   match 'weekly_reports', to: 'main#weekly_reports', as: 'weekly_reports', via:[:get, :post]
   match 'final_reports', to: 'main#final_reports', as: 'final_reports', via:[:get, :post]
+  match 'leaders', to: 'main#leaders', as: 'leaders', via:[:get, :post]
   match 'patron_check_for_participants', to: 'main#patron_check_for_participants', as: 'check_for_participants', via: [:get, :post]
   match 'patron_show_participants', to: 'main#patron_show_participants', as: 'patron_show_participants', via: [:get, :post]
   match 'patron_load_report_interface', to: 'main#patron_load_report_interface', as: 'patron_load_report_interface', via:[:get, :post]

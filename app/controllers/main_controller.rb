@@ -310,6 +310,48 @@ class MainController < ApplicationController
       format.json {render :json => {:random_winner => @random_winner, :percent_eligible =>  @percent_eligible, :all_eligible => @eligible_participants}}
     end
   end
+
+  def leaders
+    @page = false
+    @weeks = Week.all
+    if params[:location] && params[:location] != 'all'
+      @location = params[:location]
+    end
+    if params[:club] && params[:club] != 'all'
+      @club = params[:club]
+    end
+    if !@location && !@club
+      @participants = Participant.all.where(inactive: false).includes(:reports)
+    elsif @location && @club
+      @participants = Participant.all.where(club: @club, home_library: @location, inactive: false).includes(:reports)
+    elsif @location
+      @participants = Participant.all.where(home_library: @location, inactive: false).includes(:reports)
+    elsif @club
+      @participants = Participant.all.where(club: @club, inactive: false).includes(:reports)
+    end
+    if params[:week]
+      @week = params[:week]
+      @participants = @participants.sort_by {|p| p.weekly_minutes(@week)}
+      # Start goofiness to add weekly_minutes to participants hash
+      participants_array = Array.new
+      @participants.reverse.first(10).each do |p|
+        p_hash = p.as_json
+        p_hash['weekly_minutes'] = p.weekly_minutes(@week)
+        participants_array.push(p_hash)
+      end
+      @participants = @participants.reverse.first(10)
+      @participant_json = participants_array.to_json
+      #end goofiness
+    else
+      @participants = @participants.sort_by {|p| p.total_minutes}
+      @participants = @participants.reverse.first(10)
+      @participants_json = @participants.to_json({:methods => :total_minutes})
+    end
+    respond_to do |format|
+      format.html
+      format.json {render :json => @participants_json }
+    end  
+  end
   
   private
 
