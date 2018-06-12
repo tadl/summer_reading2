@@ -334,17 +334,17 @@ class MainController < ApplicationController
       @participants = @participants.sort_by {|p| p.weekly_minutes(@week)}
       # Start goofiness to add weekly_minutes to participants hash
       participants_array = Array.new
-      @participants.reverse.first(10).each do |p|
+      @participants.reverse.first(15).each do |p|
         p_hash = p.as_json
         p_hash['weekly_minutes'] = p.weekly_minutes(@week)
         participants_array.push(p_hash)
       end
-      @participants = @participants.reverse.first(10)
+      @participants = @participants.reverse.first(15)
       @participant_json = participants_array.to_json
       #end goofiness
     else
       @participants = @participants.sort_by {|p| p.total_minutes}
-      @participants = @participants.reverse.first(10)
+      @participants = @participants.reverse.first(15)
       @participants_json = @participants.to_json({:methods => :total_minutes})
     end
     respond_to do |format|

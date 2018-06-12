@@ -4,54 +4,90 @@
 <%= render 'participant_filter' %>
 <div class ="row">
 	<% @weeks.each do |w| %>
-		<div class="col-sm-4" id="elementary_school_radio">
+		<div class="col-sm-4" id="week_radio">
 			<label class="radio-inline">
 		  		<input type="radio" class="week_selector" name="week_id" value="<%= w.id %>" onchange="update_filter()" <% if w.id == @week.to_i %>checked<% end %>><b><%= w.name %></b> - <i>(<%= w.start_date.strftime('%b %e') %> - <%= w.end_date.strftime('%b %e') %>)</i>
 			</label>
 		</div>
 	<% end %> 
+	<div class="col-sm-4" id="overall_radio">
+		<label class="radio-inline">
+		  	<input type="radio" class="week_selector" name="week_id" value="overall" onchange="update_filter()" <% if !@week %>checked<% end %>><b>Overall</b></i>
+		</label>
+	</div>
 </div>
-<div class ="row">
+<div class="row">
+	<h3>
+		Showing the Top Participants
+		<% if @week %>
+			for Week Number <%= @week %>
+		<% else %>
+			Overall
+		<% end %>
+			in
+		<% if @club %>
+			the <%= @club.capitalize! %> Club
+		<% else %>
+			all Clubs
+		<% end %>
+			at
+		<% if @location %>
+			<%= @location %>
+		<% else %>
+			All Locations
+		<% end %>
+	</h3>
+</div>
+<div class="row">
 	<ol>
 		<% @participants.each do |p| %>
 			<li>
 				<h3><b><%= p.full_name %></b></h3>
-				<b>Total Minutes:</b> <%= p.total_minutes %>
-				<br>
 				<% if @week %>
-					<b>Minutes for Week <%= @week %>:</b> <%= p.weekly_minutes(@week) %>
+					<% if p.club == "pre-readers" %>
+						<b>Activities for Week <%= @week %>:</b>
+						<%= p.weekly_minutes(@week).to_i / 10  %>
+					<% else %>
+						<b>Minutes for Week <%= @week %>:</b>
+						<%= p.weekly_minutes(@week) %>
+					<% end %>
+					<br>
 				<% end %>
-				<div class="row">
-					<div class="col-sm-2">
-						<b>Club:</b> <%= p.club.capitalize! %>
-					</div>
-					<div class="col-sm-3">
-						<b>Home Library:</b> <%= p.home_library %>
-					</div>
-					<div class="col-sm-3">
-						<b>Phone #:</b> <%= p.phone_number %>
-					</div>
-				</div>
+				<% if p.club == "pre-readers" %>
+					<b>Total Activities:</b> <%= p.total_minutes.to_i / 10 %>
+				<% else %>
+					<b>Total Minutes:</b> <%= p.total_minutes %>
+				<% end %>
 				<br>
-				<div class="row">
-					<% if p.email_address %>
-						<div class="col-sm-4">
-							<b>Email:</b> <%= p.email_address %>
-						</div>
+				<% if p.club == "pre-readers" %>
+					<b>Activity Details:</b>
+				<% else %>
+					<b>Read:</b>
+				<% end %>
+				<% if @week %>
+					<% p.items.where(:week_id => @week).each do |i| %>
+						<%= i.name %>,
 					<% end %>
-					<% if p.library_card %>
-						<div class="col-sm-4">
-							<b>Library Card:</b> <%= p.library_card %>
-						</div>
+				<% else %>
+					<% p.items.each do |i| %>
+						<% if i.name != '' %>
+							<%= i.name %>,
+						<% end %>
 					<% end %>
-					<% if p.school != '' %>
-						<div class="col-sm-4">
-							<b>School:</b> <%= p.school %>
-						</div>
-					<% end %>
-				</div>
+				<% end %>
 			</li>
-			<br>
 		<% end %>
 	</ol>
 </div>
+<script>
+	function update_filter(){
+		var week = $("input[name='week_id']:checked").val()
+		var club = $('#club option:selected').val()
+		var location =  $('#home_library option:selected').val()
+		var url = '/leaders?club=' + club + '&location=' + location
+		if(week != 'overall'){
+			url += '&week=' + week
+		} 
+		window.location.href = url 
+	}
+</script>
