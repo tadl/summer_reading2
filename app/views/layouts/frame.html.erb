@@ -6,10 +6,19 @@
   <%= stylesheet_link_tag    'application', media: 'all' %>
   <%= javascript_include_tag 'application' %>
   <%= csrf_meta_tags %>
-</head>
 <body data-no-turbolink="true">
 	<div id="main-container" class="container" style="margin-top: 10px">
 		<%= yield %>
 	</div>
+<script>
+	window.onmousemove = send_message; // catches mouse movements
+	window.onmousedown = send_message; // catches mouse movements
+	window.onscroll = send_message;    // catches scrolling
+	window.onclick = send_message;     // catches mouse clicks
+	window.onkeypress = send_message;  //catches keyboard actions
+	function send_message(){
+		window.parent.postMessage('activity detected', '*')
+	} 
+</script>
 </body>
 </html>
