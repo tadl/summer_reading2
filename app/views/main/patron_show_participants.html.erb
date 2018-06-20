@@ -1,8 +1,15 @@
-<% if @participants %>
+<% if @participants.length != 0 %>
 	<h3>Select Summmer Reading Participant:</h3>
 	<% @participants.each do |p| %>
 		<h4><a href="/patron_load_report_interface.html?participant_id=<%= p.id %>"><%= p.full_name %></a> - <i> <%= p.club.capitalize %> </i> </h4>
 	<% end %>
 <% else %>
 	<h3>No Summer Reading club participants are registered under this account.</h3>
+	<P>Please <a onclick="send_registration_message()">register for Summer Reading Club</a> or if you have already done so, contact your local library for further assistance</p>
 <% end %>
+
+<script>
+	function send_registration_message(){
+		window.parent.postMessage('show register', '*')
+	}
+</script>
