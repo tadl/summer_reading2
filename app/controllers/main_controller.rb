@@ -97,7 +97,13 @@ class MainController < ApplicationController
   	end	
   	@count = @participants.count
     @total_minutes = @participants.all.joins(:reports).pluck(:monday, :tuesday, :wednesday, :thursday, :friday, :saturday, :sunday, :grand_prize_monday).map(&:compact).map(&:sum).sum
+    # @participants_unpaged is for exporting all patricipants for xlsx view where paging isnt a thing
+    @participants_unpaged = @participants
     @participants = @participants.order('updated_at DESC').page params[:page]
+    respond_to do |format|
+      format.html
+      format.xlsx
+    end
   end
 
   def search_by_name

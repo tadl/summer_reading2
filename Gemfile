@@ -25,7 +25,7 @@ gem 'will_paginate', '~> 3.1.0'
 gem 'fancybox2-rails', '~> 0.2.8'
 gem 'wannabe_bool'
 gem 'faker'
-gem 'axlsx', '2.1.0.pre'
+gem 'axlsx'
 gem 'axlsx_rails'
 
 

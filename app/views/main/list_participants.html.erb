@@ -19,11 +19,27 @@
 <% if @inactive != 'true' %>
 	<%= render 'participant_filter' %>
 <% end %>
+<div class="row">
+	<div class="col-sm-12">
+		<button type="button" class="btn btn-success btn-large" onclick="download_spreadsheet()">Download Spreadsheet As Spreadsheet</button>
+		<br>
+		<i id="wait_warning" style="display: none">This may take a while...</i>
+	</div>
+</div>
 <%= render 'participant_list', week: false, winner: false %>
 <script>
 	function update_filter(){
 		var club = $('#club option:selected').val()
 		var location =  $('#home_library option:selected').val()
 		window.location.href= '/list_participants?club=' + club + '&location=' + location
+	}
+
+	function download_spreadsheet(){
+		var club = $('#club option:selected').val()
+		var location =  $('#home_library option:selected').val()
+		$('#wait_warning').show()
+		window.location.href = '/list_participants.xlsx?club=' + club + '&location=' + location
+		setTimeout(function(){$('#wait_warning').hide()}, 5000);
+
 	}
 </script>
