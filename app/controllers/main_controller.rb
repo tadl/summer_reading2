@@ -249,10 +249,13 @@ class MainController < ApplicationController
   def shirt_stats
     @stats = Hash.new
     @participants = Participant.all.where(inactive: false)
-    @shirt_sizes_raw.each do |s|
-      @stats[s[:text]] = @participants.where(shirt_size: s[:value]).count
+    @home_libraries.drop(1).each do |l|
+      @shirt_sizes_raw.reverse.drop(1).each do |s|
+        @stats[s[:text] + ' requested at ' + l[:text]] = @participants.where(shirt_size: s[:value]).count.to_s + ' requested and ' + @participants.where(shirt_size: s[:value], got_shirt: false).count.to_s + ' not picked up'
+      end
     end
     respond_to do |format|
+      format.html
       format.json {render :json => @stats}
     end
   end
