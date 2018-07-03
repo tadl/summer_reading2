@@ -251,7 +251,7 @@ class MainController < ApplicationController
     @participants = Participant.all.where(inactive: false)
     @home_libraries.drop(1).each do |l|
       @shirt_sizes_raw.reverse.drop(1).each do |s|
-        @stats[s[:text] + ' requested at ' + l[:text]] = @participants.where(shirt_size: s[:value]).count.to_s + ' requested and ' + @participants.where(shirt_size: s[:value], got_shirt: false).count.to_s + ' not picked up'
+        @stats[s[:text] + ' requested at ' + l[:text]] = @participants.where(shirt_size: s[:value], home_library: l[:value]).count.to_s + ' requested and ' + @participants.where(shirt_size: s[:value], home_library: l[:value], got_shirt: false).count.to_s + ' not picked up'
       end
     end
     respond_to do |format|
