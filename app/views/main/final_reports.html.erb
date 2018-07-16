@@ -45,10 +45,9 @@
 		window.location.href= '/final_reports?club=' + club + '&location=' + location
 	}
 	function download_spreadsheet(){
-		var week = $("input[name='week_id']:checked").val()
 		var club = $('#club option:selected').val()
 		var location =  $('#home_library option:selected').val()
 		$('#wait_warning').show()
-		window.location.href = '/weekly_reports.xlsx?club=' + club + '&location=' + location + '&week=' + week
+		window.location.href = '/final_reports.xlsx?club=' + club + '&location=' + location
 	}
 </script>

@@ -317,6 +317,7 @@ class MainController < ApplicationController
     respond_to do |format|
       format.html
       format.json {render :json => {:random_winner => @random_winner, :percent_eligible =>  @percent_eligible, :all_eligible => @eligible_participants}}
+      format.xlsx
     end
   end
 
