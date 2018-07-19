@@ -300,7 +300,13 @@ class MainController < ApplicationController
     if params[:club] && params[:club] != 'all'
       @club = params[:club]
     end
-    if !@location && !@club
+    if @location == 'East Bay and Woodmere'
+      if @club
+        @participants = Participant.all.where(club: @club, home_library: ['East Bay', 'Woodmere'], inactive: false).includes(:reports)
+      else
+        @participants = Participant.all.where(home_library: ['East Bay', 'Woodmere'], inactive: false).includes(:reports)
+      end
+    elsif !@location && !@club
       @participants = Participant.all.where(inactive: false).includes(:reports)
     elsif @location && @club
       @participants = Participant.all.where(club: @club, home_library: @location, inactive: false).includes(:reports)
@@ -308,7 +314,8 @@ class MainController < ApplicationController
       @participants = Participant.all.where(home_library: @location, inactive: false).includes(:reports)
     elsif @club
       @participants = Participant.all.where(club: @club, inactive: false).includes(:reports)
-    end
+    end          
+    @home_libraries_filter = @home_libraries_filter.push({value: 'East Bay and Woodmere', text: 'East Bay and Woodmere', code: '42'})
     @all_partcipants_count = @participants.count 
     @eligible_participants = @participants.select {|p| p.total_minutes >= 600}
     @eligible_participants_count = @eligible_participants.count
