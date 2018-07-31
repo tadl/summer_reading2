@@ -1,7 +1,7 @@
 wb = xlsx_package.workbook
 wb.add_worksheet(name: "Products") do |sheet|
-  	sheet.add_row ['Name', 'Club','Home Library', 'Total Minutes', 'Email', 'Phone #', 'Library Card', 'School']
+  	sheet.add_row ['Name', 'Club','Home Library', 'Total Minutes', 'Email', 'Phone #', 'Library Card', 'School','Got Shirt']
   @participants_unpaged.each do |p|
-    sheet.add_row [p.full_name, p.club, p.home_library, p.total_minutes, p.email_address, p.phone_number, p.library_card, p.school]
+    sheet.add_row [p.full_name, p.club, p.home_library, p.total_minutes, p.email_address, p.phone_number, p.library_card, p.school, p.got_shirt]
   end
 end
