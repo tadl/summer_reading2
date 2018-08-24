@@ -328,6 +328,14 @@ class MainController < ApplicationController
     end
   end
 
+  def send_to_school_report
+    @participants = Participant.all.where(inactive: false, send_to_school: true).includes(:reports)
+    respond_to do |format|
+      format.json {render :json => @participants}
+      format.xlsx
+    end
+  end
+
   def leaders
     @page = false
     @weeks = Week.all
