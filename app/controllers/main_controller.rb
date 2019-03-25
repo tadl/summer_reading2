@@ -123,6 +123,7 @@ class MainController < ApplicationController
   	@weeks = Week.all
     @from_patron = false
   	respond_to do |format|
+      format.json {render :json => {:participant => @participant, :reports => @participant.reports, :items => @participant.items, :weeks=> @weeks}}
   		format.js
   	end
   end
@@ -171,6 +172,7 @@ class MainController < ApplicationController
       @participant = Participant.find(params[:participant_id])
     end
     respond_to do |format|
+      format.json {render :json => {:success => @okay_to_save}}
       format.js
     end
   end
