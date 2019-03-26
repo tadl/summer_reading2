@@ -1,7 +1,8 @@
 source 'https://rubygems.org'
 ruby '2.4.3'
 
-gem 'rails', '4.2.10'
+gem 'rails', '4.2.11.1'
+gem 'actionview', '>= 4.2.11.1'
 gem 'railties'
 gem 'responders', '~> 2.0'
 gem 'pg', "~> 0.21"
@@ -16,7 +17,7 @@ gem 'rails_12factor', group: :production
 
 gem 'omniauth'
 gem 'omniauth-google-oauth2'
-gem 'bootstrap-sass', '~> 3.3.5'
+gem 'bootstrap-sass', '~> 3.4.1'
 gem 'jquery-rails'
 gem 'unicorn', group: :production
 gem 'dotenv-rails', :groups => [:development, :test]
@@ -25,9 +26,8 @@ gem 'will_paginate', '~> 3.1.0'
 gem 'fancybox2-rails', '~> 0.2.8'
 gem 'wannabe_bool'
 gem 'faker'
-gem 'axlsx'
+gem 'axlsx', git: 'https://github.com/randym/axlsx.git', ref: 'c8ac844'
 gem 'axlsx_rails'
-
 
 # Include if you need background jobs and/or caching
 # gem 'sidekiq', '4.1.0'

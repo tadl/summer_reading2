@@ -1,3 +1,5 @@
+require 'axlsx'
+
 wb = xlsx_package.workbook
 wb.add_worksheet(name: "Products") do |sheet|
   	sheet.add_row ['Name', 'Club','Home Library', 'Total Minutes', 'Email', 'Phone #', 'Library Card', 'School','Got Shirt']
