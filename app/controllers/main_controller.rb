@@ -21,7 +21,7 @@ class MainController < ApplicationController
   		@message = 'fail'
   	end
   	respond_to do |format|
-  		format.json {render :json => {:message => @message}}
+  		format.json {render :json => {:message => @message, :participant   => @participant}}
   	end
   end
 
@@ -216,8 +216,9 @@ class MainController < ApplicationController
     if params[:token]
       cookies[:token] = params[:token]
     end
-    if cookies[:token]
-      @participants = get_cards_from_token()
+    if cookies[:token] || params[:token]
+      token = cookies[:token] || params[:token]
+      @participants = get_cards_from_token(token)
     else
       @participants = []
     end
@@ -230,10 +231,12 @@ class MainController < ApplicationController
   def patron_load_report_interface
     @today = Date.today
     participant_id = params[:participant_id].to_i
-    @participant = match_participant_with_cards(participant_id)
+    token = cookies[:token] || params[:token]
+    @participant = match_participant_with_cards(participant_id, token)
     @weeks = Week.all
     @from_patron = true
     respond_to do |format|
+      format.json {render :json => {:participant => @participant, :reports => @participant.reports, :items => @participant.items, :weeks=> @weeks}}
       format.html {render :layout => "frame"}
     end
   end
@@ -394,8 +397,7 @@ class MainController < ApplicationController
 		params.require(:card)
 	end
 
-  def get_cards_from_token()
-    token = cookies[:token]
+  def get_cards_from_token(token)
     url = 'https://catalog.tadl.org/login.json?token=' + token
     response = JSON.parse(open(url).read)
     if response["cards"]
@@ -412,8 +414,8 @@ class MainController < ApplicationController
     return @participants
   end
 
-  def match_participant_with_cards(participant_id)
-    @participants = get_cards_from_token()
+  def match_participant_with_cards(participant_id, token)
+    @participants = get_cards_from_token(token)
     @participants.each do |p|
       if p.id == participant_id
         @participant = p
