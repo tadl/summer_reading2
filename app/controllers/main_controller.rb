@@ -12,6 +12,10 @@ class MainController < ApplicationController
   end
 
   def save_new_participant
+    if params[:v] == '5'
+      params[:participant] = params
+      puts "got hereeeeee"
+    end
     params[:participant][:library_card] = _normalize_card(params[:participant][:library_card])
   	@participant = Participant.new(participant_params)
   	if @participant.valid?
@@ -224,7 +228,7 @@ class MainController < ApplicationController
     end
     respond_to do |format|
       format.html {render :layout => "frame"}
-      format.json {render :json => {:participants => @participants}}
+      format.json {render :json => {:participants => @participants, :teen_schools => @teen_schools, :youth_schools => @youth_schools}}
     end
   end
 
