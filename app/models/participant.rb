@@ -31,6 +31,11 @@ class Participant < ActiveRecord::Base
 		return minutes
 	end
 
+  def as_json(options={})
+    options[:methods] = [:total_minutes]
+    super
+  end
+
 	def pre_reader_total_activities
 		minutes = 0
 		self.reports.each do |r|

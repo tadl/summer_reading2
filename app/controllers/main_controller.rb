@@ -137,17 +137,12 @@ class MainController < ApplicationController
     @week = Week.find(params[:week_id])
     @from_patron = params[:from_patron]
     if current_user
-      puts "not a current user"
       @okay_to_save = true
     elsif params[:from_patron]
-      puts 'from patron true'
       participant_id = params[:participant_id].to_i
       if params[:token] 
-        puts 'I same a token'
         if match_participant_with_cards(participant_id, params[:token]) != false
           @okay_to_save = true
-        else
-          puts "I failed hereeee"
         end
       else
         if match_participant_with_cards(participant_id) != false
@@ -251,7 +246,7 @@ class MainController < ApplicationController
     @weeks = Week.all
     @from_patron = true
     respond_to do |format|
-      format.json {render :json => {:participant => @participant, :total_minutes=> @participant.total_minutes, :reports => @participant.reports, :items => @participant.items, :weeks=> @weeks}}
+      format.json {render :json => {:participant => @participant, :reports => @participant.reports, :items => @participant.items, :weeks=> @weeks}}
       format.html {render :layout => "frame"}
     end
   end
