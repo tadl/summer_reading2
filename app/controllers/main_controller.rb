@@ -137,11 +137,22 @@ class MainController < ApplicationController
     @week = Week.find(params[:week_id])
     @from_patron = params[:from_patron]
     if current_user
+      puts "not a current user"
       @okay_to_save = true
     elsif params[:from_patron]
-      participant_id = params[:participant_id].to_i 
-      if match_participant_with_cards(participant_id) != false
-       @okay_to_save = true
+      puts 'from patron true'
+      participant_id = params[:participant_id].to_i
+      if params[:token] 
+        puts 'I same a token'
+        if match_participant_with_cards(participant_id, params[:token]) != false
+          @okay_to_save = true
+        else
+          puts "I failed hereeee"
+        end
+      else
+        if match_participant_with_cards(participant_id) != false
+          @okay_to_save = true
+        end
       end
     end
     if @okay_to_save == true
