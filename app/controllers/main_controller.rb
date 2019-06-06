@@ -240,7 +240,7 @@ class MainController < ApplicationController
     @weeks = Week.all
     @from_patron = true
     respond_to do |format|
-      format.json {render :json => {:participant => @participant, :reports => @participant.reports, :items => @participant.items, :weeks=> @weeks}}
+      format.json {render :json => {:participant => @participant, :total_minutes=> @participant.total_minutes, :reports => @participant.reports, :items => @participant.items, :weeks=> @weeks}}
       format.html {render :layout => "frame"}
     end
   end
