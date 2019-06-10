@@ -6,7 +6,7 @@
 	<% @weeks.each do |w| %>
 		<div class="col-sm-4" id="week_radio">
 			<label class="radio-inline">
-		  		<input type="radio" class="week_selector" name="week_id" value="<%= w.id %>" onchange="update_filter()" <% if w.id == @week.to_i %>checked<% end %>><b><%= w.name %></b> - <i>(<%= w.start_date.strftime('%b %e') %> - <%= w.end_date.strftime('%b %e') %>)</i>
+		  		<input type="radio" class="week_selector" name="week_id" value="<%= w.id %>" onchange="update_filter()"<% if @week %><% if w.id == @week.id %>checked<% end %><% end %>><b><%= w.name %></b> - <i>(<%= w.start_date.strftime('%b %e') %> - <%= w.end_date.strftime('%b %e') %>)</i>
 			</label>
 		</div>
 	<% end %> 
@@ -20,7 +20,7 @@
 	<h3>
 		Showing the Top Participants
 		<% if @week %>
-			for Week Number <%= @week %>
+			for <%= @week.name %>
 		<% else %>
 			Overall
 		<% end %>
@@ -44,26 +44,13 @@
 			<li>
 				<h3><b><%= p.full_name %></b></h3>
 				<% if @week %>
-					<% if p.club == "pre-readers" %>
-						<b>Activities for Week <%= @week %>:</b>
-						<%= p.weekly_minutes(@week).to_i / 10  %>
-					<% else %>
-						<b>Minutes for Week <%= @week %>:</b>
-						<%= p.weekly_minutes(@week) %>
-					<% end %>
+					<b>Minutes for Week <%= @week %>:</b>
+					<%= p.weekly_minutes(@week.id) %>
 					<br>
 				<% end %>
-				<% if p.club == "pre-readers" %>
-					<b>Total Activities:</b> <%= p.total_minutes.to_i / 10 %>
-				<% else %>
-					<b>Total Minutes:</b> <%= p.total_minutes %>
-				<% end %>
+				<b>Total Minutes:</b> <%= p.total_minutes %>
 				<br>
-				<% if p.club == "pre-readers" %>
-					<b>Activity Details:</b>
-				<% else %>
-					<b>Read:</b>
-				<% end %>
+				<b>Read:</b>
 				<% if @week %>
 					<% p.items.where(:week_id => @week).each do |i| %>
 						<%= i.name %>,

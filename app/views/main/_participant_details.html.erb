@@ -2,11 +2,7 @@
 	<div class="col-xs-12">
 		<h3><b><%= participant.first_name %> <%= participant.middle_name %> <%= participant.last_name %></b>
 	    <% if week %>
-	    	<% if participant.club != 'pre-readers' %>
-	    		<%= participant.weekly_minutes(week) %> minutes reported for Week <%= week %>
-	    	<% else %>
-	    		<%= (participant.weekly_minutes(week)).to_i / 10 %> activities reported for Week <%= week %>
-	    	<% end %>
+	    	<%= participant.weekly_minutes(week.id) %> minutes reported for <%= week.name %>
 	    <% end %>
 		</h3>
 		<div class="row">

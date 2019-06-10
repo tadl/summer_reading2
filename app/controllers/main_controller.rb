@@ -278,9 +278,12 @@ class MainController < ApplicationController
   def weekly_reports
     @weeks = Week.all
     if params[:week]
-      @week = params[:week]
+      @week = Week.find(params[:week])
     else
-      @week = '1'
+      @week = Week.where("start_date <= ? AND end_date >= ?", Date.today.to_date, Date.today.to_date).first
+      if @week.nil?
+        @week = Week.last
+      end 
     end
     @page = false
     if params[:location] && params[:location] != 'all'
@@ -298,7 +301,7 @@ class MainController < ApplicationController
     elsif @club
       @participants = Participant.all.where(club: @club, inactive: false)
     end 
-    @participants = @participants.joins(:reports).where('week_id = ?', @week).where.not("grand_prize_monday = ? AND monday = ? AND tuesday = ? AND wednesday = ? AND thursday = ? AND friday = ? AND saturday = ? AND sunday = ?", 0,0,0,0,0,0,0,0 )
+    @participants = @participants.joins(:reports).where('week_id = ?', @week.id).where.not("grand_prize_monday = ? AND monday = ? AND tuesday = ? AND wednesday = ? AND thursday = ? AND friday = ? AND saturday = ? AND sunday = ?", 0,0,0,0,0,0,0,0 )
     @random_winner = @participants.sample
     respond_to do |format|
       format.html
@@ -370,13 +373,13 @@ class MainController < ApplicationController
       @participants = Participant.all.where(club: @club, inactive: false).includes(:reports)
     end
     if params[:week]
-      @week = params[:week]
-      @participants = @participants.sort_by {|p| p.weekly_minutes(@week)}
+      @week = Week.find(params[:week])
+      @participants = @participants.sort_by {|p| p.weekly_minutes(@week.id)}
       # Start goofiness to add weekly_minutes to participants hash
       participants_array = Array.new
       @participants.reverse.first(15).each do |p|
         p_hash = p.as_json
-        p_hash['weekly_minutes'] = p.weekly_minutes(@week)
+        p_hash['weekly_minutes'] = p.weekly_minutes(@week.id)
         participants_array.push(p_hash)
       end
       @participants = @participants.reverse.first(15)

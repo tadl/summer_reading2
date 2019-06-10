@@ -6,13 +6,13 @@
 	<% @weeks.each do |w| %>
 		<div class="col-sm-4" id="elementary_school_radio">
 			<label class="radio-inline">
-		  		<input type="radio" class="week_selector" name="week_id" value="<%= w.id %>" onchange="update_filter()" <% if w.id == @week.to_i %>checked<% end %>><b><%= w.name %></b> - <i>(<%= w.start_date.strftime('%b %e') %> - <%= w.end_date.strftime('%b %e') %>)</i>
+		  		<input type="radio" class="week_selector" name="week_id" value="<%= w.id %>" onchange="update_filter()" <% if w.id == @week.id %>checked<% end %>><b><%= w.name %></b> - <i>(<%= w.start_date.strftime('%b %e') %> - <%= w.end_date.strftime('%b %e') %>)</i>
 			</label>
 		</div>
 	<% end %> 
 </div>
 <div class="row">
-	<h3><b>Random Winner for Week <%= @week %>
+	<h3><b>Random Winner for <%= @week.name %>
 		<% if @location  %>
 			at <%= @location %>
 		<% end %>
@@ -31,13 +31,7 @@
 <div class="row">
 	<h3><b>
 		<%= @participants.count %> 
-		Participants Reported 
-		<% if @club != "pre-readers" %>
-			Minutes 
-		<% else %>
-			Activities
-		<% end %>
-		During Week <%= @week %>
+		Participants Reported MinutesDuring <%= @week.name %>
 		<% if @location  %>
 			at <%= @location %>
 		<% end %>

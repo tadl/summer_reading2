@@ -1,9 +1,5 @@
 var content = "<div class='container' style='overflow-x: hidden; width: 90%'>"
-<% if @participant.club != 'pre-readers' %>
-	content += "<%= escape_javascript(render 'report_interface', :locals => {:participant => @participant, :weeks => @weeks, :from_patron => @from_patron}) %>"
-<% else %>
-	content += "<%= escape_javascript(render 'pre_reader_report_interface', :locals => {:participant => @participant, :weeks => @weeks, :from_patron => @from_patron}) %>"
-<% end %>
+content += "<%= escape_javascript(render 'report_interface', :locals => {:participant => @participant, :weeks => @weeks, :from_patron => @from_patron}) %>"
 content +="</div>"
 $.fancybox.open({ 
     'overlayOpacity': 0.1,

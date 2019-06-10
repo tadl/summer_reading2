@@ -1,11 +1,6 @@
 <% if @okay_to_save == true %>
-	<% if @participant.club != 'pre-readers' %>
-		$('#week_<%= @week.id %>_success_message').html('<span style="color:green">Success: Your minutes for <%= @week.name %> have been updated!</span')
-		$('#total_minutes').html('<%= @participant.total_minutes %>')
-	<% else %>
-		$('#week_<%= @week.id %>_success_message').html('<span style="color:green">Success: Your activities for <%= @week.name %> have been updated!</span')
-		$('#total_minutes').html('<%= @participant.pre_reader_total_activities %>')
-	<% end %>
+	$('#week_<%= @week.id %>_success_message').html('<span style="color:green">Success: Your minutes for <%= @week.name %> have been updated!</span')
+	$('#total_minutes').html('<%= @participant.total_minutes %>')
 	window.setTimeout(function() {
 		$('#week_<%= @week.id %>_success_message').html('');
 	}, 5000);
