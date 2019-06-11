@@ -1,8 +1,8 @@
 wb = xlsx_package.workbook
 wb.add_worksheet(name: "Products") do |sheet|
-	sheet.add_row ['Week ' + @week]
-  	sheet.add_row ['Name', 'Club','Home Library', 'Minutes for Week ' + @week, 'Email', 'Phone #', 'Library Card', 'School']
+	sheet.add_row [@week.name]
+  	sheet.add_row ['Name', 'Club','Home Library', 'Minutes for ' + @week.name, 'Email', 'Phone #', 'Library Card', 'School']
   @participants.each do |p|
-    sheet.add_row [p.full_name, p.club, p.home_library, p.weekly_minutes(@week), p.email_address, p.phone_number, p.library_card, p.school]
+    sheet.add_row [p.full_name, p.club, p.home_library, p.weekly_minutes(@week.id), p.email_address, p.phone_number, p.library_card, p.school]
   end
 end

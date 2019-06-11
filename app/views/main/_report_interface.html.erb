@@ -108,7 +108,7 @@
 			var sunday = $('#sunday_' + week_id).val()
 			var grand_prize_monday = $('#grand_prize_monday_' + week_id).val()
 			var item =$('#reading_' + week_id).val()
-			$.post('/record_minutes',{
+			$.post('/record_minutes.js',{
 				<% if @from_patron == true %>
 					from_patron: true,
 				<% end %>

@@ -10,11 +10,7 @@
 	<% if @club %>
 		in the <%= @club.capitalize %> club
 	<% end %>
-	<% if @club != "pre-readers" %>
-		- <%= number_with_delimiter(@total_minutes, :delimiter => ',') %> minutes reported
-	<% else %>
-		- <%= number_with_delimiter((@total_minutes / 10), :delimiter => ',') %> activities reported
-	<% end %>
+	- <%= number_with_delimiter(@total_minutes, :delimiter => ',') %> minutes reported
 </h3>
 <% if @inactive != 'true' %>
 	<%= render 'participant_filter' %>
