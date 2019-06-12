@@ -77,7 +77,8 @@ class ApplicationController < ActionController::Base
   		{ text: 'Other' , value:'Other'}, 
   		{ text: 'Home School', value:'Home School'}, 
   		{ text: 'Buckley Comm. Schools', value:'Buckley Comm. Schools'},
-      { text: 'Northern Michigan Partnership', value:'Northern Michigan Partnership'}
+      { text: 'Northern Michigan Partnership', value:'Northern Michigan Partnership'},
+      { text: 'Leland Public Schools', value:'Leland Public Schools'},
   	].sort_by!{ |e| e[:text].downcase }
     @teen_schools = teen_schools.unshift({value: '', text: 'Select School'})
     youth_schools = [
@@ -124,7 +125,8 @@ class ApplicationController < ActionController::Base
     	{ text: 'Home School' , value: 'Home School'},
     	{ text: 'Buckley Comm. Schools' , value: 'Buckley Comm. Schools'},
     	{ text: 'Traverse City Christian School' , value: 'Traverse City Christian School'},
-      { text: 'Northern Michigan Partnership', value:'Northern Michigan Partnership'}
+      { text: 'Northern Michigan Partnership', value:'Northern Michigan Partnership'},
+      { text: 'Leland Public Schools', value:'Leland Public Schools'},
     ].sort_by!{ |e| e[:text].downcase }
     @youth_schools = youth_schools.unshift({value: '', text: 'Select School'})
     all_schools = (youth_schools + teen_schools).uniq.sort_by!{ |e| e[:text].downcase }
