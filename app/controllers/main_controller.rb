@@ -145,7 +145,7 @@ class MainController < ApplicationController
           @okay_to_save = true
         end
       else
-        if match_participant_with_cards(participant_id) != false
+        if match_participant_with_cards(participant_id, cookies[:token]) != false
           @okay_to_save = true
         end
       end
