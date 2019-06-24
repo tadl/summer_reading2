@@ -1,4 +1,5 @@
 class MainController < ApplicationController
+  require 'net/http'
 	before_filter :shared_variables
   before_filter :set_cache_buster
   before_action :authenticate_user!, :except => [:index, :register_participant, :patron_check_for_participants, :patron_show_participants, :patron_load_report_interface, :record_minutes, :patron_register_participant, :save_new_participant, :shirt_stats]
@@ -395,6 +396,17 @@ class MainController < ApplicationController
       format.json {render :json => @participants_json }
     end  
   end
+
+  def get_eg_data
+    if params[:card]
+      @user = data_from_card(params[:card])
+    else
+      @user = false
+    end
+    respond_to do |format|
+      format.js 
+    end
+  end
   
   private
 
@@ -439,6 +451,54 @@ class MainController < ApplicationController
     else
       return false
     end
+  end
+
+  def data_from_card(card)
+    normalize_card = _normalize_card(card)
+
+    login_params = {}
+    login_params[:identifier] = ENV['ILS_ACCOUNT']
+    login_params[:password] = ENV['ILS_ACCOUNT_CREDENTIALS']
+
+    url = URI.parse('https://mr-v2.catalog.tadl.org/osrf-gateway-v1')
+
+    http = Net::HTTP.new(url.host, url.port)
+    http.use_ssl = true
+    request = Net::HTTP::Post.new(url.request_uri)
+    request.set_form_data({
+      "service" => "open-ils.auth",
+      "method" => "open-ils.auth.login",
+      "param" => JSON.generate(login_params)
+    })
+    make_request = http.request(request)
+    response = JSON.parse(make_request.body)
+    authtoken = response['payload'][0]['payload']['authtoken']
+    formated_auth = ('"' + authtoken  +'"')    
+    formated_barcode = ('"' + normalize_card + '"')
+    request.set_form_data({
+      "service" => "open-ils.actor",
+      "method" => "open-ils.actor.user.fleshed.retrieve_by_barcode.authoritative",
+      "param" => [formated_auth, formated_barcode]
+    })
+    make_request = http.request(request)
+    response = JSON.parse(make_request.body)
+    if response['payload'][0]['textcode'] && response['payload'][0]['textcode'] == 'ACTOR_CARD_NOT_FOUND'
+      return false
+    else
+      user_data = {}
+      user_data[:last_name] = response['payload'][0]['__p'][25].to_s
+      user_data[:first_name] = response['payload'][0]['__p'][26].to_s
+      user_data[:middle_name] = response['payload'][0]['__p'][42].to_s
+      user_data[:email] = response['payload'][0]['__p'][22].to_s
+      user_data[:home_library] = home_library_code_to_loaction(response['payload'][0]['__p'][27]).to_s
+      user_data[:phone] = response['payload'][0]['__p'][20].to_s
+      return user_data
+    end
+  end
+
+  def home_library_code_to_loaction(code)
+    target_location = @home_libraries.detect{|k| k[:code] == code.to_s}
+    return target_location[:value]
   end
 
   def _normalize_card(card_value)

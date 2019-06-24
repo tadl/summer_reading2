@@ -39,6 +39,9 @@
 			<div class="col-sm-6">
 				<label for="first_name">Library Card # <i>(Required for Online Reporting):</i></label>
 				<input type="tel" class="form-control" id="library_card" value="<%= @card %>">
+        <% if current_user %>
+          <a onclick="get_user_data()">Get Data</a>
+        <% end %>
 			</div>
 			<div class="col-sm-4">
 				<label for="shirt_size" class="required" id="shirt_size_label">Shirt Size:</label>
@@ -334,4 +337,9 @@
 		$('#confirmation').hide()
 		$('#registration').show()
 	}
+
+  function get_user_data(){
+    library_card = $("#library_card").val()
+    $.post("/get_eg_data.js",{card: library_card})
+  }
 </script>

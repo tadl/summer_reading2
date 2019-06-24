@@ -21,6 +21,7 @@ Rails.application.routes.draw do
   match 'load_report_interface', to: 'main#load_report_interface', as: 'load_report_interface', via: [:get, :post]
   match 'record_minutes', to: 'main#record_minutes', as: 'record_minutes', via: [:get, :post]
   match 'stats', to: 'main#stats', as: 'stats', via:[:get, :post]
+  match 'get_eg_data', to: 'main#get_eg_data', as: 'get_eg_data', via:[:get, :post]
   match 'shirt_stats', to: 'main#shirt_stats', as: 'shirt_stats', via:[:get, :post]
   match 'weekly_reports', to: 'main#weekly_reports', as: 'weekly_reports', via:[:get, :post]
   match 'final_reports', to: 'main#final_reports', as: 'final_reports', via:[:get, :post]

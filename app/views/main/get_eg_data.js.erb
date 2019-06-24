@@ -1,0 +1,10 @@
+<% if @user %>
+  $('#first_name').val('<%= escape_javascript(@user[:first_name]) %>')
+  $('#middle_name').val('<%= escape_javascript(@user[:middle_name]) %>')
+  $('#last_name').val('<%= escape_javascript(@user[:last_name]) %>')
+  $('#phone').val('<%= escape_javascript(@user[:phone]) %>')
+  $('#email').val('<%= escape_javascript(@user[:email]) %>')
+  $('#home_library').val('<%= escape_javascript(@user[:home_library]) %>');
+<% else %>
+  alert('User not found')
+<% end %>
