@@ -355,6 +355,33 @@ class MainController < ApplicationController
     end
   end
 
+
+  def school_totals_report
+    @club = params[:club]
+    @participants = Participant.all.where(inactive: false, club: @club).includes(:reports)
+    @schools = []
+    @participants.each do |p|
+      school = p.school
+      if !school.nil?
+        if @schools.all?{|h| h[school].nil? } == true
+          school_location = {}
+          school_location[school] = {}
+          school_location[school]['count'] = 1
+          school_location[school]['total_minutes'] = p.total_minutes
+          @schools.push(school_location)
+        else
+          school_location = @schools.find{|h| h[school]}
+          school_location[school]['count'] += 1
+          school_location[school]['total_minutes'] += p.total_minutes
+        end
+      end
+    end
+    respond_to do |format|
+      format.json {render :json => @schools}
+      format.xlsx
+    end
+  end
+
   def leaders
     @page = false
     @weeks = Week.all

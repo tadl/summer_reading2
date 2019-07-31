@@ -1,0 +1,7 @@
+wb = xlsx_package.workbook
+wb.add_worksheet(name: "Schools") do |sheet|
+  @schools.each do |p|
+    school = p.keys.first.to_s
+    sheet.add_row [school, p[school]['count'], p[school]['total_minutes']]
+  end
+end

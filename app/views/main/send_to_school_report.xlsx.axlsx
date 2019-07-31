@@ -1,7 +1,7 @@
 wb = xlsx_package.workbook
 wb.add_worksheet(name: "Products") do |sheet|
-	sheet.add_row ['Send to School Report']
-  	sheet.add_row ['Name', 'Club','Home Library', 'Total Minutes', 'School']
+	sheet.add_row ['Send to School Report for ' + @club]
+  sheet.add_row ['Name', 'Club','Home Library', 'Total Minutes', 'School']
   @participants.each do |p|
   	if p.total_minutes != 0
     	sheet.add_row [p.full_name, p.club, p.home_library, p.total_minutes,  p.school]
