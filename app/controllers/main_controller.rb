@@ -382,6 +382,40 @@ class MainController < ApplicationController
     end
   end
 
+  def year_end_reports
+    @weeks = [*1..7]
+    @clubs = ['pre-readers','readers','teens','adults']
+    @libraries =['All','Woodmere','Kingsley','Interlochen','Fife Lake','East Bay','Peninsula']
+    @report = {}
+    @libraries.each do |l|
+      if l == 'All' 
+        participants = Participant.all.where(inactive: false).includes(:reports)
+      else
+        participants = Participant.all.where(inactive: false, home_library: l).includes(:reports)
+      end
+      @report[l] = {}
+      @report[l]['all_count'] = participants.count
+      @clubs.each do |c|
+        @report[l][c+'_count'] = participants.where(club: c).count
+        @report[l][c+'_winners'] = participants.where(club: c).select {|p| p.total_minutes >= 600}.count
+      end
+      @report[l]['all_winners'] = participants.select {|p| p.total_minutes >= 600}.count
+      @weeks.each do |w|
+        week_name = 'Week ' + w.to_s
+        week_id = Week.where(name: week_name).first.id
+        @report[l]['week_'+w.to_s] = {}
+        @report[l]['week_'+w.to_s]['all_reports'] = participants.select {|p| p.weekly_minutes(week_id) > 0}.count
+        @clubs.each do |c|
+          @report[l]['week_'+w.to_s][c+'_reports'] = participants.where(club: c).select {|p| p.weekly_minutes(week_id) > 0}.count
+        end
+      end
+    end
+    respond_to do |format|
+      format.json {render :json => @report}
+      format.xlsx
+    end
+  end
+
   def leaders
     @page = false
     @weeks = Week.all
