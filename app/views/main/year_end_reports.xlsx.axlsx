@@ -5,6 +5,7 @@ clubs_plus_all = @clubs.unshift('all')
   counts = clubs_plus_all.map{|c| c + '_count'}
   winners = clubs_plus_all.map{|c| c + '_winners'}
   club_reports = clubs_plus_all.map{|c| c + '_reports'}
+  minutes = clubs_plus_all.map{|c| c + '_minutes'}
   wb.add_worksheet(name: l) do |sheet|
     bold = sheet.styles.add_style(b: true)
     sheet.add_row [(l + ' Summer Reading Data')], style: [bold]
@@ -17,6 +18,14 @@ clubs_plus_all = @clubs.unshift('all')
     end
     sheet.add_row participant_count_array
     sheet.add_row []
+    sheet.add_row ['Participant Total Minutes'], style: [bold]
+    sheet.add_row clubs_plus_all
+    minutes_array = []
+    minutes.each do |c|
+      minutes_array.push(this_report[c])
+    end
+    sheet.add_row minutes_array
+    sheet.add_row []
     sheet.add_row ['Patrons Who Reported Over 600 Minutes'], style: [bold]
     sheet.add_row clubs_plus_all
     participant_winner_array = []
@@ -27,12 +36,20 @@ clubs_plus_all = @clubs.unshift('all')
     sheet.add_row []
     @weeks.each do |w|
       participant_week_array = []
+      minutes_week_array = []
       club_reports.each do |c|
-          participant_week_array.push(this_report['week_'+w.to_s][c])
+        participant_week_array.push(this_report['week_'+w.to_s][c])
+      end
+      minutes.each do |m|
+        minutes_week_array.push(this_report['week_'+w.to_s][m])
       end
       sheet.add_row ['Patrons who reported during Week ' + w.to_s], style: [bold]
       sheet.add_row clubs_plus_all
       sheet.add_row participant_week_array
+      sheet.add_row []
+      sheet.add_row ['Minutes reported during Week ' + w.to_s], style: [bold]
+      sheet.add_row clubs_plus_all
+      sheet.add_row minutes_week_array
       sheet.add_row [] 
     end
     sheet.column_widths 11,11,11,11,11

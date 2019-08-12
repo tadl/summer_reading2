@@ -395,8 +395,16 @@ class MainController < ApplicationController
       end
       @report[l] = {}
       @report[l]['all_count'] = participants.count
+      @report[l]['all_minutes'] = 0
+      participants.each do |p|
+        @report[l]['all_minutes'] += p.total_minutes
+      end
       @clubs.each do |c|
         @report[l][c+'_count'] = participants.where(club: c).count
+        @report[l][c+'_minutes'] = 0
+        participants.where(club: c).each do |p|
+          @report[l][c+'_minutes'] += p.total_minutes
+        end
         @report[l][c+'_winners'] = participants.where(club: c).select {|p| p.total_minutes >= 600}.count
       end
       @report[l]['all_winners'] = participants.select {|p| p.total_minutes >= 600}.count
@@ -405,8 +413,16 @@ class MainController < ApplicationController
         week_id = Week.where(name: week_name).first.id
         @report[l]['week_'+w.to_s] = {}
         @report[l]['week_'+w.to_s]['all_reports'] = participants.select {|p| p.weekly_minutes(week_id) > 0}.count
+        @report[l]['week_'+w.to_s]['all_minutes'] = 0
+        participants.each do |p|
+          @report[l]['week_'+w.to_s]['all_minutes'] += p.weekly_minutes(week_id)
+        end
         @clubs.each do |c|
           @report[l]['week_'+w.to_s][c+'_reports'] = participants.where(club: c).select {|p| p.weekly_minutes(week_id) > 0}.count
+          @report[l]['week_'+w.to_s][c+'_minutes'] = 0
+          participants.where(club: c).each do |p|
+            @report[l]['week_'+w.to_s][c+'_minutes'] += p.weekly_minutes(week_id)
+          end
         end
       end
     end
