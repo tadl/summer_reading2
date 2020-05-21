@@ -43,14 +43,6 @@
           <a onclick="get_user_data()">Get Patron Data from Evergreen</a>
         <% end %>
 			</div>
-			<div class="col-sm-4">
-				<label for="shirt_size" class="required" id="shirt_size_label">Shirt Size:</label>
-				<select class="form-control" id="shirt_size">
-					<% @shirt_sizes.each do |s| %>
-	  					<option value="<%= s[:value] %>"><%= s[:text] %></option>
-	  				<% end %>
-				</select>
-			</div>
 		</div>
 		</br>
 		<div class="row">
@@ -148,16 +140,6 @@
 		</div>
 	</form>
 	<div class="row">
-		<% if current_user %>
-			<div class="col-sm-3">
-				<div class="form-check">
-	  				<input class="form-check-input" type="checkbox" value="true" id="got_shirt">
-	  				<label class="form-check-label" for="got_shirt">
-	   					Received T-Shirt
-	  				</label>
-				</div>
-			</div>
-		<% end %>
 		<div class="col-sm-12">
 			<div class="col-sm-12" id="messages">
 			</div>
@@ -168,7 +150,7 @@
 <div id="confirmation" style="display:none">
 	<div class="row">
 		<h3>You Have Successfully Registered <span id="register_name"></span> for Summer Reading Club!</h3>
-		<p>Please be sure to stop by your home library to pick up your t-shirt and to learn more about Summer Reading club programming.</p>
+		<p>Please follow the library's <a href="https://www.facebook.com/TraverseAreaDistrictLibrary">Facebook page</a> and <a href="https://tadl.org">website</a> for more information about Summer Reading Club!</p>
 	</div>
 	<div class="row">
 		<button class="btn btn-primary btn-success" onclick="register_another()">
@@ -237,19 +219,16 @@
 		phone = $('#phone').val()
 		email = $('#email').val()
 		home_library = $('#home_library option:selected').val()
-		shirt_size = $('#shirt_size option:selected').val()
 		library_card = $("#library_card").val()
 		club = $("input[name='club']:checked").val()
 		school_type = $("input[name='school_type']:checked").val()
 		send_to_school = $('#send_to_school:checked').val()
-		got_shirt = $('#got_shirt:checked').val()
 		school = null
 		$('#select_a_club').css('color', 'black')
 		$('.required').css('color', 'black')
 		$('#school_type').css('color', 'black')
 		$('.school_list').css('color', 'black')
 		$('#home_library_list').css('color', 'black')
-		$('#shirt_size_label').css('color', 'black')
 		$('#messages').html('')
 		if(first_name == '' || last_name == '' || phone == ''){
 			missing_required = true
@@ -270,10 +249,6 @@
 			$('#home_library_list').css('color', 'red')
 		}
 	
-		if(shirt_size == ''){
-			missing_required = true
-			$('#shirt_size_label').css('color', 'red')
-		}
 		
 		if(((club == 'teens' && school_type != 'college' )&&(club == 'teens' && school_type != 'none'))|| ((club == 'readers' && school_type != 'none')&&(club == 'readers' && school_type != 'pre-school'))){
 			if(typeof school_type == 'undefined'){
@@ -309,8 +284,6 @@
 					club: club,
 					school: school,
 					send_to_school: send_to_school,
-					got_shirt: got_shirt,
-					shirt_size: shirt_size,
 				}
 			}).done(function(data){
 				if(data.message == 'success'){
@@ -324,10 +297,8 @@
 		}
 	}
 	function register_another(){
-		$('#shirt_size').val('')
 		$("input[name='club']:checked").prop('checked', false)
 		$('#send_to_school:checked').prop('checked', false)
-		$('#got_shirt:checked').prop('checked', false)
 		reset_school_type()
 		reset_school_list()
 		$('#ask_grade_level').hide()

@@ -16,7 +16,7 @@
 				<b>Phone #:</b> <%= participant.phone_number %>
 			</div>
 			<% if winner == false %>
-				<div class="col-sm-3">
+				<div class="col-sm-3" style="display: none">
 					<b>Shirt Size:</b> <%= participant.shirt_size %>
 				</div>
 			<% end %>
@@ -47,7 +47,7 @@
 				<a  href="/edit_participant?id=<%= participant.id %>">
 					<button type="button" class="btn btn-info btn-large">Edit</button>
 				</a>
-				<div class="form-check">
+				<div class="form-check" style="display: none">
   					<input class="form-check-input" onchange="got_shirt('<%= escape_javascript(participant.id.to_s)%>')" type="checkbox" value="true" id="got_shirt_<%= escape_javascript(participant.id.to_s)%>" <% if participant.got_shirt == true %>checked<% end %>>
   					<label class="form-check-label" for="got_shirt">
    						Received T-Shirt
