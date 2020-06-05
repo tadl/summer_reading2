@@ -17,11 +17,11 @@ class Report < ActiveRecord::Base
     badges = []
     week = Week.find(self.week_id)
     if self.week_total >= 100
-      badge = week.name + '_' + self.participant.club + '_' + '100.png'
+      badge = week.name.downcase.gsub(' ','_') + '_' + self.participant.club + '_' + '100.png'
       badges.push(badge)
     end
     if self.week_total >= 300
-      badge = week.name + '_' + self.participant.club + '_' + '300.png'
+      badge = week.name.downcase.gsub(' ','_') + '_' + self.participant.club + '_' + '300.png'
       badges.push(badge)
     end
     return badges
