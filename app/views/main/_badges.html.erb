@@ -1,0 +1,18 @@
+<% if !get_bages_for(w.id, participant).nil? %>
+  <div class="col-sx-12">
+    <b> Earned Badges </b>
+  </div>
+  <div class="row" style="margin-bottom: 10px">
+    <% get_bages_for(w.id, participant).each_with_index do |b, i| %>
+      <div class="col-xs-3">          
+        <%= image_tag ('/' + b), :style => "max-width: 60px" %>
+        <br>
+        <%if i == 0 %>
+          <i>100 Minute Badge</i>
+        <% else %>
+          <i>300 Minute Badge</i>
+        <% end %>
+      </div>
+    <% end %>
+  </div>   
+<% end %>

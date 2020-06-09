@@ -1,6 +1,7 @@
 <% if @okay_to_save == true %>
 	$('#week_<%= @week.id %>_success_message').html('<span style="color:green">Success: Your minutes for <%= @week.name %> have been updated!</span')
 	$('#total_minutes').html('<%= @participant.total_minutes %>')
+  $('#badges_<%= @week.id %>').html('<%= escape_javascript(render "badges", w: @week, participant: @participant)%>')
 	window.setTimeout(function() {
 		$('#week_<%= @week.id %>_success_message').html('');
 	}, 5000);

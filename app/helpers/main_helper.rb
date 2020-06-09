@@ -24,4 +24,15 @@ module MainHelper
 		end
 		return ''
 	end
+
+  def get_bages_for(week_id, participant)
+    reports = participant.reports
+    badges = nil
+    reports.each do |r|
+      if r.week_id == week_id
+        badges = r.badges
+      end
+    end
+    return badges
+  end
 end
