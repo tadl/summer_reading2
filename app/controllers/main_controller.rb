@@ -277,7 +277,7 @@ class MainController < ApplicationController
   end
 
   def weekly_reports
-    @weeks = Week.all
+    @weeks = Week.all.order('start_date ASC')
     if params[:week]
       @week = Week.find(params[:week])
     else

@@ -16,13 +16,17 @@ class Report < ActiveRecord::Base
   def badges
     badges = []
     week = Week.find(self.week_id)
-    if self.week_total >= 100
-      badge = week.name.downcase.gsub(' ','_') + '_' + self.participant.club + '_' + '100.png'
-      badges.push(badge)
-    end
-    if self.week_total >= 300
-      badge = week.name.downcase.gsub(' ','_') + '_' + self.participant.club + '_' + '300.png'
-      badges.push(badge)
+
+    # NOTE: ONCE WE CREATE NEW WEEKS WE WILL NEED TO UPDATE THIS. FUTURE VERSION: WEEKS HAVE HAS_BADGE FIELD IN DB
+    unless week.name == 'Week 7'
+      if self.week_total >= 100
+        badge = week.name.downcase.gsub(' ','_') + '_' + self.participant.club + '_' + '100.png'
+        badges.push(badge)
+      end
+      if self.week_total >= 300
+        badge = week.name.downcase.gsub(' ','_') + '_' + self.participant.club + '_' + '300.png'
+        badges.push(badge)
+      end
     end
     return badges
   end
