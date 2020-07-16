@@ -125,7 +125,7 @@ class MainController < ApplicationController
     @today = Date.today
   	participant_id = params[:participant_id].to_i
   	@participant = Participant.includes(:reports, :items).find(participant_id)
-  	@weeks = Week.all
+  	@weeks = Week.all.order('start_date ASC')
     @from_patron = false
   	respond_to do |format|
       format.json {render :json => {:participant => @participant, :reports => @participant.reports, :items => @participant.items, :weeks=> @weeks}}
@@ -244,7 +244,7 @@ class MainController < ApplicationController
     participant_id = params[:participant_id].to_i
     token = cookies[:token] || params[:token]
     @participant = match_participant_with_cards(participant_id, token)
-    @weeks = Week.all
+    @weeks = Week.all.order('start_date ASC')
     @from_patron = true
     respond_to do |format|
       format.json {render :json => {:participant => @participant, :reports => @participant.reports, :items => @participant.items, :weeks=> @weeks}}
@@ -434,7 +434,7 @@ class MainController < ApplicationController
 
   def leaders
     @page = false
-    @weeks = Week.all
+    @weeks = Week.all.order('start_date ASC')
     if params[:location] && params[:location] != 'all'
       @location = params[:location]
     end
