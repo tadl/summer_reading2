@@ -339,8 +339,14 @@ class MainController < ApplicationController
     @all_partcipants_count = @participants.count 
     @eligible_participants = @participants.select {|p| p.total_minutes >= 600}
     if @club == 'teens'
-      Participant.all.where(club: 'teens', teen_challenge: true, inactive: false).includes(:reports).each do |p|
-        @eligible_participants.push(p)
+      if @location
+        Participant.all.where(club: 'teens', teen_challenge: true, inactive: false, home_library: @location).includes(:reports).each do |p|
+          @eligible_participants.push(p)
+        end
+      else
+        Participant.all.where(club: 'teens', teen_challenge: true, inactive: false).includes(:reports).each do |p|
+          @eligible_participants.push(p)
+        end
       end
       puts 'Total names in hat = ' + @eligible_participants.count.to_s
     end
