@@ -21,8 +21,11 @@
 <% end %>
 <div class="row">
 	<h3><b>
-		<%= @eligible_participants.count %> 
-		Participants Reported over 600 minutes 
+		<%= @eligible_participants.uniq.count %> 
+		Participants Reported over 600 minutes
+		<% if @club == "teens" %>
+			or completed the teen challenge
+		<% end %>
 		<% if @location  %>
 			at <%= @location %>
 		<% end %>

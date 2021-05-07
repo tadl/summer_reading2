@@ -47,6 +47,7 @@ class MainController < ApplicationController
     @participant.school = params[:school]
     @participant.send_to_school = params[:send_to_school]
     @participant.shirt_size = params[:shirt_size]
+    @participant.teen_challenge = params[:teen_challenge]
     if @participant.valid?
       @participant.save
       @message = 'success'
@@ -337,12 +338,19 @@ class MainController < ApplicationController
     @home_libraries_filter = @home_libraries_filter.push({value: 'East Bay and Woodmere', text: 'East Bay and Woodmere', code: '42'})
     @all_partcipants_count = @participants.count 
     @eligible_participants = @participants.select {|p| p.total_minutes >= 600}
-    @eligible_participants_count = @eligible_participants.count
+    if @club == 'teens'
+      Participant.all.where(club: 'teens', teen_challenge: true, inactive: false).includes(:reports).each do |p|
+        @eligible_participants.push(p)
+      end
+      puts 'Total names in hat = ' + @eligible_participants.count.to_s
+    end
+    @eligible_participants_count = @eligible_participants.uniq.count
+    puts 'Uniqenames in hat = ' + @eligible_participants.uniq.count.to_s
     @percent_eligible = ((@eligible_participants_count.to_f / (@all_partcipants_count.to_f)) * 100).round(2).to_s + '%'
     @random_winner = @eligible_participants.sample
     respond_to do |format|
       format.html
-      format.json {render :json => {:random_winner => @random_winner, :percent_eligible =>  @percent_eligible, :all_eligible => @eligible_participants}}
+      format.json {render :json => {:random_winner => @random_winner, :percent_eligible =>  @percent_eligible, :all_eligible => @eligible_participants.uniq}}
       format.xlsx
     end
   end
@@ -488,7 +496,7 @@ class MainController < ApplicationController
   private
 
 	def participant_params
-  	params.require(:participant).permit(:first_name, :last_name, :club, :school, :home_library, :phone_number, :library_card, :middle_name, :email_address, :school, :send_to_school, :got_shirt, :shirt_size)
+  	params.require(:participant).permit(:first_name, :last_name, :club, :school, :home_library, :phone_number, :library_card, :middle_name, :email_address, :school, :send_to_school, :got_shirt, :shirt_size, :teen_challenge)
 	end
 
 	def search_by_name_params
