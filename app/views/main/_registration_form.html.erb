@@ -1,5 +1,5 @@
 <div id="registration">
-	<h3>Register For Summer Reading Club</h3>
+	<h3>Register For Summer Reading Club 2021</h3>
 	<form>
 		<div class="row">
 			<div class="col-sm-4">
@@ -43,8 +43,20 @@
           <a onclick="get_user_data()">Get Patron Data from Evergreen</a>
         <% end %>
 			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-3">
+				<img src="https://www.tadl.org/wp-content/uploads/2021/05/shirt_final2.png" class="img-responsive" style="max-height: 200px">
+				<b>T-Shirt Design</b>
+			</div>
+			<div class="col-sm-3">
+				<img src="https://www.tadl.org/wp-content/uploads/2021/05/patch2.png" class="img-responsive" style="max-height: 200px">
+				<b>Patch Design</b>
+			</div>
+		</div>
+		<div class="row">
 			<div class="col-sm-4">
-				<label for="shirt_size" class="required" id="shirt_size_label">Shirt Size:</label>
+				<label for="shirt_size" class="required" id="shirt_size_label">Would you like a free patch or a free t-shirt:</label>
 				<select class="form-control" id="shirt_size">
 					<% @shirt_sizes.each do |s| %>
 	  					<option value="<%= s[:value] %>"><%= s[:text] %></option>
@@ -52,7 +64,16 @@
 				</select>
 			</div>
 		</div>
-		</br>
+		<div class="row">
+			<div class="col-sm-6">
+				<div class="form-check">
+	  				<input class="form-check-input" type="checkbox" value="true" id="wants_craft_kit">
+	  				<label class="form-check-label" for="wants_craft_kit">
+	   					 Check this box to recieve a special Summer Reading Club craft kit.
+	  				</label>
+				</div>
+			</div>
+		</div>
 		<div class="row">
 			<div class="col-sm-12">
 			<label for="select_a_club" id="select_a_club" class="required">Select Which Club You Would Like to Join: </label>
@@ -153,7 +174,7 @@
 				<div class="form-check">
 	  				<input class="form-check-input" type="checkbox" value="true" id="got_shirt">
 	  				<label class="form-check-label" for="got_shirt">
-	   					Received T-Shirt
+	   					Received T-Shirt or Badge
 	  				</label>
 				</div>
 			</div>
@@ -243,6 +264,7 @@
 		school_type = $("input[name='school_type']:checked").val()
 		send_to_school = $('#send_to_school:checked').val()
 		got_shirt = $('#got_shirt:checked').val()
+		wants_craft_kit = $('#wants_craft_kit:checked').val()
 		school = null
 		$('#select_a_club').css('color', 'black')
 		$('.required').css('color', 'black')
@@ -311,6 +333,7 @@
 					send_to_school: send_to_school,
 					got_shirt: got_shirt,
 					shirt_size: shirt_size,
+					wants_craft_kit: wants_craft_kit,
 				}
 			}).done(function(data){
 				if(data.message == 'success'){

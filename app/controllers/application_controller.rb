@@ -138,7 +138,8 @@ class ApplicationController < ActionController::Base
       'adults',
     ]
     @shirt_sizes = [
-      {value: '', text: 'Select Shirt Size', code: ''},
+      {value: '', text: 'Select Patch or Shirt Size', code: ''},
+	  {value: 'Patch', text: 'Patch', code: 'Patch'},
       {value: 'Youth Extra Small', text: 'Youth Extra Small', code: 'Youth Extra Small'},
       {value: 'Youth Small', text: 'Youth Small', code: 'Youth Small'},
       {value: 'Youth Medium', text: 'Youth Medium', code: 'Youth Medium'},
@@ -149,7 +150,7 @@ class ApplicationController < ActionController::Base
       {value: 'Adult Large', text: 'Adult Large', code: 'Adult Large'},
       {value: 'Adult Extra Large', text: 'Adult Extra Large', code: 'Adult Extra Large'},
       {value: 'Adult Double Extra Large', text: 'Adult Double Extra Large', code: 'Adult Double Extra Large'},
-      {value: "No thanks, I don't need a shirt", text: "No thanks, I don't need a shirt" , code: "No thanks, I don't need a shirt"},
+      {value: "No thanks, I don't need a shirt or a badge", text: "No thanks, I don't need a shirt or a badge" , code: "No thanks, I don't need a shirt or a badge"},
     ]
     @shirt_sizes_raw = @shirt_sizes.drop(1)
 	end
