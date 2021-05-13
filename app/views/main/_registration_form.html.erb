@@ -39,9 +39,9 @@
 			<div class="col-sm-6">
 				<label for="first_name">Library Card # <i>(Required for Online Reporting):</i></label>
 				<input type="tel" class="form-control" id="library_card" value="<%= @card %>">
-        <% if current_user %>
-          <a onclick="get_user_data()">Get Patron Data from Evergreen</a>
-        <% end %>
+        		<% if current_user %>
+          			<a onclick="get_user_data()">Get Patron Data from Evergreen</a>
+        		<% end %>
 			</div>
 		</div>
 		<div class="row">
