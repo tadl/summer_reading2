@@ -150,7 +150,7 @@ class ApplicationController < ActionController::Base
       {value: 'Adult Large', text: 'Adult Large', code: 'Adult Large'},
       {value: 'Adult Extra Large', text: 'Adult Extra Large', code: 'Adult Extra Large'},
       {value: 'Adult Double Extra Large', text: 'Adult Double Extra Large', code: 'Adult Double Extra Large'},
-      {value: "No thanks, I don't need a shirt or a badge", text: "No thanks, I don't need a shirt or a badge" , code: "No thanks, I don't need a shirt or a badge"},
+      {value: "No thanks, I don't need a shirt or a patch", text: "No thanks, I don't need a shirt or a patch" , code: "No thanks, I don't need a shirt or a patch"},
     ]
     @shirt_sizes_raw = @shirt_sizes.drop(1)
 	end
