@@ -43,7 +43,7 @@
 			<input type="tel" class="form-control" id="library_card" value="<%= @participant.library_card %>">
 		</div>
 		<div class="col-sm-4">
-			<label for="shirt_size" class="required" id="shirt_size_label">Shirt Size:</label>
+			<label for="shirt_size" class="required" id="shirt_size_label">Shirt Size / Patch:</label>
 			<select class="form-control" id="shirt_size">
 				<% @shirt_sizes_raw.each do |s| %>
   					<option value="<%= s[:value] %>" <% if s[:value] == @participant.shirt_size %> selected <%end%>><%= s[:text] %></option>
@@ -81,6 +81,16 @@
 				</div>
 			</div>
 		<% end %>
+	</div>
+	<div class="row">
+		<div class="col-sm-12">
+			<div class="form-check">
+	  			<input class="form-check-input" type="checkbox" value="true" id="wants_craft_kit" name="wants_craft_kit" <% if @participant.wants_craft_kit == true %> checked<% end %>>
+	  			<label class="form-check-label" for="wants_craft_kit">
+	   				 Check this box to recieve a special Summer Reading Club craft kit.
+	  			</label>
+			</div>
+		</div>
 	</div>
 	<br>
 	<div class="row">
@@ -143,6 +153,7 @@
 		send_to_school = $('#send_to_school:checked').val()
 		teen_challenge = $('#teen_challenge:checked').val()
 		shirt_size = $('#shirt_size option:selected').val()
+		wants_craft_kit = $("input[name='wants_craft_kit']:checked").val()
 		$.post("/update_participant",{
 				id: id,
 				first_name: first_name,
@@ -157,6 +168,7 @@
 				send_to_school: send_to_school,
 				teen_challenge: teen_challenge,
 				shirt_size: shirt_size,
+				wants_craft_kit: wants_craft_kit,
 			}).done(function(data){
 				if(data.message == 'success'){
 					$('#messages').html('<b style="color: green">Successfully updated!</b>')
