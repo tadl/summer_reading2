@@ -32,20 +32,16 @@ class ApplicationController < ActionController::Base
   	@raw_home_libraries =[
       'Woodmere', 
       'Kingsley', 
-      'Interlochen', 
       'Fife Lake', 
       'East Bay',
-      'Peninsula',
     ]
 
     @home_libraries = [
   		{value: '', text: 'Select Home Library', code: ''},
   		{value: 'Woodmere', text: 'Woodmere', code: '23'},
   		{value: 'Kingsley', text: 'Kingsley', code: '25'},
-  		{value: 'Interlochen', text: 'Interlochen', code: '24'},
   		{value: 'Fife Lake', text: 'Fife Lake', code: '27'},
   		{value: 'East Bay', text: 'East Bay', code: '28'},
-  		{value: 'Peninsula', text: 'Peninsula', code: '26'}
   	]
     
     @home_libraries_filter = @home_libraries.drop(1).unshift({value: 'all', text: 'All'})
