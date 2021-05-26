@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20210511181510) do
+ActiveRecord::Schema.define(version: 20210526202042) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -58,6 +58,7 @@ ActiveRecord::Schema.define(version: 20210511181510) do
     t.string   "shirt_size"
     t.boolean  "teen_challenge",  default: false
     t.boolean  "wants_craft_kit", default: false
+    t.boolean  "camper",          default: false
   end
 
   create_table "reports", force: :cascade do |t|

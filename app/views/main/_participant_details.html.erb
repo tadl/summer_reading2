@@ -1,9 +1,15 @@
 <div class="row" style="font-size: 16px; border-bottom: dashed 1px #64AD2B">
 	<div class="col-xs-12">
-		<h3><b><%= participant.first_name %> <%= participant.middle_name %> <%= participant.last_name %></b>
-	    <% if week %>
-	    	<%= participant.weekly_minutes(week.id) %> minutes reported for <%= week.name %>
-	    <% end %>
+		<h3>
+			<b>
+				<%= participant.first_name %> <%= participant.middle_name %> <%= participant.last_name %>
+				<% if participant.camper == true %>
+					(TCAPS Summer Explorer)
+				<% end %>
+			</b>
+	    	<% if week %>
+	    		<%= participant.weekly_minutes(week.id) %> minutes reported for <%= week.name %>
+	    	<% end %>
 		</h3>
 		<div class="row">
 			<div class="col-sm-2">
