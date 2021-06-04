@@ -1,8 +1,24 @@
 <h2>Shirt Stats</h2>
 
 <% @stats.each do |k, v| %>
-
+<% if k.include? "Woodmere" %>
 <b><%= k %></b>: <%= v %>
 <br>
-
+<% end %>
+<hr>
+<% if k.include? "Kingsley" %>
+<b><%= k %></b>: <%= v %>
+<br>
+<% end %>
+<hr>
+<% if k.include? "East Bay" %>
+<b><%= k %></b>: <%= v %>
+<br>
+<% end %>
+<hr>
+<% if k.include? "Fife Lake" %>
+<b><%= k %></b>: <%= v %>
+<br>
+<% end %>
+<hr>
 <% end %>
