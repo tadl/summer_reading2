@@ -75,6 +75,7 @@ class ApplicationController < ActionController::Base
   		{ text: 'Buckley Comm. Schools', value:'Buckley Comm. Schools'},
       { text: 'Northern Michigan Partnership', value:'Northern Michigan Partnership'},
       { text: 'Leland Public Schools', value:'Leland Public Schools'},
+	  { text: 'Trinity Lutheran', value: 'Trinity Lutheran'},
   	].sort_by!{ |e| e[:text].downcase }
     @teen_schools = teen_schools.unshift({value: '', text: 'Select School'})
     youth_schools = [
