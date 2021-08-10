@@ -11,6 +11,8 @@
 	    		<%= participant.weekly_minutes(week.id) %> minutes reported for <%= week.name %>
 	    	<% end %>
 		</h3>
+
+		Registered On: <%= participant.created_at.in_time_zone('America/New_York').strftime('%m/%d/%Y') %>
 		<div class="row">
 			<div class="col-sm-2">
 				<b>Club:</b> <%= participant.club.capitalize! %>

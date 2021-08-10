@@ -2,8 +2,8 @@ require 'axlsx'
 
 wb = xlsx_package.workbook
 wb.add_worksheet(name: "Products") do |sheet|
-  	sheet.add_row ['Name', 'Club','Home Library', 'Total Minutes', 'Email', 'Phone #', 'Library Card', 'School','Got Shirt']
+  	sheet.add_row ['Name', 'Club','Home Library', 'Total Minutes', 'Email', 'Phone #', 'Library Card', 'School','Registered On']
   @participants_unpaged.each do |p|
-    sheet.add_row [p.full_name, p.club, p.home_library, p.total_minutes, p.email_address, p.phone_number, p.library_card, p.school, p.got_shirt]
+    sheet.add_row [p.full_name, p.club, p.home_library, p.total_minutes, p.email_address, p.phone_number, p.library_card, p.school, p.created_at.in_time_zone('America/New_York').strftime('%m/%d/%Y')]
   end
 end
