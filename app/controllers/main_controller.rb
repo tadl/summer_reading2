@@ -421,28 +421,42 @@ class MainController < ApplicationController
     @list_of_weeks = []
     pre_registration = {}
     pre_registration[:name] = "pre-registration"
-    pre_registration[:registrations] = @participants.where("created_at < ?", weeks[0].start_date).size
+    pre_register_count = 0
+    @participants.each do |p|
+      if p.created_at < weeks[0].start_date
+        pre_register_count +=1
+      end
+    end
+    pre_registration[:registrations] = pre_register_count
     @list_of_weeks.push(pre_registration)
     weeks.each do |w|
       week = {}
       week[:name] = w.name
       week[:start_date] = w.start_date
       week[:end_date] = w.end_date
-      week[:registrations] = @participants.where(:created_at => w.start_date..w.end_date.end_of_day).size
+      registrations = 0
+      @participants.each do |p|
+        if p.created_at > w.start_date && p.created_at < w.end_date.end_of_day
+          registrations += 1
+        end
+      end 
+      week[:registrations] = registrations
       weekly_minutes = 0
       total_minutes_so_far = 0
+      reports_so_far = []
       if @participants
         @participants.each do |p|
-          reports_so_far = p.reports.where("created_at < ?", w.end_date.end_of_day)
-          report = reports_so_far.where(week_id: w.id).first
-          if reports_so_far && report  
-            weekly_minutes += report.week_total
-          end
-          if reports_so_far
-            reports_so_far.each do |r|
-              total_minutes_so_far += r.week_total
+          p.reports.each do |r|
+            if r.created_at < w.end_date.end_of_day
+              reports_so_far.push(r)
+            end
+            if r.week_id == w.id
+              weekly_minutes = r.week_total
             end
           end
+        end
+        reports_so_far.each do |r|
+          total_minutes_so_far += r.week_total
         end
       end
       week[:weekly_minutes] = weekly_minutes
