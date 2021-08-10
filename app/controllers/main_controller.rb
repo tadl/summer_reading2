@@ -405,16 +405,16 @@ class MainController < ApplicationController
       @location = params[:location]
     end
     if !@club && !@location
-      @title = "Registration Data for All Locations"
+      @title = "Registration and Reporting Data for All Locations"
       @participants = Participant.where(inactive: false).includes(:reports)
     elsif @location && @club
-      @title = "Registration Data for " + params[:club].capitalize + ' at ' + params[:location]
+      @title = "Registration and Reporting Data for " + params[:club].capitalize + ' at ' + params[:location]
       @participants = Participant.where(club: params[:club], home_library: params[:location], inactive: false).includes(:reports)
     elsif @location
-      @title = "Registration Data at " + params[:location]
+      @title = "Registration and Reporting Data at " + params[:location]
       @participants = Participant.where(home_library: params[:location], inactive: false).includes(:reports)
     elsif @club
-      @title = "Registration Data for " + params[:club].capitalize
+      @title = "Registration and Reporting Data for " + params[:club].capitalize
       @participants = Participant.where(club: params[:club], inactive: false).includes(:reports)
     end 
     weeks = Week.all.order(:start_date)
@@ -451,7 +451,7 @@ class MainController < ApplicationController
               reports_so_far.push(r)
             end
             if r.week_id == w.id
-              weekly_minutes = r.week_total
+              weekly_minutes += r.week_total
             end
           end
         end
