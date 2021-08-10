@@ -1,0 +1,40 @@
+<h3><%= @title %></h3>
+<div class="row">
+	<div class="col-sm-3">
+		<label for="home_library" id="home_library_list">Filter by Home Library:</label>
+		<select class="form-control" id="home_library" onchange="update_filter()">
+			<% @home_libraries_filter.each do |l| %>
+	  			<option value="<%= l[:value] %>" <%= filter_select_helper(@location, l[:value]) %>><%= l[:text] %></option>
+	  		<% end %>
+		</select>
+	</div>
+	<div class="col-sm-3">
+		<label for="club"  id="club_list">Filter by Club:</label>
+		<select class="form-control" id="club" onchange="update_filter()">
+			<option value="all" <%= filter_select_helper(@club, 'all') %>>All</option>
+	  		<option value="pre-readers" <%= filter_select_helper(@club, 'pre-readers') %>>Pre-Readers</option>
+	  		<option value="readers" <%= filter_select_helper(@club, 'readers') %>>Readers</option>
+	  		<option value="teens" <%= filter_select_helper(@club, 'teens') %>>Teens</option>
+	  		<option value="adults" <%= filter_select_helper(@club, 'adults') %>>Adults</option>
+		</select>
+	</div>
+</div>
+
+<% @list_of_weeks.each do |w| %>
+    <h5>
+        <b><%= w[:name].capitalize %></b>
+        <% if w[:start_date] %>
+            <i>(<%= w[:start_date].strftime('%m/%d/%Y') %> to <%= w[:end_date].strftime('%m/%d/%Y') %>)</i>
+        <% end %>
+        <%= w[:registrations] %> registered 
+        <br>
+    </h5>
+<% end %>
+
+<script>
+	function update_filter(){
+		var club = $('#club option:selected').val()
+		var location =  $('#home_library option:selected').val()
+		window.location.href= '/registrations_report?club=' + club + '&location=' + location
+	}
+</script>

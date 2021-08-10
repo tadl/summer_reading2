@@ -33,6 +33,8 @@ Rails.application.routes.draw do
   match 'patron_register_participant', to: 'main#patron_register_participant', as: 'patron_register_participant', via:[:get, :post]
   match 'school_totals_report', to: 'main#school_totals_report', as: 'school_totals_report', via:[:get, :post]
   match 'year_end_reports', to: 'main#year_end_reports', as: 'year_end_reports', via:[:get, :put]
+  match 'registrations_report', to: 'main#registrations_report', as: 'registrations_report', via:[:get, :put]
+  
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 

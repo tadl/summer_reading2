@@ -396,6 +396,48 @@ class MainController < ApplicationController
       format.xlsx
     end
   end
+  
+  def registrations_report
+    if params[:club] && params[:club] != 'all'
+      @club = params[:club]
+    end
+    if params[:location] && params[:location] != 'all'
+      @location = params[:location]
+    end
+    if !@club && !@location
+      @title = "Registration Data for All Locations"
+      @participants = Participant.all.where(inactive: false)
+    elsif @location && @club
+      @title = "Registration Data for " + params[:club].capitalize + ' at ' + params[:location]
+      @participants = Participant.all.where(club: params[:club], home_library: params[:location], inactive: false)
+    elsif @location
+      @title = "Registration Data at " + params[:location]
+      @participants = Participant.all.where(home_library: params[:location], inactive: false)
+    elsif @club
+      @title = "Registration Data for " + params[:club].capitalize
+      @participants = Participant.all.where(club: params[:club], inactive: false)
+    end 
+    weeks = Week.all.order(:start_date)
+    @list_of_weeks = []
+    pre_registration = {}
+    pre_registration[:name] = "pre-registration"
+    pre_registration[:registrations] = @participants.where("created_at < ?", weeks[0].start_date).count
+    @list_of_weeks.push(pre_registration)
+    weeks.each do |w|
+      week = {}
+      week[:name] = w.name
+      week[:start_date] = w.start_date
+      week[:end_date] = w.end_date
+      week[:registrations] = @participants.where(:created_at => w.start_date..w.end_date.end_of_day).count
+      @list_of_weeks.push(week)
+    end
+    @club = params[:club]
+    @location = params[:location]    
+    respond_to do |format|
+      format.html
+      format.json {render :json => {:title => @title, :registration_data => @list_of_weeks}}
+    end
+  end
 
   def year_end_reports
     @weeks = [*1..7]
