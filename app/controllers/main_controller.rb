@@ -406,38 +406,38 @@ class MainController < ApplicationController
     end
     if !@club && !@location
       @title = "Registration Data for All Locations"
-      @participants = Participant.all.where(inactive: false).includes(:reports)
+      @participants = Participant.where(inactive: false).includes(:reports)
     elsif @location && @club
       @title = "Registration Data for " + params[:club].capitalize + ' at ' + params[:location]
-      @participants = Participant.all.where(club: params[:club], home_library: params[:location], inactive: false).includes(:reports)
+      @participants = Participant.where(club: params[:club], home_library: params[:location], inactive: false).includes(:reports)
     elsif @location
       @title = "Registration Data at " + params[:location]
-      @participants = Participant.all.where(home_library: params[:location], inactive: false).includes(:reports)
+      @participants = Participant.where(home_library: params[:location], inactive: false).includes(:reports)
     elsif @club
       @title = "Registration Data for " + params[:club].capitalize
-      @participants = Participant.all.where(club: params[:club], inactive: false).includes(:reports)
+      @participants = Participant.where(club: params[:club], inactive: false).includes(:reports)
     end 
     weeks = Week.all.order(:start_date)
     @list_of_weeks = []
     pre_registration = {}
     pre_registration[:name] = "pre-registration"
-    pre_registration[:registrations] = @participants.where("created_at < ?", weeks[0].start_date).count
+    pre_registration[:registrations] = @participants.where("created_at < ?", weeks[0].start_date).size
     @list_of_weeks.push(pre_registration)
     weeks.each do |w|
       week = {}
       week[:name] = w.name
       week[:start_date] = w.start_date
       week[:end_date] = w.end_date
-      week[:registrations] = @participants.where(:created_at => w.start_date..w.end_date.end_of_day).count
+      week[:registrations] = @participants.where(:created_at => w.start_date..w.end_date.end_of_day).size
       weekly_minutes = 0
       total_minutes_so_far = 0
       if @participants
         @participants.each do |p|
-          report = Report.where(week_id: w.id, participant_id: p.id).first
-          if report  
+          reports_so_far = p.reports.where("created_at < ?", w.end_date.end_of_day)
+          report = reports_so_far.where(week_id: w.id).first
+          if reports_so_far && report  
             weekly_minutes += report.week_total
           end
-          reports_so_far = Report.where("created_at < ?", w.end_date.end_of_day).where("participant_id = ?", p.id)
           if reports_so_far
             reports_so_far.each do |r|
               total_minutes_so_far += r.week_total
